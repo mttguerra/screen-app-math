@@ -60,7 +60,7 @@ const items = [
 export default function BottomNav() {
   return (
     <nav
-      className="absolute inset-x-4 bottom-4 z-40 rounded-[26px] border border-white/[0.08] px-1.5 py-2"
+      className="absolute inset-x-4 bottom-4 z-40 rounded-[26px] border border-overlay/[0.08] px-1.5 py-2"
       aria-label="Navegação inferior"
       style={{
         background: 'rgba(15, 12, 25, 0.55)',
