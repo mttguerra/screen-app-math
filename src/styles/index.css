@@ -34,7 +34,7 @@
   }
 
   body {
-    @apply bg-canvas font-hanken text-ink antialiased md:bg-canvasChrome;
+    @apply bg-canvas font-hanken text-ink antialiased;
   }
 
   button {
