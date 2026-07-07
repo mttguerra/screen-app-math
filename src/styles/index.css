@@ -3,6 +3,61 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Backgrounds */
+    --surface: 11 10 14;
+    --card: 21 21 25;
+    --card-deep: 16 16 21;
+    --canvas: 208 205 212;
+    --icobtn: 27 27 32;
+    --cat: 25 25 32;
+    --haze: 36 26 56;
+
+    /* Foregrounds */
+    --ink: 255 255 255;
+    --ink2: 200 200 210;
+    --muted: 138 138 148;
+    --muted2: 119 119 127;
+    --muted3: 178 178 188;
+    --muted4: 108 108 118;
+
+    /* Lines & chips */
+    --line: 38 38 45;
+    --line2: 35 35 41;
+    --chip: 38 38 45;
+    --chip-deep: 34 34 41;
+
+    /* Done state */
+    --done: 29 20 48;
+    --done-line: 74 44 122;
+    --done-text: 195 160 255;
+
+    /* Primary */
+    --primary: 139 63 232;
+    --primary-deeper: 109 31 196;
+    --primary-darkest: 83 19 160;
+    --primary-status-from: 124 47 212;
+    --primary-text: 169 112 255;
+    --primary-soft: 201 166 255;
+    --primary-softer: 240 228 255;
+
+    /* Overlay (base pros bg-white/* que hoje sao hardcoded sobre cards) */
+    --overlay: 255 255 255;
+  }
+
+  /*
+    Dark mode: alterne a classe `dark` no <html> (ou <body>) pra ativar.
+    Ex: document.documentElement.classList.toggle('dark')
+    Preencha as vars abaixo com os valores do tema dark quando fizer a integracao.
+    Enquanto vazio, o app permanece no tema light (design atual).
+  */
+  .dark {
+    /* --surface: X X X; */
+    /* --card: X X X; */
+    /* --ink: X X X; */
+    /* ...preencher todas as vars que devem mudar entre temas */
+  }
+
   html,
   body,
   #root {
