@@ -1,167 +1,195 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import ProgramItem from './WorkoutDetail/ProgramItem.jsx'
-import SuccessDialog from './WorkoutDetail/SuccessDialog.jsx'
-import SlideToComplete from '../components/SlideToComplete.jsx'
+import { ChevronLeft, ChevronRight, MoreHorizontal, Pause, Play } from 'lucide-react'
+import IconButton from '../components/ui/IconButton.jsx'
+import Card from '../components/ui/Card.jsx'
+import SectionLabel from '../components/ui/SectionLabel.jsx'
+import CheckState from '../components/ui/CheckState.jsx'
 
-const programs = [
-  { name: 'Aquecimento', set: 'Série 1 · 4 Reps' },
-  { name: 'Agachamento', set: 'Série 2 · 4 Reps' },
-  { name: 'Avanço', set: 'Série 3 · 3 Reps' },
-  { name: 'Cardio final', set: 'Série 4 · 2 Reps' },
-]
-
-const titles = {
-  pernas: 'Treino de pernas',
-  abdomen: 'Abdômen definido',
+const EXERCISES_BY_SLUG = {
+  peito: {
+    title: 'Treino A · Peito & Tríceps',
+    exercises: [
+      { name: 'Supino reto',       reps: 10, weight: 62.5, sets: 4, photo: '/images/photo-1.jpg' },
+      { name: 'Supino inclinado',  reps: 12, weight: 55,   sets: 4, photo: '/images/photo-2.jpg' },
+      { name: 'Crucifixo',         reps: 15, weight: 18,   sets: 3, photo: '/images/photo-3.jpg' },
+      { name: 'Tríceps corda',     reps: 15, weight: 25,   sets: 4, photo: '/images/photo-4.jpg' },
+    ],
+  },
+  costas: {
+    title: 'Treino B · Costas & Bíceps',
+    exercises: [
+      { name: 'Barra fixa',        reps: 8,  weight: 0,    sets: 4, photo: '/images/workout-legs.jpg' },
+      { name: 'Remada curvada',    reps: 10, weight: 60,   sets: 4, photo: '/images/photo-2.jpg' },
+    ],
+  },
+  pernas: {
+    title: 'Treino C · Pernas & Glúteo',
+    exercises: [
+      { name: 'Agachamento livre', reps: 8,  weight: 100,  sets: 4, photo: '/images/workout-legs.jpg' },
+      { name: 'Leg press',         reps: 10, weight: 180,  sets: 4, photo: '/images/photo-3.jpg' },
+    ],
+  },
 }
 
-function ChevronLeft() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M15 18l-6-6 6-6" />
-    </svg>
-  )
-}
-function ClockSm() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  )
-}
-function FlamePurple() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-primary-text">
-      <path d="M12 2c1 4 4 5 4 9a4 4 0 1 1-8 0c0-2 1-3 2-4z" />
-    </svg>
-  )
-}
-function ClockPurple() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className="text-primary-text">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  )
+const DEFAULT_WORKOUT = EXERCISES_BY_SLUG.peito
+
+function formatTime(secs) {
+  const m = Math.floor(secs / 60)
+  const s = secs % 60
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
 export default function WorkoutDetail() {
   const navigate = useNavigate()
   const { slug } = useParams()
-  const title = titles[slug] || 'Treino'
-  const [done, setDone] = useState([])
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const workout = EXERCISES_BY_SLUG[slug] || DEFAULT_WORKOUT
 
-  const toggle = (i) => {
-    setDone((prev) => {
-      const next = prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]
-      if (next.length === programs.length) setDialogOpen(true)
-      return next
-    })
-  }
+  const [exerciseIdx, setExerciseIdx] = useState(2) // "Exercício 3 de N" da spec
+  const [currentSet, setCurrentSet] = useState(2)   // 3ª série (0-indexed = 2)
+  const [phase, setPhase] = useState('rest')        // rest | active
+  const [paused, setPaused] = useState(false)
 
-  const finishAll = () => {
-    setDone(programs.map((_, i) => i))
-    setDialogOpen(true)
-  }
+  const exercise = workout.exercises[exerciseIdx] || workout.exercises[0]
+  const totalExercises = workout.exercises.length
+  const totalSeries = exercise.sets
 
-  const closeDialog = () => {
-    setDialogOpen(false)
-    navigate('/treino')
+  // Mock realístico dos totais gerais
+  const kcal = 248
+  const bpm = 128
+  const totalCompletedAcross = 8
+  const totalPlannedAcross = workout.exercises.reduce((a, e) => a + e.sets, 0) || 16
+
+  const nextExercise = () => setExerciseIdx((i) => Math.min(totalExercises - 1, i + 1))
+  const prevExercise = () => setExerciseIdx((i) => Math.max(0, i - 1))
+
+  const toggleSet = (idx) => {
+    if (idx < currentSet) {
+      setCurrentSet(idx)
+    } else if (idx === currentSet) {
+      const nextSet = currentSet + 1
+      if (nextSet >= totalSeries) {
+        // conclui exercício
+        if (exerciseIdx < totalExercises - 1) {
+          setExerciseIdx(exerciseIdx + 1)
+          setCurrentSet(0)
+        }
+      } else {
+        setCurrentSet(nextSet)
+      }
+    }
   }
 
   return (
-    <div className="relative flex min-h-full flex-col bg-surface">
-      {/* HERO */}
-      <div className="relative h-[360px] flex-shrink-0 overflow-hidden">
+    <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[130px]">
+      <div className="flex flex-col gap-3.5 px-[18px]">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <IconButton ariaLabel="Voltar" onClick={() => navigate(-1)}>
+            <ChevronLeft size={22} strokeWidth={1.8} />
+          </IconButton>
+          <div className="text-center">
+            <div className="text-[16px] font-bold text-ink2b">{exercise.name}</div>
+            <div className="text-[12px] text-muted2b">
+              Exercício {exerciseIdx + 1} de {totalExercises}
+            </div>
+          </div>
+          <IconButton ariaLabel="Mais opções">
+            <MoreHorizontal size={22} strokeWidth={1.8} />
+          </IconButton>
+        </div>
+
+        {/* Foto do exercício */}
         <img
-          src={slug === 'abdomen' ? '/images/workout-abs.jpg' : '/images/workout-legs.jpg'}
-          alt={title}
-          className="absolute inset-0 h-full w-full object-cover"
+          src={exercise.photo}
+          alt={exercise.name}
+          className="h-[150px] w-full rounded-3xl object-cover"
         />
-        <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-b from-black/25 via-black/40 to-black/90" />
 
-        <div className="absolute inset-x-5 top-[52px] z-[4] flex items-center justify-between">
+        {/* Timer central */}
+        <div className="flex flex-col items-center py-2">
+          <SectionLabel>{phase === 'rest' ? 'Descanso' : 'Executando'}</SectionLabel>
+          <div className="mt-1.5 font-extrabold leading-none tracking-[-1px] text-ink2b text-[54px]">
+            01:30
+          </div>
+          <div className="mt-1.5 text-[13px] text-muted2b">
+            próxima: {currentSet + 1}ª série · {exercise.reps} reps · {exercise.weight} kg
+          </div>
+        </div>
+
+        {/* Card de métricas */}
+        <Card className="p-[18px]">
+          <div className="flex items-stretch divide-x divide-track2">
+            <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+              <span className="text-[14px] font-bold text-ink2b">{kcal}</span>
+              <span className="text-[11px] text-muted2b">kcal</span>
+            </div>
+            <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-ink2b" />
+              <span className="text-[14px] font-bold text-ink2b">
+                {totalCompletedAcross}/{totalPlannedAcross}
+              </span>
+              <span className="text-[11px] text-muted2b">séries</span>
+            </div>
+            <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" />
+              <span className="text-[14px] font-bold text-ink2b">{bpm}</span>
+              <span className="text-[11px] text-muted2b">bpm</span>
+            </div>
+          </div>
+        </Card>
+
+        {/* Controles */}
+        <div className="flex items-center justify-center gap-6 py-1">
+          <IconButton onClick={prevExercise} ariaLabel="Exercício anterior">
+            <ChevronLeft size={22} strokeWidth={1.8} />
+          </IconButton>
           <button
-            onClick={() => navigate(-1)}
-            className="grid h-11 w-11 place-items-center rounded-[14px] bg-black/55 text-white backdrop-blur-md"
+            onClick={() => setPaused((p) => !p)}
+            aria-label={paused ? 'Retomar' : 'Pausar'}
+            className="grid h-[68px] w-[68px] place-items-center rounded-full bg-ink2b text-white transition duration-100 active:scale-[0.98]"
           >
-            <ChevronLeft />
+            {paused ? (
+              <Play size={22} fill="currentColor" strokeWidth={0} />
+            ) : (
+              <Pause size={22} fill="currentColor" strokeWidth={0} />
+            )}
           </button>
-          <div className="rounded-[14px] bg-black/55 px-3.5 py-2 text-[12px] font-bold text-white backdrop-blur-md">
-            Iniciante
-          </div>
+          <IconButton onClick={nextExercise} ariaLabel="Próximo exercício">
+            <ChevronRight size={22} strokeWidth={1.8} />
+          </IconButton>
         </div>
 
-        <div className="absolute inset-x-[22px] bottom-6 z-[4]">
-          <span className="inline-block rounded-full bg-chip/90 px-2 py-0.5 text-[9px] font-bold tracking-wider text-primary-text backdrop-blur-md">
-            CARDIO
-          </span>
-          <h1 className="mb-1 mt-3 font-display text-[36px] font-extrabold leading-tight text-white">
-            {title}
-          </h1>
-          <div className="flex items-center gap-2 text-[13px] font-semibold text-muted3">
-            <ClockSm />
-            25 min · 4 exercícios
-          </div>
-        </div>
+        {/* Card de séries */}
+        <Card className="overflow-hidden">
+          {Array.from({ length: totalSeries }).map((_, i) => {
+            let state = 'pending'
+            if (i < currentSet) state = 'done'
+            else if (i === currentSet) state = 'current'
+            return (
+              <button
+                key={i}
+                onClick={() => toggleSet(i)}
+                className="flex w-full items-center gap-3 border-t border-track2 px-4 py-3 text-left first:border-t-0"
+              >
+                <CheckState state={state} size={22} />
+                <div className="flex-1">
+                  <div className="text-[14px] font-semibold text-ink2b">
+                    {i + 1}ª série
+                  </div>
+                  <div className="text-[13px] text-muted2b">
+                    {exercise.reps} reps · {exercise.weight} kg
+                  </div>
+                </div>
+                {state === 'current' && (
+                  <span className="text-[13px] font-bold text-accent">agora</span>
+                )}
+              </button>
+            )
+          })}
+        </Card>
       </div>
-
-      {/* BODY */}
-      <div className="flex flex-1 flex-col gap-[18px] px-[22px] pb-10 pt-[22px]">
-        <div className="flex gap-3">
-          <div className="flex-1 rounded-[20px] border border-line bg-card px-4 py-3.5">
-            <div className="flex items-center justify-between text-[13px] font-semibold text-muted">
-              Calorias
-              <FlamePurple />
-            </div>
-            <div className="mt-2 font-display text-[23px] font-bold text-ink">
-              1200 <span className="ml-1 text-[12px] font-semibold text-muted2">Kcal</span>
-            </div>
-          </div>
-          <div className="flex-1 rounded-[20px] border border-line bg-card px-4 py-3.5">
-            <div className="flex items-center justify-between text-[13px] font-semibold text-muted">
-              Tempo
-              <ClockPurple />
-            </div>
-            <div className="mt-2 font-display text-[23px] font-bold text-ink">
-              25 <span className="ml-1 text-[12px] font-semibold text-muted2">Minutos</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-1 flex items-center justify-between">
-          <h2 className="font-display text-[19px] font-bold text-ink">Programa</h2>
-          <div className="text-[12px] font-semibold text-muted">
-            {done.length}/{programs.length}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2.5">
-          {programs.map((p, i) => (
-            <ProgramItem
-              key={p.name}
-              name={p.name}
-              set={p.set}
-              done={done.includes(i)}
-              onToggle={() => toggle(i)}
-            />
-          ))}
-        </div>
-
-        <div className="mt-1">
-          <SlideToComplete
-            label="Deslize para concluir"
-            doneLabel="Treino concluído"
-            onComplete={finishAll}
-          />
-        </div>
-      </div>
-
-      <AnimatePresence>{dialogOpen && <SuccessDialog onClose={closeDialog} />}</AnimatePresence>
     </div>
   )
 }
