@@ -55,9 +55,12 @@ export default {
         accent: 'rgb(var(--accent) / <alpha-value>)',
         accent100: 'rgb(var(--accent100) / <alpha-value>)',
         accentSoft: 'rgb(var(--accentSoft) / <alpha-value>)',
+        muted4b: 'rgb(var(--muted4b) / <alpha-value>)',
+        canvasChrome: 'rgb(var(--canvas-chrome) / <alpha-value>)',
       },
       boxShadow: {
         phone: '0 30px 70px rgba(10,6,24,.5)',
+        phone2: '0 30px 70px rgba(23, 24, 26, 0.15)',
         glow: '0 12px 26px rgba(124,58,232,.5)',
         glowSoft: '0 10px 22px rgba(124,58,232,.45)',
         checkGlow: '0 14px 34px rgba(124,58,232,.55)',
