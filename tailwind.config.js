@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        hanken: ['"Hanken Grotesk"', '-apple-system', 'sans-serif'],
       },
       colors: {
         ink: 'rgb(var(--ink) / <alpha-value>)',
@@ -42,6 +43,18 @@ export default {
           soft: 'rgb(var(--primary-soft) / <alpha-value>)',
           softer: 'rgb(var(--primary-softer) / <alpha-value>)',
         },
+
+        /* Piloto Perfil — tema claro iOS (convive com dark) */
+        canvas2: 'rgb(var(--canvas2) / <alpha-value>)',
+        surface2: 'rgb(var(--surface2) / <alpha-value>)',
+        ink2b: 'rgb(var(--ink2b) / <alpha-value>)',
+        muted2b: 'rgb(var(--muted2b) / <alpha-value>)',
+        muted3b: 'rgb(var(--muted3b) / <alpha-value>)',
+        line2b: 'rgb(var(--line2b) / <alpha-value>)',
+        track2: 'rgb(var(--track2) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        accent100: 'rgb(var(--accent100) / <alpha-value>)',
+        accentSoft: 'rgb(var(--accentSoft) / <alpha-value>)',
       },
       boxShadow: {
         phone: '0 30px 70px rgba(10,6,24,.5)',

@@ -43,6 +43,18 @@
 
     /* Overlay (base pros bg-white/* que hoje sao hardcoded sobre cards) */
     --overlay: 255 255 255;
+
+    /* Novo tema "claro iOS" — piloto Perfil (convive com dark) */
+    --canvas2: 241 242 244;
+    --surface2: 255 255 255;
+    --ink2b: 23 24 26;
+    --muted2b: 142 146 153;
+    --muted3b: 90 94 100;
+    --line2b: 233 234 236;
+    --track2: 238 239 241;
+    --accent: 249 115 22;
+    --accent100: 255 237 213;
+    --accentSoft: 255 247 237;
   }
 
   /*
