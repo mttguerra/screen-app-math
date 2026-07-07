@@ -19,7 +19,7 @@ export default function PostQuote({ quotedPost }) {
           <span className="truncate font-semibold text-ink">{author.name}</span>
           {author.verified && <VerifiedMini />}
           <span className="truncate text-[12px] text-muted">
-            @{author.handle} · {timeAgo}
+            #{author.rank} · {timeAgo}
           </span>
         </div>
       </div>

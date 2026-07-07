@@ -1,12 +1,13 @@
 // Mock de posts do Feed da Comunidade.
 // type: 'text' | 'media' | 'achievement' | 'poll' | 'quote'
 // media: array de { type: 'image' | 'video', src, duration? }
+// author.rank: posicao no ranking da comunidade (referencia Ranking.jsx)
 
 export const posts = [
   {
     id: 1,
     type: 'text',
-    author: { name: 'Ricardo Almeida', handle: 'ricardoalmeida', avatar: '/images/user-1.jpg', verified: true },
+    author: { name: 'Ricardo Almeida', rank: 1, avatar: '/images/user-1.jpg', verified: true },
     timeAgo: '2h',
     text: 'Consistência bate motivação todo dia. Aparece no ginásio mesmo sem vontade — o resultado vem sozinho.',
     stats: { likes: 1240, comments: 89, reposts: 34 },
@@ -14,7 +15,7 @@ export const posts = [
   {
     id: 2,
     type: 'text',
-    author: { name: 'Bruno Alves', handle: 'brunoalves', avatar: '/images/user-3.jpg' },
+    author: { name: 'Bruno Alves', rank: 3, avatar: '/images/user-3.jpg' },
     timeAgo: '4h',
     text: `Passei o último mês testando protocolo de mobilidade antes de cada treino. 10 min de foco em quadril, tornozelo e ombro.
 
@@ -28,7 +29,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 3,
     type: 'media',
-    author: { name: 'Pedro Rocha', handle: 'pedrorocha', avatar: '/images/user-4.jpg', verified: true },
+    author: { name: 'Pedro Rocha', rank: 4, avatar: '/images/user-4.jpg', verified: true },
     timeAgo: '6h',
     text: 'PR de deadlift hoje: 220kg. Um ano atrás eu tava puxando 140. Consistência é rei 🔥',
     media: [{ type: 'image', src: '/images/photo-2.jpg' }],
@@ -37,7 +38,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 4,
     type: 'media',
-    author: { name: 'Marcos Ferreira', handle: 'marcosferreira', avatar: '/images/user-2.jpg' },
+    author: { name: 'Marcos Ferreira', rank: 2, avatar: '/images/user-2.jpg' },
     timeAgo: '8h',
     text: 'Antes e depois de 6 meses focando em core. Sem dieta maluca — só treino consistente e alimentação limpa.',
     media: [
@@ -49,7 +50,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 5,
     type: 'media',
-    author: { name: 'Diego Mendes', handle: 'diegomendes', avatar: '/images/user-5.jpg' },
+    author: { name: 'Diego Mendes', rank: 6, avatar: '/images/user-5.jpg' },
     timeAgo: '11h',
     text: 'Sequência de execução do agachamento búlgaro. Foco no negativo, joelho estável, tronco ereto.',
     media: [
@@ -62,7 +63,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 6,
     type: 'media',
-    author: { name: 'Rafael Santos', handle: 'rafaelsantos', avatar: '/images/user-6.jpg' },
+    author: { name: 'Rafael Santos', rank: 7, avatar: '/images/user-6.jpg' },
     timeAgo: '13h',
     text: 'Circuito completo de hoje. 4 estações, 3 rounds. Quem topa?',
     media: [
@@ -76,7 +77,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 7,
     type: 'media',
-    author: { name: 'João Almeida', handle: 'joaoalmeida', avatar: '/images/user-1.jpg' },
+    author: { name: 'João Almeida', rank: 8, avatar: '/images/user-1.jpg' },
     timeAgo: '15h',
     text: '5 séries, 5 exercícios diferentes. Peito + tríceps completo.',
     media: [
@@ -91,7 +92,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 8,
     type: 'media',
-    author: { name: 'Fernando Costa', handle: 'fernandocosta', avatar: '/images/user-2.jpg' },
+    author: { name: 'Fernando Costa', rank: 9, avatar: '/images/user-2.jpg' },
     timeAgo: '18h',
     text: 'Álbum da semana. 6 dias de treino, 6 momentos.',
     media: [
@@ -107,7 +108,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 9,
     type: 'media',
-    author: { name: 'Vinícius Reis', handle: 'viniciusreis', avatar: '/images/user-3.jpg' },
+    author: { name: 'Vinícius Reis', rank: 10, avatar: '/images/user-3.jpg' },
     timeAgo: '20h',
     text: 'Ranking dos meus 9 exercícios favoritos pra hipertrofia de perna.',
     media: [
@@ -126,7 +127,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 10,
     type: 'media',
-    author: { name: 'Guilherme Ramos', handle: 'guilhermeramos', avatar: '/images/user-4.jpg', verified: true },
+    author: { name: 'Guilherme Ramos', rank: 11, avatar: '/images/user-4.jpg', verified: true },
     timeAgo: '22h',
     text: 'Execução correta do agachamento livre. Foco na descida controlada.',
     media: [{ type: 'video', src: '/images/workout-legs.jpg', duration: '0:47' }],
@@ -135,7 +136,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 11,
     type: 'achievement',
-    author: { name: 'Marcelo Ribeiro', handle: 'marceloribeiro', avatar: '/images/user-5.jpg' },
+    author: { name: 'Marcelo Ribeiro', rank: 12, avatar: '/images/user-5.jpg' },
     timeAgo: '1d',
     text: 'Bateu meta de volume da semana. Bora pra próxima.',
     achievement: {
@@ -151,7 +152,7 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 12,
     type: 'poll',
-    author: { name: 'Alexandre Cruz', handle: 'alexandrecruz', avatar: '/images/user-6.jpg' },
+    author: { name: 'Alexandre Cruz', rank: 13, avatar: '/images/user-6.jpg' },
     timeAgo: '1d',
     text: 'Qual split você prefere pra hipertrofia?',
     poll: {
@@ -169,11 +170,11 @@ Nos próximos treinos vou postar a rotina completa aqui pra galera copiar.`,
   {
     id: 13,
     type: 'quote',
-    author: { name: 'Thiago Aguiar', handle: 'thiagoaguiar', avatar: '/images/user-1.jpg' },
+    author: { name: 'Thiago Aguiar', rank: 14, avatar: '/images/user-1.jpg' },
     timeAgo: '2d',
     text: 'Isso aqui merece o topo do feed. Todo mundo precisa ler.',
     quotedPost: {
-      author: { name: 'Ricardo Almeida', handle: 'ricardoalmeida', avatar: '/images/user-1.jpg', verified: true },
+      author: { name: 'Ricardo Almeida', rank: 1, avatar: '/images/user-1.jpg', verified: true },
       timeAgo: '2d',
       text: 'Consistência bate motivação todo dia. Aparece no ginásio mesmo sem vontade — o resultado vem sozinho.',
     },

@@ -94,7 +94,7 @@ export default function PostCard({ post }) {
               {author.verified && <Verified />}
             </div>
             <div className="mt-0.5 text-[13px] text-muted">
-              @{author.handle} · {timeAgo}
+              #{author.rank} · {timeAgo}
             </div>
           </div>
         </div>
