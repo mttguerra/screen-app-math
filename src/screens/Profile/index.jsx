@@ -1,11 +1,11 @@
+import ProfileIdentityCard from './ProfileIdentityCard.jsx'
+
 export default function Profile() {
   return (
     <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2b">
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Placeholder — serão substituídos nas próximas tarefas */}
-        <div className="h-[220px] rounded-3xl bg-surface2 grid place-items-center text-muted2b">
-          ProfileIdentityCard (Task 6)
-        </div>
+        <ProfileIdentityCard />
         <div className="h-[210px] rounded-3xl bg-surface2 grid place-items-center text-muted2b">
           WeightCard (Task 7)
         </div>
