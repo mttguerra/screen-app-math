@@ -1,5 +1,6 @@
 import ProfileIdentityCard from './ProfileIdentityCard.jsx'
 import WeightCard from './WeightCard.jsx'
+import MeasureCard from './MeasureCard.jsx'
 
 export default function Profile() {
   return (
@@ -9,12 +10,8 @@ export default function Profile() {
         <ProfileIdentityCard />
         <WeightCard />
         <div className="grid grid-cols-2 gap-3.5">
-          <div className="h-[110px] rounded-3xl bg-surface2 grid place-items-center text-muted2b text-xs">
-            BRAÇO
-          </div>
-          <div className="h-[110px] rounded-3xl bg-surface2 grid place-items-center text-muted2b text-xs">
-            CINTURA
-          </div>
+          <MeasureCard label="BRAÇO" value="38" unit="cm" delta="+1 cm" />
+          <MeasureCard label="CINTURA" value="81" unit="cm" delta="−2 cm" />
         </div>
         <div className="h-[52px] rounded-full bg-ink2b grid place-items-center text-white font-bold">
           Registrar peso de hoje (Task 9)
