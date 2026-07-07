@@ -10,8 +10,8 @@ export default function AppShell({ children }) {
   const showStatusBar = showNav
 
   return (
-    <div className="min-h-[100dvh] bg-surface md:flex md:min-h-screen md:items-center md:justify-center md:bg-canvas md:p-[22px]">
-      <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-surface text-white md:h-[844px] md:w-[390px] md:rounded-phone md:shadow-phone">
+    <div className="min-h-[100dvh] bg-canvas2 font-hanken md:flex md:min-h-screen md:items-center md:justify-center md:bg-canvasChrome md:p-[22px]">
+      <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-canvas2 text-ink2b md:h-[844px] md:w-[390px] md:rounded-phone md:shadow-phone2">
         {showStatusBar && <StatusBar />}
         <main className="relative z-10 flex-1 overflow-hidden">{children}</main>
         {showNav && <BottomNav />}
