@@ -1,0 +1,155 @@
+import { useState } from 'react'
+import PostMedia from './PostMedia.jsx'
+import PostAchievement from './PostAchievement.jsx'
+import PostPoll from './PostPoll.jsx'
+import PostQuote from './PostQuote.jsx'
+
+function Verified() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-primary-text">
+      <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.827 2.766 2.057 3.439-.036.27-.057.545-.057.828 0 2.21 1.71 4 3.918 4 .512 0 1.004-.097 1.455-.274C9.37 22.126 10.61 23 12 23s2.63-.874 3.128-2.116c.452.177.944.274 1.455.274 2.21 0 3.918-1.79 3.918-4 0-.283-.02-.558-.057-.828 1.23-.673 2.057-1.98 2.057-3.44zm-12.75 4.385l-3.37-3.437 1.47-1.44 1.87 1.905 4.965-5.06 1.48 1.428-6.415 6.604z" />
+    </svg>
+  )
+}
+function Kebab() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="5" cy="12" r="1.8" />
+      <circle cx="12" cy="12" r="1.8" />
+      <circle cx="19" cy="12" r="1.8" />
+    </svg>
+  )
+}
+function Comment() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M1.75 10c0-4.42 3.58-8 8-8h4.37c4.49 0 8.13 3.64 8.13 8.13 0 2.96-1.61 5.68-4.2 7.11l-8.05 4.46v-3.69h-.07c-4.49.1-8.18-3.51-8.18-8.01zm8-6c-3.32 0-6 2.69-6 6 0 3.37 2.77 6.08 6.14 6.01l.35-.01h1.76v2.3l5.09-2.81c1.95-1.08 3.16-3.13 3.16-5.36 0-3.39-2.74-6.13-6.13-6.13H9.75z" />
+    </svg>
+  )
+}
+function Repost() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4.5 3.88l4.43 4.14-1.36 1.46L5.5 7.55V16c0 1.1.9 2 2 2H13v2H7.5c-2.21 0-4-1.79-4-4V7.55L1.43 9.48.07 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.21 0 4 1.79 4 4v8.45l2.07-1.93 1.36 1.46-4.43 4.14-4.43-4.14 1.36-1.46 2.07 1.93V8c0-1.1-.9-2-2-2z" />
+    </svg>
+  )
+}
+function HeartOutline() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M20.88 13.19c-1.35 2.48-4 5.12-8.38 7.67l-.5.3-.5-.3c-4.38-2.55-7.03-5.19-8.38-7.67-1.36-2.5-1.41-4.86-.52-6.67C3.5 4.73 5.26 3.6 7.21 3.5c1.65-.09 3.37.56 4.8 2.01 1.43-1.45 3.15-2.1 4.8-2.01 1.95.1 3.71 1.22 4.6 3.01.9 1.81.85 4.17-.51 6.67z" />
+    </svg>
+  )
+}
+function HeartFilled() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.88 13.19c-1.35 2.48-4 5.12-8.38 7.67l-.5.3-.5-.3c-4.38-2.55-7.03-5.19-8.38-7.67-1.36-2.5-1.41-4.86-.52-6.67C3.5 4.73 5.26 3.6 7.21 3.5c1.65-.09 3.37.56 4.8 2.01 1.43-1.45 3.15-2.1 4.8-2.01 1.95.1 3.71 1.22 4.6 3.01.9 1.81.85 4.17-.51 6.67z" />
+    </svg>
+  )
+}
+function Share() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z" />
+    </svg>
+  )
+}
+
+function formatCount(n) {
+  if (n >= 1000) return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1).replace('.', ',') + 'k'
+  return n.toString()
+}
+
+function Action({ icon, count, activeColor, activeIconOverride, onClick, active }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`group flex items-center gap-1.5 transition ${
+        active ? activeColor : 'text-muted hover:text-primary-text'
+      }`}
+    >
+      <div className={`grid h-8 w-8 place-items-center rounded-full transition ${active ? 'bg-primary/10' : 'group-hover:bg-primary/10'}`}>
+        {active && activeIconOverride ? activeIconOverride : icon}
+      </div>
+      {count !== undefined && (
+        <span className="text-[13px] font-medium tabular-nums">{formatCount(count)}</span>
+      )}
+    </button>
+  )
+}
+
+export default function PostCard({ post }) {
+  const [expanded, setExpanded] = useState(false)
+  const [liked, setLiked] = useState(false)
+  const { author, timeAgo, text, media, achievement, poll, quotedPost, stats } = post
+
+  const likesCount = stats.likes + (liked ? 1 : 0)
+
+  return (
+    <article className="border-b border-line px-4 py-4">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border border-line">
+            <img src={author.avatar} alt={author.name} className="h-full w-full object-cover" />
+          </div>
+          <div className="min-w-0 leading-tight">
+            <div className="flex items-center gap-1">
+              <span className="truncate font-bold text-[15px] text-ink">{author.name}</span>
+              {author.verified && <Verified />}
+            </div>
+            <div className="mt-0.5 text-[13px] text-muted">
+              @{author.handle} · {timeAgo}
+            </div>
+          </div>
+        </div>
+        <button className="grid h-8 w-8 place-items-center rounded-full text-muted hover:bg-primary/10 hover:text-primary-text">
+          <Kebab />
+        </button>
+      </div>
+
+      {/* Texto */}
+      {text && (
+        <div className="mt-3">
+          <p
+            className={`whitespace-pre-wrap break-words text-[15px] leading-snug text-ink ${
+              expanded ? '' : 'line-clamp-6'
+            }`}
+          >
+            {text}
+          </p>
+          {text.length > 240 && !expanded && (
+            <button
+              onClick={() => setExpanded(true)}
+              className="mt-1 text-[13px] font-semibold text-primary-text hover:underline"
+            >
+              ver mais
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Bloco central */}
+      <PostMedia media={media} />
+      <PostAchievement achievement={achievement} />
+      <PostPoll poll={poll} />
+      <PostQuote quotedPost={quotedPost} />
+
+      {/* Ações */}
+      <div className="mt-3 flex items-center justify-between pr-4">
+        <Action icon={<Comment />} count={stats.comments} activeColor="text-primary-text" />
+        <Action icon={<Repost />} count={stats.reposts} activeColor="text-emerald-500" />
+        <Action
+          icon={<HeartOutline />}
+          activeIconOverride={<HeartFilled />}
+          count={likesCount}
+          activeColor="text-rose-500"
+          active={liked}
+          onClick={() => setLiked((v) => !v)}
+        />
+        <Action icon={<Share />} activeColor="text-primary-text" />
+      </div>
+    </article>
+  )
+}
