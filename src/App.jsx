@@ -6,7 +6,7 @@ import Home from './screens/Home.jsx'
 import Inicio from './screens/Inicio.jsx'
 import Community from './screens/Community.jsx'
 import Diet from './screens/Diet.jsx'
-import Profile from './screens/Profile.jsx'
+import Profile from './screens/Profile/index.jsx'
 import WorkoutDetail from './screens/WorkoutDetail.jsx'
 import { slideVariants, slideTransition } from './lib/transitions.js'
 
