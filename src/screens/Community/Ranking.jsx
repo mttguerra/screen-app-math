@@ -169,7 +169,7 @@ function StickyMe() {
   const progress = (me.kg / me.next) * 100
   return (
     <div
-      className="pointer-events-auto absolute inset-x-4 bottom-[76px] z-20 rounded-[18px] border border-primary/60 p-3"
+      className="pointer-events-auto absolute inset-x-4 bottom-[96px] z-20 rounded-[18px] border border-primary/60 p-3"
       style={{
         background: 'rgba(76, 29, 149, 0.35)',
         backdropFilter: 'blur(20px)',
@@ -208,7 +208,7 @@ function StickyMe() {
 export default function Ranking() {
   return (
     <div className="relative h-full w-full">
-      <div className="no-scrollbar h-full overflow-y-auto pb-[170px]">
+      <div className="no-scrollbar h-full overflow-y-auto pb-[200px]">
         <Banner />
         <div className="px-[22px]">
           <Motivation />

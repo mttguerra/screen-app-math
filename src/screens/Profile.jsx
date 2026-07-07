@@ -38,7 +38,7 @@ export default function Profile() {
   const [tab, setTab] = useState('Fotos')
 
   return (
-    <div className="pb-[88px]">
+    <div className="pb-[110px]">
       {/* Banner */}
       <div className="relative h-[170px] flex-shrink-0 overflow-hidden">
         <img src="/images/banner.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />

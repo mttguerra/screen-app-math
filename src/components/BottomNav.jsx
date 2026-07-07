@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function HomeIco() {
   return (
@@ -59,25 +60,42 @@ const items = [
 export default function BottomNav() {
   return (
     <nav
-      className="absolute inset-x-0 bottom-0 z-20 border-t border-line bg-surface pb-3 pt-2"
+      className="absolute inset-x-4 bottom-4 z-40 rounded-[26px] border border-white/[0.08] px-1.5 py-2"
       aria-label="Navegação inferior"
+      style={{
+        background: 'rgba(15, 12, 25, 0.55)',
+        backdropFilter: 'blur(24px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+        boxShadow:
+          '0 12px 36px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+      }}
     >
       <ul className="grid grid-cols-5">
         {items.map(({ to, label, Icon }) => (
           <li key={to}>
-            <NavLink to={to} className="flex flex-col items-center gap-1 py-1">
+            <NavLink to={to} className="flex flex-col items-center gap-1 py-1.5">
               {({ isActive }) => (
                 <>
-                  <span
-                    className={`transition-colors ${
-                      isActive ? 'text-primary-text' : 'text-muted4'
-                    }`}
-                  >
-                    <Icon />
+                  <span className="relative grid h-9 w-9 place-items-center">
+                    {isActive && (
+                      <motion.span
+                        layoutId="bottomnav-pill"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                        className="absolute inset-0 rounded-[12px] bg-primary/25"
+                        style={{ boxShadow: '0 4px 14px rgba(124, 58, 237, 0.35)' }}
+                      />
+                    )}
+                    <span
+                      className={`relative z-10 transition-colors ${
+                        isActive ? 'text-primary-softer' : 'text-muted4'
+                      }`}
+                    >
+                      <Icon />
+                    </span>
                   </span>
                   <span
-                    className={`text-[10px] font-semibold tracking-wide transition-colors ${
-                      isActive ? 'text-primary-text' : 'text-muted4'
+                    className={`text-[9.5px] font-semibold tracking-wide transition-colors ${
+                      isActive ? 'text-primary-softer' : 'text-muted4'
                     }`}
                   >
                     {label}

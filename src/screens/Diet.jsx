@@ -67,7 +67,7 @@ function EmptyPlate() {
 
 export default function Diet() {
   return (
-    <div className="no-scrollbar overflow-y-auto pb-[90px] pt-[60px]">
+    <div className="no-scrollbar overflow-y-auto pb-[110px] pt-[60px]">
       {/* Header editorial */}
       <div className="px-7">
         <h1 className="font-display text-[30px] font-extrabold leading-[1.02] text-ink">

@@ -9,7 +9,7 @@ import { Timeline, TimelineItem } from './Home/Timeline.jsx'
 export default function Home() {
   return (
     <div className="relative">
-      <div className="relative px-[22px] pb-[88px] pt-[72px]">
+      <div className="relative px-[22px] pb-[110px] pt-[72px]">
         <Header />
 
         <SectionTitle title="Progresso do dia" />

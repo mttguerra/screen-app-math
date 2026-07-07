@@ -508,7 +508,7 @@ export default function Inicio() {
     (missions.reduce((acc, m) => acc + Math.min(1, m.progress / m.total), 0) / missions.length) * 100
 
   return (
-    <div className="no-scrollbar overflow-y-auto pb-[90px] pt-[68px]">
+    <div className="no-scrollbar overflow-y-auto pb-[110px] pt-[68px]">
       <Header />
 
       <BannerCarousel />
