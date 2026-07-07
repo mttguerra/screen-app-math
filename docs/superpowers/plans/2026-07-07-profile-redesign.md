@@ -97,12 +97,12 @@ Editar o bloco `:root` existente (não remover nenhuma linha atual, só acrescen
 
 ```css
 /* Novo tema "claro iOS" — piloto Perfil (convive com dark) */
---bg-canvas2: 241 242 244;
+--canvas2: 241 242 244;
 --surface2: 255 255 255;
---ink2: 23 24 26;
+--ink2b: 23 24 26;
 --muted2b: 142 146 153;
 --muted3b: 90 94 100;
---line2: 233 234 236;
+--line2b: 233 234 236;
 --track2: 238 239 241;
 --accent: 249 115 22;
 --accent100: 255 237 213;
@@ -114,12 +114,12 @@ Editar o bloco `:root` existente (não remover nenhuma linha atual, só acrescen
 Ler `tailwind.config.js` atual, dentro de `theme.extend.colors` adicionar (sem remover nenhum existente):
 
 ```js
-canvas2: 'rgb(var(--bg-canvas2) / <alpha-value>)',
+canvas2: 'rgb(var(--canvas2) / <alpha-value>)',
 surface2: 'rgb(var(--surface2) / <alpha-value>)',
-ink2: 'rgb(var(--ink2) / <alpha-value>)',
+ink2b: 'rgb(var(--ink2b) / <alpha-value>)',
 muted2b: 'rgb(var(--muted2b) / <alpha-value>)',
 muted3b: 'rgb(var(--muted3b) / <alpha-value>)',
-line2: 'rgb(var(--line2) / <alpha-value>)',
+line2b: 'rgb(var(--line2b) / <alpha-value>)',
 track2: 'rgb(var(--track2) / <alpha-value>)',
 accent: 'rgb(var(--accent) / <alpha-value>)',
 accent100: 'rgb(var(--accent100) / <alpha-value>)',
@@ -199,7 +199,7 @@ export default function IconButton({ children, onClick, className = '', ariaLabe
     <button
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`grid h-[42px] w-[42px] place-items-center rounded-full border border-line2 bg-surface2 text-ink2 transition duration-100 active:scale-[0.98] active:opacity-85 ${className}`}
+      className={`grid h-[42px] w-[42px] place-items-center rounded-full border border-line2b bg-surface2 text-ink2b transition duration-100 active:scale-[0.98] active:opacity-85 ${className}`}
     >
       {children}
     </button>
@@ -246,7 +246,7 @@ export default function PrimaryAction({ children, onClick, className = '' }) {
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-center justify-center gap-2 rounded-full bg-ink2 py-[15px] text-[15px] font-bold text-white transition duration-100 active:scale-[0.98] active:opacity-85 ${className}`}
+      className={`flex w-full items-center justify-center gap-2 rounded-full bg-ink2b py-[15px] text-[15px] font-bold text-white transition duration-100 active:scale-[0.98] active:opacity-85 ${className}`}
     >
       {children}
     </button>
@@ -363,7 +363,7 @@ Este é o container da tela. Ainda **sem** os cards reais — só o fundo claro,
 ```jsx
 export default function Profile() {
   return (
-    <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2">
+    <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2b">
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Placeholder — serão substituídos nas próximas tarefas */}
         <div className="h-[220px] rounded-3xl bg-surface2 grid place-items-center text-muted2b">
@@ -380,7 +380,7 @@ export default function Profile() {
             CINTURA
           </div>
         </div>
-        <div className="h-[52px] rounded-full bg-ink2 grid place-items-center text-white font-bold">
+        <div className="h-[52px] rounded-full bg-ink2b grid place-items-center text-white font-bold">
           Registrar peso de hoje (Task 9)
         </div>
       </div>
@@ -454,7 +454,7 @@ export default function ProfileIdentityCard() {
           alt="Lucas Silva"
           className="h-[72px] w-[72px] rounded-full object-cover"
         />
-        <h1 className="mt-3 text-[20px] font-extrabold tracking-[-0.4px] text-ink2">
+        <h1 className="mt-3 text-[20px] font-extrabold tracking-[-0.4px] text-ink2b">
           Lucas Silva
         </h1>
         <p className="mt-1 text-[13px] text-muted2b">
@@ -465,7 +465,7 @@ export default function ProfileIdentityCard() {
       <div className="mt-5 flex items-stretch divide-x divide-track2">
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-1 flex-col items-center gap-1 py-1">
-            <span className="text-[16px] font-extrabold text-ink2">{s.value}</span>
+            <span className="text-[16px] font-extrabold text-ink2b">{s.value}</span>
             <span className="text-[11px] font-medium uppercase tracking-[0.06em] text-muted2b">
               {s.label}
             </span>
@@ -536,7 +536,7 @@ export default function WeightCard() {
   return (
     <Card className="p-[18px]">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-[15px] font-bold text-ink2">Peso corporal</h2>
+        <h2 className="text-[15px] font-bold text-ink2b">Peso corporal</h2>
         <span className="text-[12px] text-muted2b">6 meses</span>
       </div>
 
@@ -673,7 +673,7 @@ git commit -m "feat(profile): add measure cards (arm, waist) with deltas"
 
 Trocar:
 ```jsx
-<div className="h-[52px] rounded-full bg-ink2 grid place-items-center text-white font-bold">
+<div className="h-[52px] rounded-full bg-ink2b grid place-items-center text-white font-bold">
   Registrar peso de hoje (Task 9)
 </div>
 ```

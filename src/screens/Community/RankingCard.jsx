@@ -16,7 +16,7 @@ function RankRow({ user, highlight }) {
         highlight ? '-mx-2.5 rounded-[14px] bg-accentSoft px-2.5' : ''
       }`}
     >
-      <span className={`w-4 text-center text-[13px] tabular-nums ${highlight ? 'font-bold text-ink2b' : 'font-bold text-muted2b'}`}>
+      <span className={`w-4 text-center text-[13px] tabular-nums ${highlight ? 'font-bold text-ink' : 'font-bold text-muted'}`}>
         {user.pos}
       </span>
       <img
@@ -24,10 +24,10 @@ function RankRow({ user, highlight }) {
         alt=""
         className="h-9 w-9 shrink-0 rounded-full object-cover"
       />
-      <div className={`min-w-0 flex-1 truncate text-[14px] ${highlight ? 'font-bold text-ink2b' : 'font-semibold text-ink2b'}`}>
+      <div className={`min-w-0 flex-1 truncate text-[14px] ${highlight ? 'font-bold text-ink' : 'font-semibold text-ink'}`}>
         {user.name}
       </div>
-      <div className={`text-[13px] tabular-nums ${highlight ? 'font-bold text-ink2b' : 'text-muted2b'}`}>
+      <div className={`text-[13px] tabular-nums ${highlight ? 'font-bold text-ink' : 'text-muted'}`}>
         {formatKg(user.kg)} kg
       </div>
     </div>
@@ -38,15 +38,15 @@ export default function RankingCard() {
   return (
     <Card className="px-4 py-4">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-[15px] font-bold text-ink2b">Ranking da temporada</h2>
-        <span className="text-[12px] text-muted2b">termina em 2 dias</span>
+        <h2 className="text-[15px] font-bold text-ink">Ranking da temporada</h2>
+        <span className="text-[12px] text-muted">termina em 2 dias</span>
       </div>
 
       <div className="mt-2 inline-flex items-center rounded-full bg-accent100 px-2 py-0.5 text-[10.5px] font-bold uppercase tracking-[0.1em] text-accent">
         Você é {me.pos}º
       </div>
 
-      <div className="mt-2 divide-y divide-track2">
+      <div className="mt-2 divide-y divide-track">
         {top.map((u) => (
           <RankRow key={u.pos} user={u} />
         ))}

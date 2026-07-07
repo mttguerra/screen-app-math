@@ -12,7 +12,7 @@ const items = [
 export default function BottomNav() {
   return (
     <nav
-      className="absolute inset-x-0 bottom-0 z-40 border-t border-line2b bg-surface2 pt-2 pb-6"
+      className="absolute inset-x-0 bottom-0 z-40 border-t border-line bg-surface pt-2 pb-6"
       aria-label="Navegação inferior"
     >
       <ul className="grid grid-cols-5">
@@ -27,11 +27,11 @@ export default function BottomNav() {
                   <Icon
                     size={22}
                     strokeWidth={1.8}
-                    className={isActive ? 'text-accent' : 'text-muted4b'}
+                    className={isActive ? 'text-accent' : 'text-muted4'}
                   />
                   <span
                     className={`text-[10.5px] font-medium ${
-                      isActive ? 'text-accent' : 'text-muted4b'
+                      isActive ? 'text-accent' : 'text-muted4'
                     }`}
                   >
                     {label}
@@ -44,7 +44,7 @@ export default function BottomNav() {
       </ul>
 
       {/* iOS home indicator */}
-      <div className="mx-auto mt-2 h-[5px] w-[120px] rounded-[3px] bg-ink2b" />
+      <div className="mx-auto mt-2 h-[5px] w-[120px] rounded-[3px] bg-ink" />
     </nav>
   )
 }

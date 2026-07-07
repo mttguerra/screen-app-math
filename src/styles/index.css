@@ -4,72 +4,27 @@
 
 @layer base {
   :root {
+    /* ===== Design tokens — "iOS claro + laranja" ===== */
+
     /* Backgrounds */
-    --surface: 11 10 14;
-    --card: 21 21 25;
-    --card-deep: 16 16 21;
-    --canvas: 208 205 212;
-    --icobtn: 27 27 32;
-    --cat: 25 25 32;
-    --haze: 36 26 56;
+    --canvas: 241 242 244;         /* #F1F2F4 — fundo da tela */
+    --surface: 255 255 255;        /* #FFFFFF — cards */
+    --canvas-chrome: 229 231 234;  /* #E5E7EA — desktop chrome ao redor do phone */
+    --track: 238 239 241;          /* #EEEFF1 — divisores, trilhos de barra */
 
     /* Foregrounds */
-    --ink: 255 255 255;
-    --ink2: 200 200 210;
-    --muted: 138 138 148;
-    --muted2: 119 119 127;
-    --muted3: 178 178 188;
-    --muted4: 108 108 118;
+    --ink: 23 24 26;               /* #17181A — texto principal, botões pretos */
+    --muted: 142 146 153;          /* #8E9299 — texto secundário */
+    --muted3: 90 94 100;            /* #5A5E64 — chips inativos (texto) */
+    --muted4: 166 170 176;         /* #A6AAB0 — tab bar inativa */
 
-    /* Lines & chips */
-    --line: 38 38 45;
-    --line2: 35 35 41;
-    --chip: 38 38 45;
-    --chip-deep: 34 34 41;
+    /* Lines */
+    --line: 233 234 236;           /* #E9EAEC — borda de botões circulares e chips */
 
-    /* Done state */
-    --done: 29 20 48;
-    --done-line: 74 44 122;
-    --done-text: 195 160 255;
-
-    /* Primary */
-    --primary: 139 63 232;
-    --primary-deeper: 109 31 196;
-    --primary-darkest: 83 19 160;
-    --primary-status-from: 124 47 212;
-    --primary-text: 169 112 255;
-    --primary-soft: 201 166 255;
-    --primary-softer: 240 228 255;
-
-    /* Overlay (base pros bg-white/* que hoje sao hardcoded sobre cards) */
-    --overlay: 255 255 255;
-
-    /* Novo tema "claro iOS" — piloto Perfil (convive com dark) */
-    --canvas2: 241 242 244;
-    --surface2: 255 255 255;
-    --ink2b: 23 24 26;
-    --muted2b: 142 146 153;
-    --muted3b: 90 94 100;
-    --line2b: 233 234 236;
-    --track2: 238 239 241;
-    --accent: 249 115 22;
-    --accent100: 255 237 213;
-    --accentSoft: 255 247 237;
-    --muted4b: 166 170 176;
-    --canvas-chrome: 229 231 234;
-  }
-
-  /*
-    Dark mode: alterne a classe `dark` no <html> (ou <body>) pra ativar.
-    Ex: document.documentElement.classList.toggle('dark')
-    Preencha as vars abaixo com os valores do tema dark quando fizer a integracao.
-    Enquanto vazio, o app permanece no tema light (design atual).
-  */
-  .dark {
-    /* --surface: X X X; */
-    /* --card: X X X; */
-    /* --ink: X X X; */
-    /* ...preencher todas as vars que devem mudar entre temas */
+    /* Accent (única cor de acento — laranja) */
+    --accent: 249 115 22;          /* #F97316 */
+    --accent100: 255 237 213;      /* #FFEDD5 — badges, check concluído */
+    --accent-soft: 255 247 237;    /* #FFF7ED — fundo de linha destacada */
   }
 
   html,
@@ -79,7 +34,7 @@
   }
 
   body {
-    @apply bg-surface font-sans text-ink antialiased md:bg-canvas;
+    @apply bg-canvas font-hanken text-ink antialiased md:bg-canvasChrome;
   }
 
   button {
@@ -87,7 +42,7 @@
   }
 
   ::selection {
-    background: rgba(124, 47, 212, 0.35);
+    background: rgba(249, 115, 22, 0.35);
   }
 }
 

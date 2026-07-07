@@ -5,3 +5,6 @@ dist
 .env
 .env.*
 !.env.example
+
+dev_server.log
+*.log

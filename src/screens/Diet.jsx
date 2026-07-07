@@ -53,18 +53,18 @@ const INITIAL_MEALS = [
 
 function Meal({ meal, onToggle }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 border-t border-track2 first:border-t-0">
+    <div className="flex items-center gap-3 px-4 py-3 border-t border-track first:border-t-0">
       <img
         src={meal.thumb}
         alt=""
         className="h-12 w-12 shrink-0 rounded-[14px] object-cover"
       />
       <div className="min-w-0 flex-1">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-muted2b">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-muted">
           {meal.slot}
         </div>
-        <div className="text-[14px] font-semibold text-ink2b">{meal.name}</div>
-        <div className="text-[12px] text-muted2b">
+        <div className="text-[14px] font-semibold text-ink">{meal.name}</div>
+        <div className="text-[12px] text-muted">
           {meal.kcal} kcal · {meal.protein}g proteína
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function Diet() {
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink2b">Dieta</h1>
+          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Dieta</h1>
           <IconButton ariaLabel="Adicionar refeição">
             <Plus size={18} strokeWidth={1.8} />
           </IconButton>
@@ -123,12 +123,12 @@ export default function Diet() {
               <div className="mt-1.5">
                 <BigNumber value={consumed.kcal.toLocaleString('pt-BR')} unit="kcal" size={32} />
               </div>
-              <div className="mt-1 text-[12px] text-muted2b">
+              <div className="mt-1 text-[12px] text-muted">
                 meta {KCAL_TARGET.toLocaleString('pt-BR')} kcal
               </div>
             </div>
             <Ring pct={pct}>
-              <span className="text-[15px] font-extrabold text-ink2b">
+              <span className="text-[15px] font-extrabold text-ink">
                 {Math.round(pct)}%
               </span>
             </Ring>
@@ -170,10 +170,10 @@ export default function Diet() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
             </div>
             <div className="flex-1">
-              <div className="text-[14px] font-semibold text-ink2b">Água</div>
-              <div className="text-[12px] text-muted2b">1,8 de 3,0 litros</div>
+              <div className="text-[14px] font-semibold text-ink">Água</div>
+              <div className="text-[12px] text-muted">1,8 de 3,0 litros</div>
             </div>
-            <div className="text-[14px] font-bold text-ink2b">60%</div>
+            <div className="text-[14px] font-bold text-ink">60%</div>
           </div>
         </Card>
       </div>

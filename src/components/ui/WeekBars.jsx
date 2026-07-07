@@ -21,17 +21,17 @@ export default function WeekBars({
           return (
             <div
               key={i}
-              className={`flex-1 rounded-[5px] ${isActive ? 'bg-accent' : 'bg-track2'}`}
+              className={`flex-1 rounded-[5px] ${isActive ? 'bg-accent' : 'bg-track'}`}
               style={{ height: h }}
             />
           )
         })}
       </div>
-      <div className="mt-2 flex justify-between text-[11px] text-muted2b">
+      <div className="mt-2 flex justify-between text-[11px] text-muted">
         {labels.map((l, i) => (
           <span
             key={i}
-            className={`flex-1 text-center ${i === activeIdx ? 'font-bold text-ink2b' : ''}`}
+            className={`flex-1 text-center ${i === activeIdx ? 'font-bold text-ink' : ''}`}
           >
             {l}
           </span>

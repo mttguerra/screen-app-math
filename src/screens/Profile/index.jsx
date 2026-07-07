@@ -6,7 +6,7 @@ import PrimaryAction from '../../components/ui/PrimaryAction.jsx'
 
 export default function Profile() {
   return (
-    <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2b">
+    <div className="min-h-full bg-canvas pt-6 pb-[110px] font-hanken text-ink">
       <div className="flex flex-col gap-3.5 px-[18px]">
         <ProfileIdentityCard />
         <WeightCard />

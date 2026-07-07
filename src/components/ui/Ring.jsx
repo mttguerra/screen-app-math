@@ -28,11 +28,11 @@ export default function Ring({
       style={{ width: size, height: size, background: gradient }}
     >
       <div
-        className="grid place-items-center rounded-full bg-surface2"
+        className="grid place-items-center rounded-full bg-surface"
         style={{ width: hole, height: hole }}
       >
         {children ?? (
-          <span className="text-[15px] font-extrabold text-ink2b">
+          <span className="text-[15px] font-extrabold text-ink">
             {Math.round(clamped)}%
           </span>
         )}

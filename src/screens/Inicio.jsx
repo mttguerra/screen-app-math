@@ -10,7 +10,7 @@ const stepsToday = 2574
 
 const stepStats = [
   { tileBg: 'bg-accent100', dotBg: 'bg-accent',    value: '578', label: 'kcal' },
-  { tileBg: 'bg-ink2b',     dotBg: 'bg-white',     value: '7,5', label: 'km' },
+  { tileBg: 'bg-ink',     dotBg: 'bg-white',     value: '7,5', label: 'km' },
   { tileBg: 'bg-[#DBEAFE]', dotBg: 'bg-[#2563EB]', value: '25',  label: 'min' },
 ]
 
@@ -39,8 +39,8 @@ function Header() {
         className="h-11 w-11 shrink-0 rounded-full object-cover"
       />
       <div className="min-w-0 flex-1">
-        <div className="text-[13px] text-muted2b">Bom dia,</div>
-        <div className="text-[16px] font-bold text-ink2b">Lucas Silva</div>
+        <div className="text-[13px] text-muted">Bom dia,</div>
+        <div className="text-[16px] font-bold text-ink">Lucas Silva</div>
       </div>
       <IconButton ariaLabel="Notificações">
         <Bell size={18} strokeWidth={1.8} />
@@ -54,17 +54,17 @@ function StepsCard() {
     <Card className="p-[18px]">
       <div className="flex flex-col items-center">
         <BigNumber value={stepsToday.toLocaleString('pt-BR')} size={42} />
-        <div className="mt-1 text-[13px] text-muted2b">passos hoje</div>
+        <div className="mt-1 text-[13px] text-muted">passos hoje</div>
       </div>
 
-      <div className="mt-5 flex items-stretch divide-x divide-track2">
+      <div className="mt-5 flex items-stretch divide-x divide-track">
         {stepStats.map((s) => (
           <div key={s.label} className="flex flex-1 flex-col items-center gap-1 px-2 py-1">
             <div className={`grid h-10 w-10 place-items-center rounded-[14px] ${s.tileBg}`}>
               <span className={`h-2.5 w-2.5 rounded-full ${s.dotBg}`} />
             </div>
-            <div className="mt-1 text-[14px] font-bold text-ink2b">{s.value}</div>
-            <div className="text-[11px] text-muted2b">{s.label}</div>
+            <div className="mt-1 text-[14px] font-bold text-ink">{s.value}</div>
+            <div className="text-[11px] text-muted">{s.label}</div>
           </div>
         ))}
       </div>
@@ -76,8 +76,8 @@ function WeekCard() {
   return (
     <Card className="p-[18px]">
       <div className="flex items-baseline justify-between">
-        <h3 className="text-[15px] font-bold text-ink2b">Frequência</h3>
-        <span className="text-[12px] text-muted2b">Semanal</span>
+        <h3 className="text-[15px] font-bold text-ink">Frequência</h3>
+        <span className="text-[12px] text-muted">Semanal</span>
       </div>
       <WeekBars values={weekValues} activeIdx={weekIdxToday} />
     </Card>

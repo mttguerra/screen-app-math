@@ -48,7 +48,7 @@ export default function Home() {
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink2b">Treinos</h1>
+          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
           <IconButton ariaLabel="Criar novo treino">
             <Plus size={18} strokeWidth={1.8} />
           </IconButton>
@@ -83,7 +83,7 @@ export default function Home() {
                       <Play size={16} fill="currentColor" strokeWidth={0} />
                     </span>
                   ) : (
-                    <ChevronRight size={20} strokeWidth={1.8} className="text-muted2b" />
+                    <ChevronRight size={20} strokeWidth={1.8} className="text-muted" />
                   )
                 }
               />

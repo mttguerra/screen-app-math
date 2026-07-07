@@ -10,7 +10,7 @@ export default function Community() {
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink2b">Comunidade</h1>
+          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Comunidade</h1>
           <IconButton ariaLabel="Notificações">
             <Bell size={18} strokeWidth={1.8} />
           </IconButton>

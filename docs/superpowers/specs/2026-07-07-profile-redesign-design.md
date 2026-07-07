@@ -47,12 +47,12 @@ Fora (fica pra iterações futuras):
 ```css
 :root {
   /* Novo tema "claro iOS" — piloto Perfil (convive com dark) */
-  --bg-canvas2: 241 242 244;      /* #F1F2F4 */
+  --canvas2: 241 242 244;      /* #F1F2F4 */
   --surface2: 255 255 255;         /* #FFFFFF */
-  --ink2: 23 24 26;                /* #17181A */
+  --ink2b: 23 24 26;               /* #17181A — renomeado de ink2 (colisão com token dark) */
   --muted2b: 142 146 153;          /* #8E9299 */
   --muted3b: 90 94 100;            /* #5A5E64 */
-  --line2: 233 234 236;            /* #E9EAEC */
+  --line2b: 233 234 236;           /* #E9EAEC — renomeado de line2 (colisão com token dark) */
   --track2: 238 239 241;           /* #EEEFF1 */
   --accent: 249 115 22;            /* #F97316 */
   --accent100: 255 237 213;        /* #FFEDD5 */
@@ -67,12 +67,12 @@ Não tocar em `--surface`, `--card`, `--ink`, `--primary` etc. — continuam ali
 ```js
 colors: {
   // ...existentes
-  canvas2: 'rgb(var(--bg-canvas2) / <alpha-value>)',
+  canvas2: 'rgb(var(--canvas2) / <alpha-value>)',
   surface2: 'rgb(var(--surface2) / <alpha-value>)',
-  ink2: 'rgb(var(--ink2) / <alpha-value>)',
+  ink2b: 'rgb(var(--ink2b) / <alpha-value>)',
   muted2b: 'rgb(var(--muted2b) / <alpha-value>)',
   muted3b: 'rgb(var(--muted3b) / <alpha-value>)',
-  line2: 'rgb(var(--line2) / <alpha-value>)',
+  line2b: 'rgb(var(--line2b) / <alpha-value>)',
   track2: 'rgb(var(--track2) / <alpha-value>)',
   accent: 'rgb(var(--accent) / <alpha-value>)',
   accent100: 'rgb(var(--accent100) / <alpha-value>)',
@@ -93,10 +93,10 @@ fontFamily: {
 Cada arquivo exporta um único componente default. Todos os primitivos aceitam `className` e `children` onde faz sentido. Assumem `font-hanken` herdada do container pai.
 
 - **`Card.jsx`** — `<div className={`rounded-3xl bg-surface2 ${className}`}>{children}</div>`. Sem sombra, sem borda, **sem padding embutido** — consumidor passa padding via `className` (`p-4`, `p-[18px]`, etc.).
-- **`IconButton.jsx`** — botão circular 42×42, `border border-line2 bg-surface2 grid place-items-center rounded-full`, com `active:scale-[0.98] active:opacity-85 transition duration-100`. Aceita `children` (ícone) e `onClick`.
+- **`IconButton.jsx`** — botão circular 42×42, `border border-line2b bg-surface2 grid place-items-center rounded-full`, com `active:scale-[0.98] active:opacity-85 transition duration-100`. Aceita `children` (ícone) e `onClick`.
 - **`SectionLabel.jsx`** — `<div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted2b">{children}</div>`.
 - **`BigNumber.jsx`** — props `{ value: string, unit?: string, size?: number }`. Renderiza `<div className="font-extrabold tracking-[-1px]" style={{fontSize: size}}>{value}<span className="text-sm font-normal tracking-normal text-muted2b"> {unit}</span></div>`. `size` default 32.
-- **`PrimaryAction.jsx`** — pílula preta full-width. `<button className="flex w-full items-center justify-center gap-2 rounded-full bg-ink2 py-[15px] text-[15px] font-bold text-white active:scale-[0.98] active:opacity-85 transition duration-100">{children}</button>`. Aceita `onClick` (pode ser `undefined` = noop). **Sem ícone embutido** — quem chama passa `<Plus />` como parte de `children` se quiser ícone (ver uso no Profile.jsx).
+- **`PrimaryAction.jsx`** — pílula preta full-width. `<button className="flex w-full items-center justify-center gap-2 rounded-full bg-ink2b py-[15px] text-[15px] font-bold text-white active:scale-[0.98] active:opacity-85 transition duration-100">{children}</button>`. Aceita `onClick` (pode ser `undefined` = noop). **Sem ícone embutido** — quem chama passa `<Plus />` como parte de `children` se quiser ícone (ver uso no Profile.jsx).
 - **`Sparkline.jsx`** — props `{ points: number[], className?: string }`. Renderiza SVG 300×90 com `preserveAspectRatio="none"`. Normaliza pontos para o viewBox, gera path com linhas retas (`M x0 y0 L x1 y1 …`), stroke `#F97316` width 2.5, `stroke-linecap="round"`, `stroke-linejoin="round"`, `fill="none"`. Sem dots, sem eixo Y, sem gradiente sob a linha.
 
 ### Camada de tela (`src/screens/Profile/`)
@@ -106,7 +106,7 @@ Arquivo `Profile.jsx` na pasta `src/screens/Profile/` (index) — substitui o `s
 ```jsx
 export default function Profile() {
   return (
-    <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2">
+    <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2b">
       <div className="flex flex-col gap-3.5 px-[18px]">
         <ProfileIdentityCard />
         <WeightCard />

@@ -1,6 +1,6 @@
 export default function StatusBar() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[52px] items-center justify-between px-7 font-hanken text-[16px] font-bold tracking-wider text-ink2b">
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[52px] items-center justify-between px-7 font-hanken text-[16px] font-bold tracking-wider text-ink">
       <span>9:41</span>
       <div className="flex items-center gap-2">
         <svg width="18" height="13" viewBox="0 0 20 14" fill="currentColor">

@@ -89,8 +89,8 @@ export default function WorkoutDetail() {
             <ChevronLeft size={22} strokeWidth={1.8} />
           </IconButton>
           <div className="text-center">
-            <div className="text-[16px] font-bold text-ink2b">{exercise.name}</div>
-            <div className="text-[12px] text-muted2b">
+            <div className="text-[16px] font-bold text-ink">{exercise.name}</div>
+            <div className="text-[12px] text-muted">
               Exercício {exerciseIdx + 1} de {totalExercises}
             </div>
           </div>
@@ -109,33 +109,33 @@ export default function WorkoutDetail() {
         {/* Timer central */}
         <div className="flex flex-col items-center py-2">
           <SectionLabel>{phase === 'rest' ? 'Descanso' : 'Executando'}</SectionLabel>
-          <div className="mt-1.5 font-extrabold leading-none tracking-[-1px] text-ink2b text-[54px]">
+          <div className="mt-1.5 font-extrabold leading-none tracking-[-1px] text-ink text-[54px]">
             01:30
           </div>
-          <div className="mt-1.5 text-[13px] text-muted2b">
+          <div className="mt-1.5 text-[13px] text-muted">
             próxima: {currentSet + 1}ª série · {exercise.reps} reps · {exercise.weight} kg
           </div>
         </div>
 
         {/* Card de métricas */}
         <Card className="p-[18px]">
-          <div className="flex items-stretch divide-x divide-track2">
+          <div className="flex items-stretch divide-x divide-track">
             <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
               <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-              <span className="text-[14px] font-bold text-ink2b">{kcal}</span>
-              <span className="text-[11px] text-muted2b">kcal</span>
+              <span className="text-[14px] font-bold text-ink">{kcal}</span>
+              <span className="text-[11px] text-muted">kcal</span>
             </div>
             <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-ink2b" />
-              <span className="text-[14px] font-bold text-ink2b">
+              <span className="h-2.5 w-2.5 rounded-full bg-ink" />
+              <span className="text-[14px] font-bold text-ink">
                 {totalCompletedAcross}/{totalPlannedAcross}
               </span>
-              <span className="text-[11px] text-muted2b">séries</span>
+              <span className="text-[11px] text-muted">séries</span>
             </div>
             <div className="flex flex-1 flex-col items-center gap-1 py-1 px-2">
               <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" />
-              <span className="text-[14px] font-bold text-ink2b">{bpm}</span>
-              <span className="text-[11px] text-muted2b">bpm</span>
+              <span className="text-[14px] font-bold text-ink">{bpm}</span>
+              <span className="text-[11px] text-muted">bpm</span>
             </div>
           </div>
         </Card>
@@ -148,7 +148,7 @@ export default function WorkoutDetail() {
           <button
             onClick={() => setPaused((p) => !p)}
             aria-label={paused ? 'Retomar' : 'Pausar'}
-            className="grid h-[68px] w-[68px] place-items-center rounded-full bg-ink2b text-white transition duration-100 active:scale-[0.98]"
+            className="grid h-[68px] w-[68px] place-items-center rounded-full bg-ink text-white transition duration-100 active:scale-[0.98]"
           >
             {paused ? (
               <Play size={22} fill="currentColor" strokeWidth={0} />
@@ -171,14 +171,14 @@ export default function WorkoutDetail() {
               <button
                 key={i}
                 onClick={() => toggleSet(i)}
-                className="flex w-full items-center gap-3 border-t border-track2 px-4 py-3 text-left first:border-t-0"
+                className="flex w-full items-center gap-3 border-t border-track px-4 py-3 text-left first:border-t-0"
               >
                 <CheckState state={state} size={22} />
                 <div className="flex-1">
-                  <div className="text-[14px] font-semibold text-ink2b">
+                  <div className="text-[14px] font-semibold text-ink">
                     {i + 1}ª série
                   </div>
-                  <div className="text-[13px] text-muted2b">
+                  <div className="text-[13px] text-muted">
                     {exercise.reps} reps · {exercise.weight} kg
                   </div>
                 </div>

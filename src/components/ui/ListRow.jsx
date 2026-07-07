@@ -34,19 +34,19 @@ export default function ListRow({
         />
       ) : (
         <div
-          className={`shrink-0 bg-track2 ${thumbRadius}`}
+          className={`shrink-0 bg-track ${thumbRadius}`}
           style={{ width: thumbSize, height: thumbSize }}
         />
       )}
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[14px] font-semibold text-ink2b">{title}</div>
-        <div className="text-[12px] text-muted2b">{meta}</div>
+        <div className="truncate text-[14px] font-semibold text-ink">{title}</div>
+        <div className="text-[12px] text-muted">{meta}</div>
       </div>
-      {trailing ?? <ChevronRight size={20} strokeWidth={1.8} className="text-muted2b" />}
+      {trailing ?? <ChevronRight size={20} strokeWidth={1.8} className="text-muted" />}
     </>
   )
   const cls = `flex items-center gap-3 px-4 py-3 ${
-    first ? '' : 'border-t border-track2'
+    first ? '' : 'border-t border-track'
   }`
   return onClick ? (
     <button onClick={onClick} className={`w-full text-left ${cls}`}>

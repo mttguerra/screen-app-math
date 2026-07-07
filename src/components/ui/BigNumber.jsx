@@ -6,7 +6,7 @@ export default function BigNumber({ value, unit, size = 32, className = '' }) {
     >
       {value}
       {unit && (
-        <span className="ml-1 text-sm font-normal tracking-normal text-muted2b">
+        <span className="ml-1 text-sm font-normal tracking-normal text-muted">
           {unit}
         </span>
       )}

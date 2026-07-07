@@ -23,7 +23,7 @@ export default function PostCard({ post }) {
   const likesCount = stats.likes + (liked ? 1 : 0)
 
   return (
-    <article className="rounded-3xl bg-surface2 px-4 py-4">
+    <article className="rounded-3xl bg-surface px-4 py-4">
       {/* Header */}
       <div className="flex items-start gap-3">
         <img
@@ -33,14 +33,14 @@ export default function PostCard({ post }) {
         />
         <div className="min-w-0 flex-1 leading-tight">
           <div className="flex items-center gap-1.5">
-            <span className="truncate text-[14px] font-bold text-ink2b">{author.name}</span>
+            <span className="truncate text-[14px] font-bold text-ink">{author.name}</span>
             <RankBadge rank={author.rank} />
           </div>
-          <div className="mt-0.5 text-[12px] text-muted2b">há {timeAgo}</div>
+          <div className="mt-0.5 text-[12px] text-muted">há {timeAgo}</div>
         </div>
         <button
           aria-label="Mais opções"
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-muted2b active:scale-95"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-muted active:scale-95"
         >
           <MoreHorizontal size={18} strokeWidth={1.8} />
         </button>
@@ -50,7 +50,7 @@ export default function PostCard({ post }) {
       {text && (
         <div className="mt-3">
           <p
-            className={`whitespace-pre-wrap break-words text-[14px] leading-[1.5] text-ink2b ${
+            className={`whitespace-pre-wrap break-words text-[14px] leading-[1.5] text-ink ${
               expanded ? '' : 'line-clamp-5'
             }`}
           >
@@ -81,7 +81,7 @@ export default function PostCard({ post }) {
         <button
           onClick={() => setLiked((v) => !v)}
           className={`flex items-center gap-1.5 transition ${
-            liked ? 'text-accent' : 'text-muted2b'
+            liked ? 'text-accent' : 'text-muted'
           }`}
         >
           <Heart
@@ -91,7 +91,7 @@ export default function PostCard({ post }) {
           />
           <span className="tabular-nums">{formatCount(likesCount)}</span>
         </button>
-        <button className="flex items-center gap-1.5 text-muted2b">
+        <button className="flex items-center gap-1.5 text-muted">
           <MessageCircle size={18} strokeWidth={1.8} />
           <span className="tabular-nums">{formatCount(stats.comments)}</span>
         </button>

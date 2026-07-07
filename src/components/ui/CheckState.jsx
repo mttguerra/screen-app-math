@@ -25,7 +25,7 @@ export default function CheckState({ state = 'pending', size = 22 }) {
   }
   return (
     <span
-      className="shrink-0 rounded-full border-2 border-line2b"
+      className="shrink-0 rounded-full border-2 border-line"
       style={{ width: size, height: size }}
     />
   )
