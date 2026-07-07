@@ -1,35 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { animate, motion, useMotionValue } from 'framer-motion'
-import { Plus, Play, ChevronRight } from 'lucide-react'
+import { Plus, Play, Check, Clock } from 'lucide-react'
 import IconButton from '../components/ui/IconButton.jsx'
-import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
-import ListRow from '../components/ui/ListRow.jsx'
-
-const fichas = [
-  {
-    slug: 'peito',
-    thumbUrl: '/images/workout-abs.jpg',
-    title: 'Treino A · Peito & Tríceps',
-    meta: '8 exercícios · 52 min',
-    isCurrent: true,
-  },
-  {
-    slug: 'costas',
-    thumbUrl: '/images/workout-legs.jpg',
-    title: 'Treino B · Costas & Bíceps',
-    meta: '7 exercícios · 48 min',
-    isCurrent: false,
-  },
-  {
-    slug: 'pernas',
-    thumbUrl: '/images/workout-stretch.jpg',
-    title: 'Treino C · Pernas & Glúteo',
-    meta: '9 exercícios · 60 min',
-    isCurrent: false,
-  },
-]
 
 /* ─── Tira horizontal de dias — julho 2026 ────────────────── */
 
@@ -58,7 +32,7 @@ const days = [
 ]
 
 const TODAY_IDX = days.findIndex((d) => d.today)
-const STEP = 53 // 46px + 7px gap
+const STEP = 53
 const SIDE_PAD = 160
 const MIN_X = -(days.length - 1) * STEP
 const MAX_X = 0
@@ -147,6 +121,108 @@ function DayStrip() {
   )
 }
 
+/* ─── Timeline (do origin/main, adaptado) ─────────────────── */
+
+function Timeline({ children }) {
+  return <div className="flex flex-col">{children}</div>
+}
+
+function TimelineItem({ children, status = 'pending', first, last }) {
+  const done = status === 'done'
+  return (
+    <div className="flex items-stretch gap-4">
+      <div className="relative flex w-6 flex-shrink-0 flex-col items-center">
+        <div className={`w-px flex-1 ${first ? 'bg-transparent' : 'bg-track'}`} />
+        <div
+          className={`z-10 grid h-6 w-6 place-items-center rounded-full ${
+            done
+              ? 'bg-accent100 text-accent'
+              : 'border border-line bg-surface text-muted'
+          }`}
+        >
+          {done ? (
+            <Check size={12} strokeWidth={3} />
+          ) : (
+            <Clock size={11} strokeWidth={2} />
+          )}
+        </div>
+        <div className={`w-px flex-1 ${last ? 'bg-transparent' : 'bg-track'}`} />
+      </div>
+      <div className="min-w-0 flex-1 py-3">{children}</div>
+    </div>
+  )
+}
+
+/* ─── FeaturedWorkout (do origin/main, adaptado) ──────────── */
+
+function FeaturedWorkout() {
+  const navigate = useNavigate()
+  const go = () => navigate('/treino/pernas')
+
+  return (
+    <div className="flex flex-col gap-3.5">
+      <div className="flex items-center gap-3.5">
+        <img
+          src="/images/workout-legs.jpg"
+          alt="Treino de pernas"
+          className="h-24 w-24 flex-shrink-0 rounded-[20px] object-cover"
+        />
+        <div className="min-w-0 flex-1">
+          <span className="inline-block rounded-full bg-accent100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-accent">
+            Cardio
+          </span>
+          <h3 className="mb-1.5 mt-2 text-[20px] font-extrabold leading-tight tracking-[-0.3px] text-ink">
+            Treino de pernas
+          </h3>
+          <div className="flex items-center gap-1.5 text-[12px] font-semibold text-muted">
+            <Clock size={13} strokeWidth={2} />
+            10 min
+            <span className="h-[3px] w-[3px] rounded-full bg-muted" />
+            Iniciante
+          </div>
+          <div className="mt-3 h-[6px] overflow-hidden rounded-[3px] bg-track">
+            <div
+              className="h-full rounded-[3px] bg-accent transition-[width] duration-[500ms] ease-out"
+              style={{ width: '62%' }}
+            />
+          </div>
+        </div>
+      </div>
+      <button
+        onClick={go}
+        className="w-full rounded-full bg-accent py-[13px] text-[14px] font-bold text-white transition active:scale-[0.98]"
+      >
+        Continuar
+      </button>
+    </div>
+  )
+}
+
+/* ─── MiniWorkout (do origin/main, adaptado) ──────────────── */
+
+function MiniWorkout({ title, subtitle, image, onClick }) {
+  return (
+    <div className="flex items-center gap-3.5">
+      <img
+        src={image}
+        alt={title}
+        className="h-[46px] w-[46px] flex-shrink-0 rounded-[14px] object-cover"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="text-[15px] font-semibold text-ink">{title}</div>
+        <div className="mt-0.5 text-[12px] font-medium text-muted">{subtitle}</div>
+      </div>
+      <button
+        onClick={onClick}
+        aria-label={`Iniciar ${title}`}
+        className="ml-auto grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-accent text-white transition active:scale-95"
+      >
+        <Play size={14} fill="currentColor" strokeWidth={0} />
+      </button>
+    </div>
+  )
+}
+
 export default function Home() {
   const navigate = useNavigate()
 
@@ -164,30 +240,32 @@ export default function Home() {
         {/* Tira de dias */}
         <DayStrip />
 
-        {/* Fichas */}
+        {/* Exercícios de hoje */}
         <div>
-          <SectionLabel>Suas fichas</SectionLabel>
-          <Card className="mt-2 overflow-hidden">
-            {fichas.map((f, i) => (
-              <ListRow
-                key={f.slug}
-                thumbUrl={f.thumbUrl}
-                title={f.title}
-                meta={f.meta}
-                first={i === 0}
-                onClick={() => navigate(`/treino/${f.slug}`)}
-                trailing={
-                  f.isCurrent ? (
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-white">
-                      <Play size={16} fill="currentColor" strokeWidth={0} />
-                    </span>
-                  ) : (
-                    <ChevronRight size={20} strokeWidth={1.8} className="text-muted" />
-                  )
-                }
-              />
-            ))}
-          </Card>
+          <SectionLabel>Exercícios de hoje</SectionLabel>
+          <div className="mt-2">
+            <Timeline>
+              <TimelineItem status="done" first>
+                <FeaturedWorkout />
+              </TimelineItem>
+              <TimelineItem status="pending">
+                <MiniWorkout
+                  title="Abdômen definido"
+                  subtitle="8 min · Intermediário"
+                  image="/images/workout-abs.jpg"
+                  onClick={() => navigate('/treino/abdomen')}
+                />
+              </TimelineItem>
+              <TimelineItem status="pending" last>
+                <MiniWorkout
+                  title="Alongamento"
+                  subtitle="5 min · Relaxante"
+                  image="/images/workout-stretch.jpg"
+                  onClick={() => navigate('/treino/pernas')}
+                />
+              </TimelineItem>
+            </Timeline>
+          </div>
         </div>
       </div>
     </div>
