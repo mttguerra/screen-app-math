@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Segmented from './Community/Segmented.jsx'
-import FeedCarousel from './Community/FeedCarousel.jsx'
+import FeedList from './Community/FeedList.jsx'
 import Ranking from './Community/Ranking.jsx'
 import { slideVariants, slideTransition } from '../lib/transitions.js'
 
@@ -35,7 +35,7 @@ export default function Community() {
           transition={slideTransition}
           className="absolute inset-0"
         >
-          {tab === 'Feed' ? <FeedCarousel /> : <Ranking />}
+          {tab === 'Feed' ? <FeedList /> : <Ranking />}
         </motion.div>
       </AnimatePresence>
 
