@@ -132,7 +132,7 @@ function TimelineItem({ children, status = 'pending', first, last }) {
   return (
     <div className="flex items-stretch gap-4">
       <div className="relative flex w-6 flex-shrink-0 flex-col items-center">
-        <div className={`w-px flex-1 ${first ? 'bg-transparent' : 'bg-track'}`} />
+        <div className={`w-[1.5px] flex-1 ${first ? 'bg-transparent' : 'bg-line'}`} />
         <div
           className={`z-10 grid h-6 w-6 place-items-center rounded-full ${
             done
@@ -146,7 +146,7 @@ function TimelineItem({ children, status = 'pending', first, last }) {
             <Clock size={11} strokeWidth={2} />
           )}
         </div>
-        <div className={`w-px flex-1 ${last ? 'bg-transparent' : 'bg-track'}`} />
+        <div className={`w-[1.5px] flex-1 ${last ? 'bg-transparent' : 'bg-line'}`} />
       </div>
       <div className="min-w-0 flex-1 py-3">{children}</div>
     </div>
