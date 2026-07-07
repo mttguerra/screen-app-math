@@ -1,8 +1,25 @@
-function VerifiedMini() {
+function Crown() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-primary-text">
-      <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.827 2.766 2.057 3.439-.036.27-.057.545-.057.828 0 2.21 1.71 4 3.918 4 .512 0 1.004-.097 1.455-.274C9.37 22.126 10.61 23 12 23s2.63-.874 3.128-2.116c.452.177.944.274 1.455.274 2.21 0 3.918-1.79 3.918-4 0-.283-.02-.558-.057-.828 1.23-.673 2.057-1.98 2.057-3.44zm-12.75 4.385l-3.37-3.437 1.47-1.44 1.87 1.905 4.965-5.06 1.48 1.428-6.415 6.604z" />
+    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M5 20h14l1-11-5 3-3-6-3 6-5-3z" />
     </svg>
+  )
+}
+
+function RankBadgeMini({ rank }) {
+  const styles = {
+    1: 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-900',
+    2: 'bg-gradient-to-br from-slate-200 to-slate-400 text-slate-900',
+    3: 'bg-gradient-to-br from-amber-600 to-amber-800 text-amber-50',
+  }
+  const style = styles[rank] || 'bg-chip text-muted3 border border-line'
+  return (
+    <span
+      className={`inline-flex flex-shrink-0 items-center gap-0.5 rounded-full px-1 py-[1px] text-[9px] font-bold leading-none tabular-nums ${style}`}
+    >
+      {rank <= 3 && <Crown />}
+      #{rank}
+    </span>
   )
 }
 
@@ -15,12 +32,10 @@ export default function PostQuote({ quotedPost }) {
         <div className="h-6 w-6 flex-shrink-0 overflow-hidden rounded-full">
           <img src={author.avatar} alt="" className="h-full w-full object-cover" />
         </div>
-        <div className="flex min-w-0 items-center gap-1 text-[13px]">
+        <div className="flex min-w-0 items-center gap-1.5 text-[13px]">
           <span className="truncate font-semibold text-ink">{author.name}</span>
-          {author.verified && <VerifiedMini />}
-          <span className="truncate text-[12px] text-muted">
-            #{author.rank} · {timeAgo}
-          </span>
+          <RankBadgeMini rank={author.rank} />
+          <span className="truncate text-[12px] text-muted">{timeAgo}</span>
         </div>
       </div>
       <p className="mt-1 line-clamp-4 text-[13px] leading-snug text-ink">

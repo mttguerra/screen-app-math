@@ -4,13 +4,31 @@ import PostAchievement from './PostAchievement.jsx'
 import PostPoll from './PostPoll.jsx'
 import PostQuote from './PostQuote.jsx'
 
-function Verified() {
+function Crown() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-primary-text">
-      <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.827 2.766 2.057 3.439-.036.27-.057.545-.057.828 0 2.21 1.71 4 3.918 4 .512 0 1.004-.097 1.455-.274C9.37 22.126 10.61 23 12 23s2.63-.874 3.128-2.116c.452.177.944.274 1.455.274 2.21 0 3.918-1.79 3.918-4 0-.283-.02-.558-.057-.828 1.23-.673 2.057-1.98 2.057-3.44zm-12.75 4.385l-3.37-3.437 1.47-1.44 1.87 1.905 4.965-5.06 1.48 1.428-6.415 6.604z" />
+    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M5 20h14l1-11-5 3-3-6-3 6-5-3z" />
     </svg>
   )
 }
+
+function RankBadge({ rank }) {
+  const styles = {
+    1: 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-900',
+    2: 'bg-gradient-to-br from-slate-200 to-slate-400 text-slate-900',
+    3: 'bg-gradient-to-br from-amber-600 to-amber-800 text-amber-50',
+  }
+  const style = styles[rank] || 'bg-chip text-muted3 border border-line'
+  return (
+    <span
+      className={`inline-flex flex-shrink-0 items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none tabular-nums ${style}`}
+    >
+      {rank <= 3 && <Crown />}
+      #{rank}
+    </span>
+  )
+}
+
 function Kebab() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -24,15 +42,6 @@ function Comment() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
       <path d="M1.75 10c0-4.42 3.58-8 8-8h4.37c4.49 0 8.13 3.64 8.13 8.13 0 2.96-1.61 5.68-4.2 7.11l-8.05 4.46v-3.69h-.07c-4.49.1-8.18-3.51-8.18-8.01zm8-6c-3.32 0-6 2.69-6 6 0 3.37 2.77 6.08 6.14 6.01l.35-.01h1.76v2.3l5.09-2.81c1.95-1.08 3.16-3.13 3.16-5.36 0-3.39-2.74-6.13-6.13-6.13H9.75z" />
-    </svg>
-  )
-}
-function MoreVertical() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <circle cx="12" cy="5" r="1.8" />
-      <circle cx="12" cy="12" r="1.8" />
-      <circle cx="12" cy="19" r="1.8" />
     </svg>
   )
 }
@@ -89,13 +98,11 @@ export default function PostCard({ post }) {
             <img src={author.avatar} alt={author.name} className="h-full w-full object-cover" />
           </div>
           <div className="min-w-0 leading-tight">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <span className="truncate font-bold text-[15px] text-ink">{author.name}</span>
-              {author.verified && <Verified />}
+              <RankBadge rank={author.rank} />
             </div>
-            <div className="mt-0.5 text-[13px] text-muted">
-              #{author.rank} · {timeAgo}
-            </div>
+            <div className="mt-0.5 text-[13px] text-muted">{timeAgo}</div>
           </div>
         </div>
         <button className="grid h-8 w-8 place-items-center rounded-full text-muted hover:bg-primary/10 hover:text-primary-text">
@@ -131,19 +138,16 @@ export default function PostCard({ post }) {
       <PostQuote quotedPost={quotedPost} />
 
       {/* Ações */}
-      <div className="mt-3 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Action
-            icon={<HeartOutline />}
-            activeIconOverride={<HeartFilled />}
-            count={likesCount}
-            activeColor="text-rose-500"
-            active={liked}
-            onClick={() => setLiked((v) => !v)}
-          />
-          <Action icon={<Comment />} count={stats.comments} activeColor="text-primary-text" />
-        </div>
-        <Action icon={<MoreVertical />} activeColor="text-primary-text" />
+      <div className="mt-3 flex items-center gap-8">
+        <Action
+          icon={<HeartOutline />}
+          activeIconOverride={<HeartFilled />}
+          count={likesCount}
+          activeColor="text-rose-500"
+          active={liked}
+          onClick={() => setLiked((v) => !v)}
+        />
+        <Action icon={<Comment />} count={stats.comments} activeColor="text-primary-text" />
       </div>
     </article>
   )
