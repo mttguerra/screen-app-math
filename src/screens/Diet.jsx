@@ -406,7 +406,7 @@ export default function Diet() {
   const checkedCount = foods.filter((f) => f.checked).length
 
   return (
-    <div className="no-scrollbar overflow-y-auto pb-[110px] pt-[60px]">
+    <div className="no-scrollbar overflow-y-auto pb-[110px] pt-[60px] text-ink">
       {/* Header editorial */}
       <div className="px-7">
         <div className="flex items-center gap-1.5 text-[9.5px] font-semibold uppercase tracking-[0.28em] text-muted">

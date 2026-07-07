@@ -23,7 +23,7 @@ export default function Community() {
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-surface">
+    <div className="relative h-full w-full overflow-hidden bg-surface text-ink">
       <AnimatePresence mode="sync" custom={direction} initial={false}>
         <motion.div
           key={tab}
