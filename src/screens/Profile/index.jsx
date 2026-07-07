@@ -8,7 +8,6 @@ export default function Profile() {
   return (
     <div className="min-h-full bg-canvas2 pt-6 pb-[110px] font-hanken text-ink2b">
       <div className="flex flex-col gap-3.5 px-[18px]">
-        {/* Placeholder — serão substituídos nas próximas tarefas */}
         <ProfileIdentityCard />
         <WeightCard />
         <div className="grid grid-cols-2 gap-3.5">
