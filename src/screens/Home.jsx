@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { animate, motion, useMotionValue } from 'framer-motion'
-import { Plus, Play, Check, Clock } from 'lucide-react'
+import { Plus, Play, Check, Clock, Lock } from 'lucide-react'
 import IconButton from '../components/ui/IconButton.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 
@@ -200,25 +200,38 @@ function FeaturedWorkout() {
 
 /* ─── MiniWorkout (do origin/main, adaptado) ──────────────── */
 
-function MiniWorkout({ title, subtitle, image, onClick }) {
+function MiniWorkout({ title, subtitle, image, locked = false, onClick }) {
   return (
     <div className="flex items-center gap-3.5">
       <img
         src={image}
         alt={title}
-        className="h-[46px] w-[46px] flex-shrink-0 rounded-[14px] object-cover"
+        className={`h-[46px] w-[46px] flex-shrink-0 rounded-[14px] object-cover ${
+          locked ? 'opacity-60' : ''
+        }`}
       />
       <div className="min-w-0 flex-1">
-        <div className="text-[15px] font-semibold text-ink">{title}</div>
+        <div className={`text-[15px] font-semibold ${locked ? 'text-muted3' : 'text-ink'}`}>
+          {title}
+        </div>
         <div className="mt-0.5 text-[12px] font-medium text-muted">{subtitle}</div>
       </div>
-      <button
-        onClick={onClick}
-        aria-label={`Iniciar ${title}`}
-        className="ml-auto grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-accent text-white transition active:scale-95"
-      >
-        <Play size={14} fill="currentColor" strokeWidth={0} />
-      </button>
+      {locked ? (
+        <span
+          aria-label="Bloqueado"
+          className="ml-auto grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-track text-muted"
+        >
+          <Lock size={14} strokeWidth={2} />
+        </span>
+      ) : (
+        <button
+          onClick={onClick}
+          aria-label={`Iniciar ${title}`}
+          className="ml-auto grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-accent text-white transition active:scale-95"
+        >
+          <Play size={14} fill="currentColor" strokeWidth={0} />
+        </button>
+      )}
     </div>
   )
 }
@@ -253,7 +266,7 @@ export default function Home() {
                   title="Abdômen definido"
                   subtitle="8 min · Intermediário"
                   image="/images/workout-abs.jpg"
-                  onClick={() => navigate('/treino/abdomen')}
+                  locked
                 />
               </TimelineItem>
               <TimelineItem status="pending" last>
@@ -261,7 +274,7 @@ export default function Home() {
                   title="Alongamento"
                   subtitle="5 min · Relaxante"
                   image="/images/workout-stretch.jpg"
-                  onClick={() => navigate('/treino/pernas')}
+                  locked
                 />
               </TimelineItem>
             </Timeline>
