@@ -1,6 +1,8 @@
 import ProfileIdentityCard from './ProfileIdentityCard.jsx'
 import WeightCard from './WeightCard.jsx'
 import MeasureCard from './MeasureCard.jsx'
+import { Plus } from 'lucide-react'
+import PrimaryAction from '../../components/ui/PrimaryAction.jsx'
 
 export default function Profile() {
   return (
@@ -13,9 +15,10 @@ export default function Profile() {
           <MeasureCard label="BRAÇO" value="38" unit="cm" delta="+1 cm" />
           <MeasureCard label="CINTURA" value="81" unit="cm" delta="−2 cm" />
         </div>
-        <div className="h-[52px] rounded-full bg-ink2b grid place-items-center text-white font-bold">
-          Registrar peso de hoje (Task 9)
-        </div>
+        <PrimaryAction>
+          <Plus size={18} strokeWidth={1.8} />
+          Registrar peso de hoje
+        </PrimaryAction>
       </div>
     </div>
   )
