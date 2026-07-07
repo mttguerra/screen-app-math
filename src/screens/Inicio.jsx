@@ -312,7 +312,7 @@ function DailyProgress({ pct, remaining }) {
           </div>
         </div>
       </div>
-      <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+      <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-overlay/[0.06]">
         <div
           className="h-full rounded-full bg-grad-primary"
           style={{
@@ -345,7 +345,7 @@ function HeroMission({ onGo }) {
           Peito · Tríceps · 4 exercícios
         </div>
       </div>
-      <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-white/[0.06] text-muted3">
+      <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-overlay/[0.06] text-muted3">
         <ArrowRight />
       </span>
     </button>
@@ -368,7 +368,7 @@ function MiniMission({ Icon, label, progress, total, onGo }) {
           {label}
         </div>
         <div className="mt-2 flex items-center gap-2">
-          <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="h-1 flex-1 overflow-hidden rounded-full bg-overlay/[0.06]">
             <div
               className="h-full rounded-full bg-grad-primary"
               style={{ width: `${pct}%` }}
@@ -460,7 +460,7 @@ function MealsMission({ onGo }) {
               className={`h-8 flex-1 rounded-[9px] border transition-colors ${
                 isDone
                   ? 'border-primary/50 bg-primary/25'
-                  : 'border-line bg-white/[0.03]'
+                  : 'border-line bg-overlay/[0.03]'
               }`}
             >
               {isDone && (
