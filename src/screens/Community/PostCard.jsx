@@ -27,13 +27,6 @@ function Comment() {
     </svg>
   )
 }
-function Repost() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M4.5 3.88l4.43 4.14-1.36 1.46L5.5 7.55V16c0 1.1.9 2 2 2H13v2H7.5c-2.21 0-4-1.79-4-4V7.55L1.43 9.48.07 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.21 0 4 1.79 4 4v8.45l2.07-1.93 1.36 1.46-4.43 4.14-4.43-4.14 1.36-1.46 2.07 1.93V8c0-1.1-.9-2-2-2z" />
-    </svg>
-  )
-}
 function HeartOutline() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -48,14 +41,6 @@ function HeartFilled() {
     </svg>
   )
 }
-function Share() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z" />
-    </svg>
-  )
-}
-
 function formatCount(n) {
   if (n >= 1000) return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1).replace('.', ',') + 'k'
   return n.toString()
@@ -137,9 +122,8 @@ export default function PostCard({ post }) {
       <PostQuote quotedPost={quotedPost} />
 
       {/* Ações */}
-      <div className="mt-3 flex items-center justify-between pr-4">
+      <div className="mt-3 flex items-center gap-8">
         <Action icon={<Comment />} count={stats.comments} activeColor="text-primary-text" />
-        <Action icon={<Repost />} count={stats.reposts} activeColor="text-emerald-500" />
         <Action
           icon={<HeartOutline />}
           activeIconOverride={<HeartFilled />}
@@ -148,7 +132,6 @@ export default function PostCard({ post }) {
           active={liked}
           onClick={() => setLiked((v) => !v)}
         />
-        <Action icon={<Share />} activeColor="text-primary-text" />
       </div>
     </article>
   )
