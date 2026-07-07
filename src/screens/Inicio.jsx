@@ -150,42 +150,36 @@ function MissionsCard() {
 
 function DailyStatsCard() {
   return (
-    <Card className="p-3">
-      <div className="flex items-center divide-x divide-track">
-        <div className="flex flex-1 items-center gap-2.5 px-3">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-accent100">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-          </span>
-          <div className="min-w-0">
-            <div className="text-[15px] font-extrabold leading-none text-ink">{dailyStats.kcal}</div>
-            <div className="mt-1 text-[10.5px] text-muted">kcal hoje</div>
+    <Card className="p-[18px]">
+      <div className="flex items-stretch divide-x divide-track">
+        <div className="flex flex-1 flex-col items-center gap-1 px-2">
+          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-accent100">
+            <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           </div>
+          <div className="mt-1 text-[16px] font-extrabold text-ink">{dailyStats.kcal}</div>
+          <div className="text-[11px] text-muted">kcal hoje</div>
         </div>
 
-        <div className="flex flex-1 items-center gap-2.5 px-3">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-ink">
-            <span className="h-2 w-2 rounded-full bg-white" />
-          </span>
-          <div className="min-w-0">
-            <div className="text-[15px] font-extrabold leading-none text-ink">
-              {dailyStats.weight.value}
-              <span className="ml-0.5 text-[10px] font-medium text-muted">{dailyStats.weight.unit}</span>
-            </div>
-            <div className="mt-1 text-[10.5px] font-bold text-accent">{dailyStats.weight.delta}</div>
+        <div className="flex flex-1 flex-col items-center gap-1 px-2">
+          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-ink">
+            <span className="h-2.5 w-2.5 rounded-full bg-white" />
           </div>
+          <div className="mt-1 text-[16px] font-extrabold text-ink">
+            {dailyStats.weight.value}
+            <span className="ml-0.5 text-[11px] font-medium text-muted">{dailyStats.weight.unit}</span>
+          </div>
+          <div className="text-[11px] font-bold text-accent">{dailyStats.weight.delta}</div>
         </div>
 
-        <div className="flex flex-1 items-center gap-2.5 px-3">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-[#DBEAFE]">
-            <span className="h-2 w-2 rounded-full bg-[#2563EB]" />
-          </span>
-          <div className="min-w-0">
-            <div className="text-[15px] font-extrabold leading-none text-ink">
-              {dailyStats.streak.value}
-              <span className="ml-0.5 text-[10px] font-medium text-muted">{dailyStats.streak.unit}</span>
-            </div>
-            <div className="mt-1 text-[10.5px] text-muted">sequência</div>
+        <div className="flex flex-1 flex-col items-center gap-1 px-2">
+          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-[#DBEAFE]">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
           </div>
+          <div className="mt-1 text-[16px] font-extrabold text-ink">
+            {dailyStats.streak.value}
+            <span className="ml-0.5 text-[11px] font-medium text-muted">{dailyStats.streak.unit}</span>
+          </div>
+          <div className="text-[11px] text-muted">sequência</div>
         </div>
       </div>
     </Card>
@@ -211,8 +205,6 @@ export default function Inicio() {
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
         <Header />
-        <DailyStatsCard />
-        <MissionsCard />
         <HeroWorkoutCard
           photoUrl={workoutToday.photoUrl}
           exercises={workoutToday.exercises}
@@ -221,6 +213,8 @@ export default function Inicio() {
           onStart={() => navigate(workoutToday.route)}
           onDetails={() => navigate(workoutToday.route)}
         />
+        <MissionsCard />
+        <DailyStatsCard />
         <WeekCard />
       </div>
     </div>

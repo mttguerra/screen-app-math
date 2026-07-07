@@ -27,22 +27,22 @@ export default function HeroWorkoutCard({
       <img
         src={photoUrl}
         alt=""
-        className="absolute inset-x-0 top-0 h-[210px] w-full object-cover"
+        className="absolute inset-x-0 top-0 h-[160px] w-full object-cover"
       />
       {/* Único gradiente permitido: scrim */}
-      <div className="absolute inset-x-0 top-0 h-[212px] bg-[linear-gradient(180deg,rgba(21,20,23,0)_35%,#151417_97%)]" />
-      <div className="relative px-[18px] pb-[18px] pt-32 text-center">
+      <div className="absolute inset-x-0 top-0 h-[162px] bg-[linear-gradient(180deg,rgba(21,20,23,0)_35%,#151417_97%)]" />
+      <div className="relative px-[18px] pb-4 pt-24 text-center">
         {exercises != null && (
           <span className="inline-flex rounded-full border border-white/35 px-3 py-1 text-[10.5px] font-bold uppercase tracking-[0.1em]">
             {exercises} exercícios
           </span>
         )}
-        <h2 className="mt-2.5 text-[26px] font-extrabold leading-tight tracking-[-0.5px]">
+        <h2 className="mt-2 text-[26px] font-extrabold leading-tight tracking-[-0.5px]">
           {title}
         </h2>
         {coach && <p className="mt-0.5 text-[13px] text-white/60">com {coach}</p>}
         {stats && stats.length > 0 && (
-          <div className="mt-4 flex">
+          <div className="mt-3 flex">
             {stats.map((s, i) => (
               <div
                 key={s.label}
@@ -56,18 +56,18 @@ export default function HeroWorkoutCard({
             ))}
           </div>
         )}
-        <div className="mt-4 flex gap-2.5">
+        <div className="mt-3 flex gap-2.5">
           {onDetails && (
             <button
               onClick={onDetails}
-              className="flex flex-1 items-center justify-center rounded-full bg-white/[.16] py-3 text-[14px] font-bold transition active:scale-[0.98]"
+              className="flex flex-1 items-center justify-center rounded-full bg-white/[.16] py-2.5 text-[14px] font-bold transition active:scale-[0.98]"
             >
               Detalhes
             </button>
           )}
           <button
             onClick={onStart}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3 text-[14px] font-bold transition active:scale-[0.98]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-accent py-2.5 text-[14px] font-bold transition active:scale-[0.98]"
           >
             <Play size={16} fill="currentColor" strokeWidth={0} /> Começar
           </button>
