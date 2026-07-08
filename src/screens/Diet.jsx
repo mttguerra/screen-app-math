@@ -1,4 +1,4 @@
-import { useMemo, useReducer, useState } from 'react'
+import { useEffect, useMemo, useReducer, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
@@ -6,12 +6,12 @@ import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
 import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
-import ClassSheet from './Diet/ClassSheet.jsx'
+import ClassPanel from './Diet/ClassPanel.jsx'
 import SubstitutePopover from './Diet/SubstitutePopover.jsx'
 import CompletionOverlay from './Diet/CompletionOverlay.jsx'
 import SuggestionBadge from './Diet/SuggestionBadge.jsx'
 import SuggestionSheet from './Diet/SuggestionSheet.jsx'
-import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
+import WaterCard, { DOSE_ML, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
 import { sumConsumed, sumConsumedAll } from './Diet/dietSelectors.js'
@@ -136,6 +136,9 @@ function dietReducer(state, action) {
   }
 }
 
+const firstOpenClassId = (classes) =>
+  classes.find((c) => c.state === 'open')?.id || null
+
 export default function Diet() {
   const navigate = useNavigate()
   const [state, dispatch] = useReducer(dietReducer, { ...initialDietState, pendingCompletion: null })
@@ -143,7 +146,6 @@ export default function Diet() {
   const consumed = useMemo(() => sumConsumedAll(state.classes), [state.classes])
   const waterMl = state.water.doses * DOSE_ML
 
-  // Macros derivados: proteína real dos itens + carbs/fat proporcionais ao kcal
   const macros = useMemo(() => ({
     protein: consumed.protein,
     carbs: Math.round((consumed.kcal * 0.4) / 4),
@@ -163,18 +165,24 @@ export default function Diet() {
 
   const registerWater = () => dispatch({ type: 'REGISTER_WATER' })
 
-  const [openClassId, setOpenClassId] = useState(null)
-  const openClass = state.classes.find((c) => c.id === openClassId) || null
-  const openConsumed = useMemo(() => {
-    if (!openClass) return { kcal: 0, protein: 0 }
-    return sumConsumed(openClass.items)
-  }, [openClass])
+  const [selectedClassId, setSelectedClassId] = useState(() => firstOpenClassId(state.classes))
+  const selectedClass = state.classes.find((c) => c.id === selectedClassId) || null
+  const selectedConsumed = useMemo(() => {
+    if (!selectedClass) return { kcal: 0, protein: 0 }
+    return sumConsumed(selectedClass.items)
+  }, [selectedClass])
 
-  const handleOpenClass = (id) => setOpenClassId(id)
-  const handleCloseSheet = () => setOpenClassId(null)
+  // Se a classe selecionada deixou de estar 'open' (cumprida ou perdida), pula pra próxima aberta.
+  useEffect(() => {
+    if (!selectedClass || selectedClass.state === 'open') return
+    const next = firstOpenClassId(state.classes)
+    if (next && next !== selectedClassId) setSelectedClassId(next)
+  }, [state.classes, selectedClass, selectedClassId])
+
+  const handleSelectClass = (id) => setSelectedClassId(id)
   const handleToggleItem = (classId, itemId) => dispatch({ type: 'TOGGLE_ITEM', classId, itemId })
-  const [substituteTarget, setSubstituteTarget] = useState(null) // { classId, itemId }
 
+  const [substituteTarget, setSubstituteTarget] = useState(null)
   const substituteItem = substituteTarget
     ? state.classes.find((c) => c.id === substituteTarget.classId)
         ?.items.find((i) => i.id === substituteTarget.itemId) || null
@@ -201,7 +209,6 @@ export default function Diet() {
     const classId = state.pendingCompletion?.classId
     if (!classId) return
     dispatch({ type: 'SEAL_CLASS', classId })
-    setOpenClassId(null) // fecha o sheet junto
   }
 
   const [suggestionOpen, setSuggestionOpen] = useState(false)
@@ -261,27 +268,30 @@ export default function Diet() {
           </div>
         </Card>
 
+        {/* Water card */}
+        <WaterCard filled={state.water.doses} onRegister={registerWater} />
+
+        {/* Pílulas de classes (filtro) */}
         <ClassBadgeRow
           classes={state.classes}
-          onOpenClass={handleOpenClass}
+          selectedClassId={selectedClassId}
+          onSelectClass={handleSelectClass}
           prefixSlot={
             state.suggestion ? (
-              <SuggestionBadge suggestion={state.suggestion} onClick={() => setSuggestionOpen(true)} />
+              <SuggestionBadge onClick={() => setSuggestionOpen(true)} />
             ) : null
           }
         />
 
-        {/* Water card */}
-        <WaterCard filled={state.water.doses} onRegister={registerWater} />
-
-        <ClassSheet
-          klass={openClass}
-          consumed={openConsumed}
-          isOpen={openClassId !== null}
-          onClose={handleCloseSheet}
+        {/* Painel inline da classe selecionada */}
+        <ClassPanel
+          klass={selectedClass}
+          consumed={selectedConsumed}
           onToggleItem={handleToggleItem}
           onSubstitute={handleSubstitute}
         />
+
+        {/* Modais */}
         <SubstitutePopover
           item={substituteItem}
           isOpen={substituteTarget !== null}
