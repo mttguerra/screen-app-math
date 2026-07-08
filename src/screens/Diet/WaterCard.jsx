@@ -67,7 +67,7 @@ export default function WaterCard({ filled, onRegister }) {
       </div>
 
       {/* 4 doses row */}
-      <div className="mt-4 flex items-end gap-2">
+      <div className="mt-3 flex items-end gap-1.5">
         {Array.from({ length: TOTAL_DOSES }).map((_, i) => {
           const isDone = i < filled
           const isNext = i === nextIdx && !complete
@@ -76,7 +76,7 @@ export default function WaterCard({ filled, onRegister }) {
           return (
             <div key={i} className="flex-1">
               <div
-                className="relative h-[72px] overflow-hidden rounded-[14px] border"
+                className="relative h-[44px] overflow-hidden rounded-[10px] border"
                 style={{
                   borderColor: isDone || isNext ? BLUE : 'rgb(233 234 236)',
                 }}
@@ -87,10 +87,10 @@ export default function WaterCard({ filled, onRegister }) {
                 />
                 <div className="absolute inset-0 grid place-items-center">
                   {isDone ? (
-                    <Check size={18} strokeWidth={2.4} style={{ color: BLUE }} />
+                    <Check size={14} strokeWidth={2.6} style={{ color: BLUE }} />
                   ) : (
                     <Droplet
-                      size={18}
+                      size={14}
                       strokeWidth={2}
                       className={isNext ? '' : 'text-muted'}
                       style={isNext ? { color: BLUE } : undefined}
@@ -98,7 +98,7 @@ export default function WaterCard({ filled, onRegister }) {
                   )}
                 </div>
               </div>
-              <div className="mt-1 text-center text-[10px] font-medium text-muted">
+              <div className="mt-0.5 text-center text-[9.5px] font-medium text-muted">
                 {(i + 1) * DOSE_ML}ml
               </div>
             </div>
