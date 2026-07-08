@@ -20,6 +20,8 @@ function dietReducer(state, action) {
   switch (action.type) {
     case 'TOGGLE_ITEM': {
       const { classId, itemId } = action
+      const cls = state.classes.find((c) => c.id === classId)
+      if (!cls || cls.state !== 'open') return state
       const nextClasses = state.classes.map((c) => {
         if (c.id !== classId) return c
         return {
@@ -27,16 +29,14 @@ function dietReducer(state, action) {
           items: c.items.map((i) => (i.id !== itemId ? i : { ...i, checked: !i.checked })),
         }
       })
-      const toggled = state.classes
-        .find((c) => c.id === classId)
-        ?.items.find((i) => i.id === itemId)
+      const toggled = cls.items.find((i) => i.id === itemId)
       const wasUnchecked = toggled && !toggled.checked
       const nextClass = nextClasses.find((c) => c.id === classId)
-      const nextConsumed = nextClass.items.reduce(
-        (acc, i) => (i.checked ? { kcal: acc.kcal + i.kcal, protein: acc.protein + i.protein } : acc),
-        { kcal: 0, protein: 0 }
-      )
-      const hitMeta = wasUnchecked && nextConsumed.kcal >= nextClass.goal.kcal && nextClass.state === 'open'
+      const nextConsumed = sumConsumed(nextClass.items)
+      const hitMeta =
+        wasUnchecked &&
+        nextConsumed.kcal >= nextClass.goal.kcal &&
+        !state.pendingCompletion
       return {
         ...state,
         classes: nextClasses,
