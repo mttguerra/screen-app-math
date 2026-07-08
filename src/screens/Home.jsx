@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { animate, motion, useMotionValue } from 'framer-motion'
 import { Plus, Play, Check, Clock, Lock } from 'lucide-react'
 import IconButton from '../components/ui/IconButton.jsx'
+import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 
 /* ─── Tira horizontal de dias — julho 2026 ────────────────── */
@@ -236,6 +237,37 @@ function MiniWorkout({ title, subtitle, image, locked = false, onClick }) {
   )
 }
 
+/* ─── Resumo da semana ────────────────────────────────────── */
+
+const weekStats = [
+  { tileBg: 'bg-accent100', dotBg: 'bg-accent',    value: '5',      label: 'treinos' },
+  { tileBg: 'bg-ink',       dotBg: 'bg-white',     value: '240',    label: 'séries' },
+  { tileBg: 'bg-[#DBEAFE]', dotBg: 'bg-[#2563EB]', value: '4h 20m', label: 'tempo' },
+]
+
+function WeekSummary() {
+  return (
+    <Card className="p-[18px]">
+      <div className="flex items-baseline justify-between">
+        <h3 className="text-[15px] font-bold text-ink">Resumo da semana</h3>
+        <span className="text-[12px] text-muted">1 – 7 jul</span>
+      </div>
+
+      <div className="mt-4 flex items-stretch divide-x divide-track">
+        {weekStats.map((s) => (
+          <div key={s.label} className="flex flex-1 flex-col items-center gap-1 px-2">
+            <div className={`grid h-10 w-10 place-items-center rounded-[14px] ${s.tileBg}`}>
+              <span className={`h-2.5 w-2.5 rounded-full ${s.dotBg}`} />
+            </div>
+            <div className="mt-1 text-[16px] font-extrabold text-ink">{s.value}</div>
+            <div className="text-[11px] text-muted">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  )
+}
+
 export default function Home() {
   const navigate = useNavigate()
 
@@ -280,6 +312,9 @@ export default function Home() {
             </Timeline>
           </div>
         </div>
+
+        {/* Resumo da semana */}
+        <WeekSummary />
       </div>
     </div>
   )
