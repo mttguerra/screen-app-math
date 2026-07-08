@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus } from 'lucide-react'
-import IconButton from '../components/ui/IconButton.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 import BigNumber from '../components/ui/BigNumber.jsx'
@@ -110,9 +108,11 @@ export default function Diet() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Dieta</h1>
-          <IconButton ariaLabel="Adicionar refeição">
-            <Plus size={18} strokeWidth={1.8} />
-          </IconButton>
+          <img
+            src="/images/avatar.jpg"
+            alt="Lucas Silva"
+            className="h-[42px] w-[42px] shrink-0 rounded-full object-cover"
+          />
         </div>
 
         {/* Card macros */}
