@@ -1,5 +1,8 @@
+import { Circle } from 'lucide-react'
+
 /**
- * Estado de conclusão — done (círculo laranja com check), current (anel laranja), pending (anel cinza).
+ * Estado de conclusão — done (círculo laranja com check), current (anel laranja),
+ * pending (ícone de círculo vazio cinza — indica pendência).
  * size: 22 default. Use 20 pra refeições da Diet, 22 pra séries do treino ativo.
  */
 export default function CheckState({ state = 'pending', size = 22 }) {
@@ -24,9 +27,10 @@ export default function CheckState({ state = 'pending', size = 22 }) {
     )
   }
   return (
-    <span
-      className="shrink-0 rounded-full bg-muted4"
-      style={{ width: size, height: size }}
+    <Circle
+      size={size}
+      strokeWidth={1.8}
+      className="shrink-0 text-muted"
     />
   )
 }
