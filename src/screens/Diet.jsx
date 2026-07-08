@@ -8,6 +8,7 @@ import MacroBar from '../components/ui/MacroBar.jsx'
 import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import ClassSheet from './Diet/ClassSheet.jsx'
 import SubstitutePopover from './Diet/SubstitutePopover.jsx'
+import CompletionOverlay from './Diet/CompletionOverlay.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
@@ -17,18 +18,27 @@ function dietReducer(state, action) {
   switch (action.type) {
     case 'TOGGLE_ITEM': {
       const { classId, itemId } = action
+      const nextClasses = state.classes.map((c) => {
+        if (c.id !== classId) return c
+        return {
+          ...c,
+          items: c.items.map((i) => (i.id !== itemId ? i : { ...i, checked: !i.checked })),
+        }
+      })
+      const toggled = state.classes
+        .find((c) => c.id === classId)
+        ?.items.find((i) => i.id === itemId)
+      const wasUnchecked = toggled && !toggled.checked
+      const nextClass = nextClasses.find((c) => c.id === classId)
+      const nextConsumed = nextClass.items.reduce(
+        (acc, i) => (i.checked ? { kcal: acc.kcal + i.kcal, protein: acc.protein + i.protein } : acc),
+        { kcal: 0, protein: 0 }
+      )
+      const hitMeta = wasUnchecked && nextConsumed.kcal >= nextClass.goal.kcal && nextClass.state === 'open'
       return {
         ...state,
-        classes: state.classes.map((c) =>
-          c.id !== classId
-            ? c
-            : {
-                ...c,
-                items: c.items.map((i) =>
-                  i.id !== itemId ? i : { ...i, checked: !i.checked }
-                ),
-              }
-        ),
+        classes: nextClasses,
+        pendingCompletion: hitMeta ? { classId, itemId } : state.pendingCompletion,
       }
     }
     case 'REGISTER_WATER':
@@ -61,6 +71,32 @@ function dietReducer(state, action) {
         ),
       }
     }
+    case 'SEAL_CLASS': {
+      const { classId } = action
+      return {
+        ...state,
+        classes: state.classes.map((c) =>
+          c.id !== classId ? c : { ...c, state: 'completed', streak: c.streak + 1 }
+        ),
+        pendingCompletion: null,
+      }
+    }
+    case 'ROLLBACK_LAST_CHECK': {
+      if (!state.pendingCompletion) return state
+      const { classId, itemId } = state.pendingCompletion
+      return {
+        ...state,
+        classes: state.classes.map((c) =>
+          c.id !== classId
+            ? c
+            : {
+                ...c,
+                items: c.items.map((i) => (i.id !== itemId ? i : { ...i, checked: false })),
+              }
+        ),
+        pendingCompletion: null,
+      }
+    }
     default:
       return state
   }
@@ -68,7 +104,7 @@ function dietReducer(state, action) {
 
 export default function Diet() {
   const navigate = useNavigate()
-  const [state, dispatch] = useReducer(dietReducer, initialDietState)
+  const [state, dispatch] = useReducer(dietReducer, { ...initialDietState, pendingCompletion: null })
 
   const consumed = useMemo(() => sumConsumedAll(state.classes), [state.classes])
   const waterMl = state.water.doses * DOSE_ML
@@ -117,6 +153,22 @@ export default function Diet() {
     setSubstituteTarget(null)
   }
   const handleCloseSubstitute = () => setSubstituteTarget(null)
+
+  const pendingClass = state.pendingCompletion
+    ? state.classes.find((c) => c.id === state.pendingCompletion.classId) || null
+    : null
+  const pendingConsumed = useMemo(() => {
+    if (!pendingClass) return { kcal: 0, protein: 0 }
+    return sumConsumed(pendingClass.items)
+  }, [pendingClass])
+
+  const handleCancelCompletion = () => dispatch({ type: 'ROLLBACK_LAST_CHECK' })
+  const handleConfirmCompletion = () => {
+    const classId = state.pendingCompletion?.classId
+    if (!classId) return
+    dispatch({ type: 'SEAL_CLASS', classId })
+    setOpenClassId(null) // fecha o sheet junto
+  }
 
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
@@ -182,6 +234,13 @@ export default function Diet() {
           isOpen={substituteTarget !== null}
           onClose={handleCloseSubstitute}
           onPick={handlePickAlternative}
+        />
+        <CompletionOverlay
+          klass={pendingClass}
+          consumed={pendingConsumed}
+          isOpen={state.pendingCompletion !== null}
+          onCancel={handleCancelCompletion}
+          onConfirm={handleConfirmCompletion}
         />
       </div>
     </div>
