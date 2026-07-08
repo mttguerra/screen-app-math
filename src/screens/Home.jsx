@@ -77,7 +77,7 @@ function DayStrip() {
           return (
             <div
               key={`${dow}-${dnum}`}
-              className={`pointer-events-none flex w-[46px] shrink-0 flex-col items-center gap-[6px] rounded-[18px] py-3 transition-colors duration-200 ${
+              className={`flex w-[46px] shrink-0 flex-col items-center gap-[6px] rounded-[18px] py-3 transition-colors duration-200 ${
                 isToday
                   ? 'bg-accent'
                   : isSelected
