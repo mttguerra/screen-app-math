@@ -9,7 +9,7 @@ import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import ClassPanel from './Diet/ClassPanel.jsx'
 import SubstitutePopover from './Diet/SubstitutePopover.jsx'
 import CompletionOverlay from './Diet/CompletionOverlay.jsx'
-import WaterCard, { DOSE_ML, TOTAL_ML } from './Diet/WaterCard.jsx'
+import WaterCard from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
 import { sumConsumed, sumConsumedAll } from './Diet/dietSelectors.js'
@@ -41,10 +41,10 @@ function dietReducer(state, action) {
         pendingCompletion: hitMeta ? { classId, itemId } : state.pendingCompletion,
       }
     }
-    case 'REGISTER_WATER':
+    case 'ADD_WATER':
       return {
         ...state,
-        water: { ...state.water, doses: Math.min(state.water.totalDoses, state.water.doses + 1) },
+        water: { ...state.water, ml: state.water.ml + action.ml },
       }
     case 'SUBSTITUTE_ITEM': {
       const { classId, itemId, replacement } = action
@@ -119,7 +119,7 @@ export default function Diet() {
   const [state, dispatch] = useReducer(dietReducer, { ...initialDietState, pendingCompletion: null })
 
   const consumed = useMemo(() => sumConsumedAll(state.classes), [state.classes])
-  const waterMl = state.water.doses * DOSE_ML
+  const waterMl = state.water.ml
 
   const macros = useMemo(() => ({
     protein: consumed.protein,
@@ -138,7 +138,7 @@ export default function Diet() {
   const animatedFat = useCountUp(macros.fat)
   const animatedWater = useCountUp(waterMl)
 
-  const registerWater = () => dispatch({ type: 'REGISTER_WATER' })
+  const handleAddWater = (ml) => dispatch({ type: 'ADD_WATER', ml })
 
   const [selectedClassId, setSelectedClassId] = useState(() => firstOpenClassId(state.classes))
   const selectedClass = state.classes.find((c) => c.id === selectedClassId) || null
@@ -240,12 +240,17 @@ export default function Diet() {
             <MacroBar label="Proteína"     current={macros.protein} displayCurrent={animatedProtein} goal={state.daySummary.macros.protein.goal} color="ink" />
             <MacroBar label="Carboidratos" current={macros.carbs}   displayCurrent={animatedCarbs}   goal={state.daySummary.macros.carbs.goal}   color="accent" />
             <MacroBar label="Gorduras"     current={macros.fat}     displayCurrent={animatedFat}     goal={state.daySummary.macros.fat.goal}     color="blue" />
-            <MacroBar label="Líquido"      current={waterMl}        displayCurrent={animatedWater}   goal={TOTAL_ML}                             color="blue" unit="ml" />
+            <MacroBar label="Líquido"      current={waterMl}        displayCurrent={animatedWater}   goal={state.water.goalMl}                   color="blue" unit="ml" />
           </div>
         </Card>
 
         {/* Water card */}
-        <WaterCard filled={state.water.doses} onRegister={registerWater} />
+        <WaterCard
+          ml={state.water.ml}
+          goalMl={state.water.goalMl}
+          streak={state.water.streak}
+          onAdd={handleAddWater}
+        />
 
         {/* Pílulas de classes (filtro) */}
         <ClassBadgeRow

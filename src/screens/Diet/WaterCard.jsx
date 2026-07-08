@@ -1,143 +1,61 @@
-import { useEffect, useRef, useState } from 'react'
-import { Droplet, Check } from 'lucide-react'
+import { useState } from 'react'
+import { Plus } from 'lucide-react'
 import Card from '../../components/ui/Card.jsx'
+import WaterJar from './water/WaterJar.jsx'
+import WaterDialog from './water/WaterDialog.jsx'
 
-export const TOTAL_DOSES = 4
-export const DOSE_ML = 500
-export const TOTAL_ML = TOTAL_DOSES * DOSE_ML
-const HOLD_MS = 1200
-const BLUE = '#2563EB'
-const BLUE_100 = '#DBEAFE'
-
-export default function WaterCard({ filled, onRegister }) {
-  const [holdPct, setHoldPct] = useState(0)
-  const holdingRef = useRef(false)
-  const rafRef = useRef(0)
-
-  const complete = filled >= TOTAL_DOSES
-  const nextIdx = filled
-  const totalMl = filled * DOSE_ML
-  const progressPct = (totalMl / TOTAL_ML) * 100
-
-  const startHold = () => {
-    if (complete) return
-    holdingRef.current = true
-    const start = performance.now()
-    const tick = () => {
-      if (!holdingRef.current) {
-        setHoldPct(0)
-        return
-      }
-      const p = Math.min(1, (performance.now() - start) / HOLD_MS)
-      setHoldPct(p)
-      if (p < 1) {
-        rafRef.current = requestAnimationFrame(tick)
-      } else {
-        holdingRef.current = false
-        setHoldPct(0)
-        onRegister()
-      }
-    }
-    rafRef.current = requestAnimationFrame(tick)
-  }
-
-  const endHold = () => {
-    holdingRef.current = false
-  }
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
+export default function WaterCard({ ml, goalMl, streak, onAdd }) {
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const pct = goalMl > 0 ? Math.min(100, Math.round((ml / goalMl) * 100)) : 0
 
   return (
-    <Card className="p-[18px]">
-      <div className="flex items-baseline justify-between">
-        <h3 className="text-[15px] font-bold text-ink">Água</h3>
-        <div className="text-[12px] text-muted">
-          <span className="font-bold text-ink">{totalMl.toLocaleString('pt-BR')}</span>
-          {' / '}
-          {TOTAL_ML.toLocaleString('pt-BR')} ml
-        </div>
-      </div>
-
-      {/* Progress bar overall */}
-      <div className="mt-3 h-1.5 overflow-hidden rounded-[3px] bg-track">
-        <div
-          className="h-full rounded-[3px] transition-[width] duration-[400ms] ease-out"
-          style={{ width: `${progressPct}%`, backgroundColor: BLUE }}
-        />
-      </div>
-
-      {/* 4 doses row — próximo copo é interativo (press-and-hold) */}
-      <div className="mt-3 flex items-end gap-1.5">
-        {Array.from({ length: TOTAL_DOSES }).map((_, i) => {
-          const isDone = i < filled
-          const isNext = i === nextIdx && !complete
-          const fill = isDone ? 100 : isNext ? holdPct * 100 : 0
-          const borderColor = isDone || isNext ? BLUE : 'rgb(233 234 236)'
-
-          const tileInner = (
-            <>
-              <div
-                className="absolute inset-x-0 bottom-0 transition-[height] duration-[80ms] ease-out"
-                style={{ height: `${fill}%`, backgroundColor: BLUE_100 }}
-              />
-              <div className="absolute inset-0 grid place-items-center">
-                {isDone ? (
-                  <Check size={14} strokeWidth={2.6} style={{ color: BLUE }} />
-                ) : (
-                  <Droplet
-                    size={14}
-                    strokeWidth={2}
-                    className={isNext ? '' : 'text-muted'}
-                    style={isNext ? { color: BLUE } : undefined}
-                  />
-                )}
-              </div>
-            </>
-          )
-
-          return (
-            <div key={i} className="flex-1">
-              {isNext ? (
-                <button
-                  onPointerDown={startHold}
-                  onPointerUp={endHold}
-                  onPointerLeave={endHold}
-                  onPointerCancel={endHold}
-                  aria-label={`Registrar ${DOSE_ML}ml`}
-                  className="relative block h-[44px] w-full touch-manipulation select-none overflow-hidden rounded-[10px] border"
-                  style={{ borderColor }}
-                >
-                  {tileInner}
-                </button>
-              ) : (
-                <div
-                  className="relative h-[44px] overflow-hidden rounded-[10px] border"
-                  style={{ borderColor }}
-                >
-                  {tileInner}
-                </div>
-              )}
-              <div className="mt-0.5 text-center text-[9.5px] font-medium text-muted">
-                {(i + 1) * DOSE_ML}ml
-              </div>
+    <>
+      <Card className="p-[18px]">
+        <div className="flex items-stretch gap-4">
+          {/* Coluna de métricas */}
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
+              Hidratação
             </div>
-          )
-        })}
-      </div>
+            <div className="mt-1.5 flex items-baseline gap-1 tabular-nums">
+              <span className="text-[26px] font-extrabold leading-none tracking-[-0.5px] text-ink">
+                {ml.toLocaleString('pt-BR')}
+              </span>
+              <span className="text-[13px] font-medium text-muted">
+                / {goalMl.toLocaleString('pt-BR')} ml
+              </span>
+            </div>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-track">
+              <div
+                className="h-full rounded-full bg-[#378ADD] transition-[width] duration-[500ms] ease-out"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
 
-      {/* Status / hint */}
-      {complete ? (
-        <div
-          className="mt-3 grid place-items-center rounded-full py-2 text-[12px] font-bold"
-          style={{ backgroundColor: BLUE_100, color: BLUE }}
-        >
-          Meta batida
+            {streak > 0 && (
+              <div className="mt-3 inline-flex items-center gap-1 self-start rounded-full bg-[#DBEAFE] px-2.5 py-1 text-[11px] font-bold text-[#185FA5]">
+                💧 {streak} dias batendo {(goalMl / 1000).toLocaleString('pt-BR')}L
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setDialogOpen(true)}
+              className="mt-auto flex items-center justify-center gap-1.5 rounded-full bg-[#185FA5] py-2.5 text-[13px] font-bold text-white transition active:scale-[0.98]"
+            >
+              <Plus size={14} strokeWidth={2.5} />
+              Beber água
+            </button>
+          </div>
+
+          {/* Jarra animada */}
+          <div className="flex shrink-0 items-center">
+            <WaterJar ml={ml} goalMl={goalMl} width={100} height={160} />
+          </div>
         </div>
-      ) : (
-        <p className="mt-2 text-center text-[11px] text-muted">
-          Segure o próximo copo por 1s para registrar {DOSE_ML}ml
-        </p>
-      )}
-    </Card>
+      </Card>
+
+      <WaterDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} onAdd={onAdd} />
+    </>
   )
 }

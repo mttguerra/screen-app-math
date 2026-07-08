@@ -9,7 +9,7 @@ export const initialDietState = {
       fat:     { goal: 80 },
     },
   },
-  water: { doses: 2, totalDoses: 4, doseMl: 500 },
+  water: { ml: 1000, goalMl: 2000, streak: 3 },
   classes: [
     {
       id: 'breakfast',
