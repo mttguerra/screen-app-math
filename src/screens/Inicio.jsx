@@ -162,7 +162,7 @@ function DailyStatsCard() {
 
         <div className="flex flex-1 flex-col items-center gap-1 px-2">
           <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-ink">
-            <span className="h-2.5 w-2.5 rounded-full bg-white" />
+            <span className="h-2.5 w-2.5 rounded-full bg-surface" />
           </div>
           <div className="mt-1 text-[16px] font-extrabold text-ink">
             {dailyStats.weight.value}

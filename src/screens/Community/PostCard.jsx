@@ -10,7 +10,7 @@ function RankBadge({ rank }) {
   // Top 1/2/3 — badges pontuais com ícone
   if (rank === 1) {
     return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
         <Crown size={10} strokeWidth={0} fill="currentColor" />
         1
       </span>
@@ -18,7 +18,7 @@ function RankBadge({ rank }) {
   }
   if (rank === 2) {
     return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-ink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-ink px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
         <Medal size={10} strokeWidth={0} fill="currentColor" />
         2
       </span>
@@ -26,7 +26,7 @@ function RankBadge({ rank }) {
   }
   if (rank === 3) {
     return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-muted3 px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-muted3 px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
         <Medal size={10} strokeWidth={0} fill="currentColor" />
         3
       </span>

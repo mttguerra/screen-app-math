@@ -9,8 +9,8 @@ const me = users.find((u) => u.me)
 const PODIUM_HEIGHT = { 1: 68, 2: 48, 3: 34 }
 const PODIUM_STYLE = {
   1: 'bg-accent text-white',
-  2: 'bg-ink text-white',
-  3: 'bg-muted3 text-white',
+  2: 'bg-ink text-surface',
+  3: 'bg-muted3 text-surface',
 }
 
 function Banner() {

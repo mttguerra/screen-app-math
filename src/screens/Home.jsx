@@ -90,7 +90,7 @@ function DayStrip() {
                   isToday
                     ? 'text-white/75'
                     : isSelected
-                      ? 'text-white/70'
+                      ? 'text-surface/70'
                       : 'text-muted'
                 }`}
               >
@@ -98,7 +98,11 @@ function DayStrip() {
               </span>
               <span
                 className={`text-[15px] font-bold ${
-                  isToday || isSelected ? 'text-white' : 'text-ink'
+                  isToday
+                    ? 'text-white'
+                    : isSelected
+                      ? 'text-surface'
+                      : 'text-ink'
                 }`}
               >
                 {dnum}
@@ -230,7 +234,7 @@ function MiniWorkout({ title, subtitle, image, locked = false, onClick }) {
 
 const weekStats = [
   { tileBg: 'bg-accent100', dotBg: 'bg-accent',    value: '5',      label: 'treinos' },
-  { tileBg: 'bg-ink',       dotBg: 'bg-white',     value: '240',    label: 'séries' },
+  { tileBg: 'bg-ink',       dotBg: 'bg-surface',   value: '240',    label: 'séries' },
   { tileBg: 'bg-[#DBEAFE]', dotBg: 'bg-[#2563EB]', value: '4h 20m', label: 'tempo' },
 ]
 

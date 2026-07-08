@@ -148,7 +148,7 @@ export default function WorkoutDetail() {
           <button
             onClick={() => setPaused((p) => !p)}
             aria-label={paused ? 'Retomar' : 'Pausar'}
-            className="grid h-[68px] w-[68px] place-items-center rounded-full bg-ink text-white transition duration-100 active:scale-[0.98]"
+            className="grid h-[68px] w-[68px] place-items-center rounded-full bg-ink text-surface transition duration-100 active:scale-[0.98]"
           >
             {paused ? (
               <Play size={22} fill="currentColor" strokeWidth={0} />
