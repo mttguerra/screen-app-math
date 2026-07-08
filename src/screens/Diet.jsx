@@ -75,10 +75,19 @@ function dietReducer(state, action) {
     }
     case 'SEAL_CLASS': {
       const { classId } = action
+      const nextClasses = state.classes.map((c) =>
+        c.id !== classId ? c : { ...c, state: 'completed', streak: c.streak + 1 }
+      )
+      const mainCompletedCount = nextClasses.filter(
+        (c) => ['breakfast', 'lunch', 'snack', 'dinner', 'supper'].includes(c.id) && c.state === 'completed'
+      ).length
+      const shouldUnlockBonus = mainCompletedCount >= 2
       return {
         ...state,
-        classes: state.classes.map((c) =>
-          c.id !== classId ? c : { ...c, state: 'completed', streak: c.streak + 1 }
+        classes: nextClasses.map((c) =>
+          c.id === 'bonus' && c.state === 'locked' && shouldUnlockBonus
+            ? { ...c, state: 'open' }
+            : c
         ),
         pendingCompletion: null,
       }
