@@ -1,4 +1,4 @@
-import { useMemo, useReducer } from 'react'
+import { useMemo, useReducer, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
@@ -6,6 +6,7 @@ import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
 import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
+import ClassSheet from './Diet/ClassSheet.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
@@ -80,6 +81,27 @@ export default function Diet() {
 
   const registerWater = () => dispatch({ type: 'REGISTER_WATER' })
 
+  const [openClassId, setOpenClassId] = useState(null)
+  const openClass = state.classes.find((c) => c.id === openClassId) || null
+  const openConsumed = useMemo(() => {
+    if (!openClass) return { kcal: 0, protein: 0 }
+    return openClass.items.reduce(
+      (acc, i) => {
+        if (i.checked) {
+          acc.kcal += i.kcal
+          acc.protein += i.protein
+        }
+        return acc
+      },
+      { kcal: 0, protein: 0 }
+    )
+  }, [openClass])
+
+  const handleOpenClass = (id) => setOpenClassId(id)
+  const handleCloseSheet = () => setOpenClassId(null)
+  const handleToggleItem = (classId, itemId) => dispatch({ type: 'TOGGLE_ITEM', classId, itemId })
+  const handleSubstitute = (classId, itemId) => console.log('substitute', classId, itemId)
+
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
@@ -126,10 +148,19 @@ export default function Diet() {
           </div>
         </Card>
 
-        <ClassBadgeRow classes={state.classes} onOpenClass={(id) => console.log('open class', id)} />
+        <ClassBadgeRow classes={state.classes} onOpenClass={handleOpenClass} />
 
         {/* Water card */}
         <WaterCard filled={state.water.doses} onRegister={registerWater} />
+
+        <ClassSheet
+          klass={openClass}
+          consumed={openConsumed}
+          isOpen={openClassId !== null}
+          onClose={handleCloseSheet}
+          onToggleItem={handleToggleItem}
+          onSubstitute={handleSubstitute}
+        />
       </div>
     </div>
   )
