@@ -115,9 +115,6 @@ export default function Diet() {
           </IconButton>
         </div>
 
-        {/* Card água (interativo, no topo) */}
-        <WaterCard filled={waterDoses} onRegister={registerWater} />
-
         {/* Card macros */}
         <Card className="p-[18px]">
           <div className="flex items-start justify-between gap-4">
@@ -165,6 +162,9 @@ export default function Diet() {
             />
           </div>
         </Card>
+
+        {/* Card água (interativo — press-and-hold no copo) */}
+        <WaterCard filled={waterDoses} onRegister={registerWater} />
 
         {/* Card refeições */}
         <Card className="overflow-hidden">
