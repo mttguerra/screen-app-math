@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { Droplet, Check } from 'lucide-react'
 import Card from '../../components/ui/Card.jsx'
 
-const TOTAL_DOSES = 4
-const DOSE_ML = 500
-const TOTAL_ML = TOTAL_DOSES * DOSE_ML
+export const TOTAL_DOSES = 4
+export const DOSE_ML = 500
+export const TOTAL_ML = TOTAL_DOSES * DOSE_ML
 const HOLD_MS = 1200
 const BLUE = '#2563EB'
 const BLUE_100 = '#DBEAFE'
 
-export default function WaterCard() {
-  const [filled, setFilled] = useState(2)
+export default function WaterCard({ filled, onRegister }) {
   const [holdPct, setHoldPct] = useState(0)
   const holdingRef = useRef(false)
   const rafRef = useRef(0)
@@ -36,7 +35,7 @@ export default function WaterCard() {
       } else {
         holdingRef.current = false
         setHoldPct(0)
-        setFilled((f) => Math.min(TOTAL_DOSES, f + 1))
+        onRegister()
       }
     }
     rafRef.current = requestAnimationFrame(tick)

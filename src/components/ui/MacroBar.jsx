@@ -1,13 +1,17 @@
 /**
- * Barra de macro (proteína / carboidratos / gorduras).
+ * Barra de macro (proteína / carboidratos / gorduras / líquido).
  *
  * Props:
  *   label   — string (ex.: "Proteína")
- *   current — número em gramas
- *   goal    — meta em gramas
+ *   current — número (unidade definida em `unit`)
+ *   goal    — meta (mesma unidade)
+ *   unit    — 'g' (default) | 'ml' | outro rótulo curto
  *   color   — 'ink' (preta) | 'accent' (laranja) | 'blue' (semântico água/distância)
+ *   format  — 'default' (toLocaleString pt-BR) — formata current/goal com separador
  */
-export default function MacroBar({ label, current, goal, color = 'ink' }) {
+const numberFmt = (n) => n.toLocaleString('pt-BR')
+
+export default function MacroBar({ label, current, goal, unit = 'g', color = 'ink' }) {
   const pct = goal > 0 ? Math.min(100, (current / goal) * 100) : 0
   const fill = {
     ink: 'bg-ink',
@@ -20,7 +24,7 @@ export default function MacroBar({ label, current, goal, color = 'ink' }) {
       <div className="flex items-center justify-between text-[12px]">
         <span className="font-semibold text-ink">{label}</span>
         <span className="text-muted">
-          {current} / {goal} g
+          {numberFmt(current)} / {numberFmt(goal)} {unit}
         </span>
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-[3px] bg-track">

@@ -8,7 +8,7 @@ import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
 import CheckState from '../components/ui/CheckState.jsx'
-import WaterCard from './Diet/WaterCard.jsx'
+import WaterCard, { TOTAL_DOSES, DOSE_ML, TOTAL_ML } from './Diet/WaterCard.jsx'
 
 const KCAL_TARGET = 2400
 
@@ -67,6 +67,11 @@ function Meal({ meal, onToggle, isLast }) {
 
 export default function Diet() {
   const [meals, setMeals] = useState(INITIAL_MEALS)
+  const [waterDoses, setWaterDoses] = useState(2)
+  const waterMl = waterDoses * DOSE_ML
+
+  const registerWater = () =>
+    setWaterDoses((v) => Math.min(TOTAL_DOSES, v + 1))
 
   const sorted = useMemo(() => {
     return [...meals].sort((a, b) => {
@@ -111,7 +116,7 @@ export default function Diet() {
         </div>
 
         {/* Card água (interativo, no topo) */}
-        <WaterCard />
+        <WaterCard filled={waterDoses} onRegister={registerWater} />
 
         {/* Card macros */}
         <Card className="p-[18px]">
@@ -149,6 +154,13 @@ export default function Diet() {
               label="Gorduras"
               current={consumed.fat}
               goal={MACRO_TARGETS.fat}
+              color="blue"
+            />
+            <MacroBar
+              label="Líquido"
+              current={waterMl}
+              goal={TOTAL_ML}
+              unit="ml"
               color="blue"
             />
           </div>
