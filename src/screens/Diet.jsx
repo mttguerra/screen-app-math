@@ -10,6 +10,7 @@ import ClassSheet from './Diet/ClassSheet.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
+import { sumConsumed, sumConsumedAll } from './Diet/dietSelectors.js'
 
 function dietReducer(state, action) {
   switch (action.type) {
@@ -39,26 +40,11 @@ function dietReducer(state, action) {
   }
 }
 
-function aggregateConsumed(classes) {
-  return classes.reduce(
-    (acc, c) => {
-      c.items.forEach((i) => {
-        if (i.checked) {
-          acc.kcal += i.kcal
-          acc.protein += i.protein
-        }
-      })
-      return acc
-    },
-    { kcal: 0, protein: 0 }
-  )
-}
-
 export default function Diet() {
   const navigate = useNavigate()
   const [state, dispatch] = useReducer(dietReducer, initialDietState)
 
-  const consumed = useMemo(() => aggregateConsumed(state.classes), [state.classes])
+  const consumed = useMemo(() => sumConsumedAll(state.classes), [state.classes])
   const waterMl = state.water.doses * DOSE_ML
 
   // Macros derivados: proteína real dos itens + carbs/fat proporcionais ao kcal
@@ -85,16 +71,7 @@ export default function Diet() {
   const openClass = state.classes.find((c) => c.id === openClassId) || null
   const openConsumed = useMemo(() => {
     if (!openClass) return { kcal: 0, protein: 0 }
-    return openClass.items.reduce(
-      (acc, i) => {
-        if (i.checked) {
-          acc.kcal += i.kcal
-          acc.protein += i.protein
-        }
-        return acc
-      },
-      { kcal: 0, protein: 0 }
-    )
+    return sumConsumed(openClass.items)
   }, [openClass])
 
   const handleOpenClass = (id) => setOpenClassId(id)

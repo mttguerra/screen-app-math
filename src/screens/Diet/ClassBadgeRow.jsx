@@ -1,17 +1,5 @@
 import ClassBadge from './ClassBadge.jsx'
-
-function consumedFor(klass) {
-  return klass.items.reduce(
-    (acc, i) => {
-      if (i.checked) {
-        acc.kcal += i.kcal
-        acc.protein += i.protein
-      }
-      return acc
-    },
-    { kcal: 0, protein: 0 }
-  )
-}
+import { sumConsumed } from './dietSelectors.js'
 
 export default function ClassBadgeRow({ classes, onOpenClass }) {
   return (
@@ -21,7 +9,7 @@ export default function ClassBadgeRow({ classes, onOpenClass }) {
           <div key={klass.id} className="snap-start">
             <ClassBadge
               klass={klass}
-              consumed={consumedFor(klass)}
+              consumed={sumConsumed(klass.items)}
               onClick={() => onOpenClass(klass.id)}
             />
           </div>
