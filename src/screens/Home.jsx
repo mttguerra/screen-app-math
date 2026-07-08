@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { animate, motion, useMotionValue } from 'framer-motion'
-import { Plus, Play, Check, Clock, Lock } from 'lucide-react'
-import IconButton from '../components/ui/IconButton.jsx'
+import { Play, Check, Clock, Lock } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 
@@ -275,12 +274,7 @@ export default function Home() {
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
-          <IconButton ariaLabel="Criar novo treino">
-            <Plus size={18} strokeWidth={1.8} />
-          </IconButton>
-        </div>
+        <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
 
         {/* Tira de dias */}
         <DayStrip />
