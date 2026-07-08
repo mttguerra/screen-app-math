@@ -264,7 +264,14 @@ export default function Home() {
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
         {/* Header */}
-        <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
+          <img
+            src="/images/avatar.jpg"
+            alt="Lucas Silva"
+            className="h-[42px] w-[42px] shrink-0 rounded-full object-cover"
+          />
+        </div>
 
         {/* Tira de dias */}
         <DayStrip />
