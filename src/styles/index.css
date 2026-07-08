@@ -4,27 +4,49 @@
 
 @layer base {
   :root {
-    /* ===== Design tokens — "iOS claro + laranja" ===== */
+    /* ===== Design tokens — "iOS claro + roxo" ===== */
 
     /* Backgrounds */
-    --canvas: 241 242 244;         /* #F1F2F4 — fundo da tela */
-    --surface: 255 255 255;        /* #FFFFFF — cards */
-    --canvas-chrome: 229 231 234;  /* #E5E7EA — desktop chrome ao redor do phone */
-    --track: 238 239 241;          /* #EEEFF1 — divisores, trilhos de barra */
+    --canvas: 241 242 244;         /* #F1F2F4 */
+    --surface: 255 255 255;        /* #FFFFFF */
+    --canvas-chrome: 229 231 234;  /* #E5E7EA */
+    --track: 238 239 241;          /* #EEEFF1 */
 
     /* Foregrounds */
-    --ink: 23 24 26;               /* #17181A — texto principal, botões pretos */
-    --muted: 142 146 153;          /* #8E9299 — texto secundário */
-    --muted3: 90 94 100;            /* #5A5E64 — chips inativos (texto) */
-    --muted4: 166 170 176;         /* #A6AAB0 — tab bar inativa */
+    --ink: 23 24 26;               /* #17181A */
+    --muted: 142 146 153;          /* #8E9299 */
+    --muted3: 90 94 100;           /* #5A5E64 */
+    --muted4: 166 170 176;         /* #A6AAB0 */
 
     /* Lines */
-    --line: 233 234 236;           /* #E9EAEC — borda de botões circulares e chips */
+    --line: 233 234 236;           /* #E9EAEC */
 
-    /* Accent (única cor de acento — laranja) */
-    --accent: 249 115 22;          /* #F97316 */
-    --accent100: 255 237 213;      /* #FFEDD5 — badges, check concluído */
-    --accent-soft: 255 247 237;    /* #FFF7ED — fundo de linha destacada */
+    /* Accent — roxo */
+    --accent: 139 63 232;          /* #8B3FE8 */
+    --accent100: 240 228 255;      /* #F0E4FF */
+    --accent-soft: 250 245 255;    /* #FAF5FF */
+  }
+
+  .dark {
+    /* Backgrounds */
+    --canvas: 11 10 14;            /* #0B0A0E */
+    --surface: 21 21 25;           /* #151519 */
+    --canvas-chrome: 5 4 8;        /* #050408 */
+    --track: 30 30 36;             /* #1E1E24 */
+
+    /* Foregrounds */
+    --ink: 255 255 255;
+    --muted: 138 138 148;          /* #8A8A94 */
+    --muted3: 178 178 188;         /* #B2B2BC — inverte semântica (lighter) pra contraste */
+    --muted4: 108 108 118;         /* #6C6C76 */
+
+    /* Lines */
+    --line: 42 42 50;              /* #2A2A32 */
+
+    /* Accent — roxo (mais claro pra ler no escuro) */
+    --accent: 169 112 255;         /* #A970FF */
+    --accent100: 74 44 122;        /* #4A2C7A — bg soft pra pílulas */
+    --accent-soft: 40 25 65;       /* #281941 — bg de linha destacada */
   }
 
   html,
@@ -42,7 +64,7 @@
   }
 
   ::selection {
-    background: rgba(249, 115, 22, 0.35);
+    background: rgba(139, 63, 232, 0.35);
   }
 }
 

@@ -3,9 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <!-- TODO(dark-mode): alternar dinamicamente via JS entre valores light/dark quando o toggle for integrado -->
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#F1F2F4" />
     <title>Fitness App</title>
+    <script>
+      // Aplica tema salvo antes do React renderizar pra evitar flash
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -14,7 +14,7 @@ import { motion } from 'framer-motion'
 export default function Sparkline({
   points,
   className = '',
-  stroke = '#F97316',
+  stroke = '#8B3FE8',
   width = 300,
   height = 90,
 }) {
