@@ -22,6 +22,7 @@ export const initialDietState = {
     {
       id: 'breakfast',
       name: 'Café da manhã',
+      shortName: 'Café',
       goal: { kcal: 500, protein: 25 },
       streak: 12,
       state: 'open',
@@ -43,6 +44,7 @@ export const initialDietState = {
     {
       id: 'lunch',
       name: 'Almoço',
+      shortName: 'Almoço',
       goal: { kcal: 800, protein: 45 },
       streak: 10,
       state: 'open',
@@ -65,6 +67,7 @@ export const initialDietState = {
     {
       id: 'snack',
       name: 'Lanche da tarde',
+      shortName: 'Lanche',
       goal: { kcal: 350, protein: 15 },
       streak: 7,
       state: 'open',
@@ -83,6 +86,7 @@ export const initialDietState = {
     {
       id: 'dinner',
       name: 'Jantar',
+      shortName: 'Jantar',
       goal: { kcal: 600, protein: 40 },
       streak: 8,
       state: 'open',
@@ -102,6 +106,7 @@ export const initialDietState = {
     {
       id: 'supper',
       name: 'Ceia',
+      shortName: 'Ceia',
       goal: { kcal: 200, protein: 15 },
       streak: 5,
       state: 'open',
@@ -122,6 +127,7 @@ export const initialDietState = {
     {
       id: 'bonus',
       name: 'Bônus',
+      shortName: 'Bônus',
       goal: { kcal: 200, protein: 5 },
       streak: 0,
       state: 'locked',
