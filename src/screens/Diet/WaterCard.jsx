@@ -66,38 +66,57 @@ export default function WaterCard({ filled, onRegister }) {
         />
       </div>
 
-      {/* 4 doses row */}
+      {/* 4 doses row — próximo copo é interativo (press-and-hold) */}
       <div className="mt-3 flex items-end gap-1.5">
         {Array.from({ length: TOTAL_DOSES }).map((_, i) => {
           const isDone = i < filled
           const isNext = i === nextIdx && !complete
           const fill = isDone ? 100 : isNext ? holdPct * 100 : 0
+          const borderColor = isDone || isNext ? BLUE : 'rgb(233 234 236)'
+
+          const tileInner = (
+            <>
+              <div
+                className="absolute inset-x-0 bottom-0 transition-[height] duration-[80ms] ease-out"
+                style={{ height: `${fill}%`, backgroundColor: BLUE_100 }}
+              />
+              <div className="absolute inset-0 grid place-items-center">
+                {isDone ? (
+                  <Check size={14} strokeWidth={2.6} style={{ color: BLUE }} />
+                ) : (
+                  <Droplet
+                    size={14}
+                    strokeWidth={2}
+                    className={isNext ? '' : 'text-muted'}
+                    style={isNext ? { color: BLUE } : undefined}
+                  />
+                )}
+              </div>
+            </>
+          )
 
           return (
             <div key={i} className="flex-1">
-              <div
-                className="relative h-[44px] overflow-hidden rounded-[10px] border"
-                style={{
-                  borderColor: isDone || isNext ? BLUE : 'rgb(233 234 236)',
-                }}
-              >
+              {isNext ? (
+                <button
+                  onPointerDown={startHold}
+                  onPointerUp={endHold}
+                  onPointerLeave={endHold}
+                  onPointerCancel={endHold}
+                  aria-label={`Registrar ${DOSE_ML}ml`}
+                  className="relative block h-[44px] w-full touch-manipulation select-none overflow-hidden rounded-[10px] border"
+                  style={{ borderColor }}
+                >
+                  {tileInner}
+                </button>
+              ) : (
                 <div
-                  className="absolute inset-x-0 bottom-0 transition-[height] duration-[80ms] ease-out"
-                  style={{ height: `${fill}%`, backgroundColor: BLUE_100 }}
-                />
-                <div className="absolute inset-0 grid place-items-center">
-                  {isDone ? (
-                    <Check size={14} strokeWidth={2.6} style={{ color: BLUE }} />
-                  ) : (
-                    <Droplet
-                      size={14}
-                      strokeWidth={2}
-                      className={isNext ? '' : 'text-muted'}
-                      style={isNext ? { color: BLUE } : undefined}
-                    />
-                  )}
+                  className="relative h-[44px] overflow-hidden rounded-[10px] border"
+                  style={{ borderColor }}
+                >
+                  {tileInner}
                 </div>
-              </div>
+              )}
               <div className="mt-0.5 text-center text-[9.5px] font-medium text-muted">
                 {(i + 1) * DOSE_ML}ml
               </div>
@@ -106,29 +125,18 @@ export default function WaterCard({ filled, onRegister }) {
         })}
       </div>
 
-      {/* Interactive hold button */}
+      {/* Status / hint */}
       {complete ? (
         <div
-          className="mt-4 grid place-items-center rounded-full py-3 text-[13px] font-bold"
+          className="mt-3 grid place-items-center rounded-full py-2 text-[12px] font-bold"
           style={{ backgroundColor: BLUE_100, color: BLUE }}
         >
           Meta batida
         </div>
       ) : (
-        <button
-          onPointerDown={startHold}
-          onPointerUp={endHold}
-          onPointerLeave={endHold}
-          onPointerCancel={endHold}
-          className="relative mt-4 w-full select-none overflow-hidden rounded-full border py-3 text-[13px] font-bold"
-          style={{ borderColor: BLUE, color: BLUE }}
-        >
-          <div
-            className="absolute inset-y-0 left-0 transition-[width] duration-[80ms] ease-out"
-            style={{ width: `${holdPct * 100}%`, backgroundColor: BLUE_100 }}
-          />
-          <span className="relative">Segure para registrar 500ml</span>
-        </button>
+        <p className="mt-2 text-center text-[11px] text-muted">
+          Segure o próximo copo por 1s para registrar {DOSE_ML}ml
+        </p>
       )}
     </Card>
   )
