@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Heart, MessageCircle, MoreHorizontal } from 'lucide-react'
+import { Heart, MessageCircle, MoreHorizontal, Crown, Medal } from 'lucide-react'
 
 function formatCount(n) {
   if (n >= 1000) return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1).replace('.', ',') + 'k'
@@ -7,9 +7,38 @@ function formatCount(n) {
 }
 
 function RankBadge({ rank }) {
+  // Top 1/2/3 — badges pontuais com ícone
+  if (rank === 1) {
+    return (
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+        <Crown size={10} strokeWidth={0} fill="currentColor" />
+        1
+      </span>
+    )
+  }
+  if (rank === 2) {
+    return (
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-ink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+        <Medal size={10} strokeWidth={0} fill="currentColor" />
+        2
+      </span>
+    )
+  }
+  if (rank === 3) {
+    return (
+      <span className="inline-flex items-center gap-0.5 rounded-full bg-muted3 px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+        <Medal size={10} strokeWidth={0} fill="currentColor" />
+        3
+      </span>
+    )
+  }
+
+  // Faixa (top 10, 20, ..., 200)
+  if (rank > 200) return null
+  const tier = Math.min(200, Math.ceil(rank / 10) * 10)
   return (
-    <span className="rounded-full bg-accent100 px-1.5 py-0.5 text-[10px] font-bold leading-none text-accent">
-      #{rank}
+    <span className="inline-flex items-center rounded-full bg-accentSoft px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] leading-none text-accent">
+      Top {tier}
     </span>
   )
 }
@@ -94,9 +123,6 @@ export default function PostCard({ post }) {
         <button className="flex items-center gap-1.5 text-muted">
           <MessageCircle size={18} strokeWidth={1.8} />
           <span className="tabular-nums">{formatCount(stats.comments)}</span>
-        </button>
-        <button className="ml-auto text-[13px] font-bold text-accent">
-          Parabenizar
         </button>
       </div>
     </article>
