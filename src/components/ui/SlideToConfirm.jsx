@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { ArrowRight, Loader2 } from 'lucide-react'
 
@@ -12,11 +12,17 @@ export default function SlideToConfirm({ onConfirm, labelIdle = 'Deslize para co
   const x = useMotionValue(0)
   const [dragMax, setDragMax] = useState(0)
 
-  // Atualiza dragMax quando o container medir
-  const measure = () => {
-    const width = containerRef.current?.offsetWidth ?? 0
-    setDragMax(Math.max(0, width - HANDLE_SIZE - INNER_PAD * 2))
-  }
+  useLayoutEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const doMeasure = () => {
+      setDragMax(Math.max(0, el.offsetWidth - HANDLE_SIZE - INNER_PAD * 2))
+    }
+    doMeasure()
+    const ro = new ResizeObserver(doMeasure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   // Preenchimento colorido acompanha o handle
   const fillWidth = useTransform(x, (v) => v + HANDLE_SIZE + INNER_PAD)
@@ -38,8 +44,6 @@ export default function SlideToConfirm({ onConfirm, labelIdle = 'Deslize para co
   return (
     <div
       ref={containerRef}
-      onMouseDown={measure}
-      onTouchStart={measure}
       className="relative w-full overflow-hidden rounded-full border border-line bg-track"
       style={{ height: CONTAINER_HEIGHT }}
       aria-label={locked ? labelBusy : labelIdle}

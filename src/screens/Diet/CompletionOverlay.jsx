@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Check } from 'lucide-react'
@@ -8,6 +8,10 @@ const AUTO_CLOSE_MS = 2000
 
 export default function CompletionOverlay({ klass, consumed, isOpen, onCancel, onConfirm }) {
   const [locked, setLocked] = useState(false)
+  const onConfirmRef = useRef(onConfirm)
+  const onCancelRef = useRef(onCancel)
+  useEffect(() => { onConfirmRef.current = onConfirm })
+  useEffect(() => { onCancelRef.current = onCancel })
 
   // Reset locked ao abrir/fechar overlay
   useEffect(() => {
@@ -18,18 +22,18 @@ export default function CompletionOverlay({ klass, consumed, isOpen, onCancel, o
   useEffect(() => {
     if (!isOpen || locked) return
     const onKey = (e) => {
-      if (e.key === 'Escape') onCancel()
+      if (e.key === 'Escape') onCancelRef.current()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isOpen, locked, onCancel])
+  }, [isOpen, locked])
 
   // Após lock, aguarda 2s e confirma (timer é limpo se overlay desmontar antes)
   useEffect(() => {
     if (!locked || !isOpen) return
-    const t = setTimeout(() => onConfirm(), AUTO_CLOSE_MS)
+    const t = setTimeout(() => onConfirmRef.current(), AUTO_CLOSE_MS)
     return () => clearTimeout(t)
-  }, [locked, isOpen, onConfirm])
+  }, [locked, isOpen])
 
   if (typeof document === 'undefined') return null
 
