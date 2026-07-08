@@ -1,10 +1,11 @@
 import ClassBadge from './ClassBadge.jsx'
 import { sumConsumed } from './dietSelectors.js'
 
-export default function ClassBadgeRow({ classes, onOpenClass }) {
+export default function ClassBadgeRow({ classes, onOpenClass, prefixSlot }) {
   return (
     <div className="-mx-[18px] overflow-hidden">
       <div className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-[18px] pb-1">
+        {prefixSlot && <div className="snap-start">{prefixSlot}</div>}
         {classes.map((klass) => (
           <div key={klass.id} className="snap-start">
             <ClassBadge

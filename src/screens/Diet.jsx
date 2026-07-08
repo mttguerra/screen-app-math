@@ -9,6 +9,8 @@ import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import ClassSheet from './Diet/ClassSheet.jsx'
 import SubstitutePopover from './Diet/SubstitutePopover.jsx'
 import CompletionOverlay from './Diet/CompletionOverlay.jsx'
+import SuggestionBadge from './Diet/SuggestionBadge.jsx'
+import SuggestionSheet from './Diet/SuggestionSheet.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
@@ -97,6 +99,29 @@ function dietReducer(state, action) {
         pendingCompletion: null,
       }
     }
+    case 'ACCEPT_SUGGESTION': {
+      if (!state.suggestion) return state
+      const { targetClassId } = state.suggestion
+      const newItem = {
+        id: `sug-${Date.now()}`,
+        name: state.suggestion.name,
+        imageUrl: state.suggestion.imageUrl,
+        portion: '1 porção',
+        kcal: state.suggestion.kcal,
+        protein: state.suggestion.protein,
+        checked: false,
+        alternatives: [],
+      }
+      return {
+        ...state,
+        suggestion: null,
+        classes: state.classes.map((c) =>
+          c.id !== targetClassId ? c : { ...c, items: [...c.items, newItem] }
+        ),
+      }
+    }
+    case 'DECLINE_SUGGESTION':
+      return { ...state, suggestion: null }
     default:
       return state
   }
@@ -170,6 +195,17 @@ export default function Diet() {
     setOpenClassId(null) // fecha o sheet junto
   }
 
+  const [suggestionOpen, setSuggestionOpen] = useState(false)
+
+  const handleAcceptSuggestion = () => {
+    dispatch({ type: 'ACCEPT_SUGGESTION' })
+    setSuggestionOpen(false)
+  }
+  const handleDeclineSuggestion = () => {
+    dispatch({ type: 'DECLINE_SUGGESTION' })
+    setSuggestionOpen(false)
+  }
+
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
@@ -216,7 +252,15 @@ export default function Diet() {
           </div>
         </Card>
 
-        <ClassBadgeRow classes={state.classes} onOpenClass={handleOpenClass} />
+        <ClassBadgeRow
+          classes={state.classes}
+          onOpenClass={handleOpenClass}
+          prefixSlot={
+            state.suggestion ? (
+              <SuggestionBadge suggestion={state.suggestion} onClick={() => setSuggestionOpen(true)} />
+            ) : null
+          }
+        />
 
         {/* Water card */}
         <WaterCard filled={state.water.doses} onRegister={registerWater} />
@@ -241,6 +285,13 @@ export default function Diet() {
           isOpen={state.pendingCompletion !== null}
           onCancel={handleCancelCompletion}
           onConfirm={handleConfirmCompletion}
+        />
+        <SuggestionSheet
+          suggestion={state.suggestion}
+          isOpen={suggestionOpen}
+          onClose={() => setSuggestionOpen(false)}
+          onAccept={handleAcceptSuggestion}
+          onDecline={handleDeclineSuggestion}
         />
       </div>
     </div>
