@@ -10,14 +10,6 @@ export const initialDietState = {
     },
   },
   water: { doses: 2, totalDoses: 4, doseMl: 500 },
-  suggestion: {
-    id: 'sug-01',
-    name: 'Iogurte grego com mel',
-    imageUrl: '/images/foods/iogurte-grego.jpg',
-    targetClassId: 'snack',
-    kcal: 180,
-    protein: 12,
-  },
   classes: [
     {
       id: 'breakfast',
