@@ -5,6 +5,7 @@ import SectionLabel from '../components/ui/SectionLabel.jsx'
 import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
+import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
@@ -125,7 +126,7 @@ export default function Diet() {
           </div>
         </Card>
 
-        {/* [ClassBadgeRow virá na Task 4] */}
+        <ClassBadgeRow classes={state.classes} onOpenClass={(id) => console.log('open class', id)} />
 
         {/* Water card */}
         <WaterCard filled={state.water.doses} onRegister={registerWater} />
