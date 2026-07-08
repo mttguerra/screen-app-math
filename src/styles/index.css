@@ -13,7 +13,7 @@
     --track: 238 239 241;          /* #EEEFF1 */
 
     /* Foregrounds */
-    --ink: 23 24 26;               /* #17181A */
+    --ink: 42 43 46;               /* #2A2B2E — dark suave (mais claro que puro preto) */
     --muted: 142 146 153;          /* #8E9299 */
     --muted3: 90 94 100;           /* #5A5E64 */
     --muted4: 166 170 176;         /* #A6AAB0 */
@@ -21,8 +21,8 @@
     /* Lines */
     --line: 233 234 236;           /* #E9EAEC */
 
-    /* Accent — roxo */
-    --accent: 139 63 232;          /* #8B3FE8 */
+    /* Accent — roxo profundo */
+    --accent: 109 31 196;          /* #6D1FC4 */
     --accent100: 240 228 255;      /* #F0E4FF */
     --accent-soft: 250 245 255;    /* #FAF5FF */
   }
@@ -43,8 +43,8 @@
     /* Lines */
     --line: 42 42 50;              /* #2A2A32 */
 
-    /* Accent — roxo (mais claro pra ler no escuro) */
-    --accent: 169 112 255;         /* #A970FF */
+    /* Accent — roxo mais luminoso pra ler no dark */
+    --accent: 139 63 232;          /* #8B3FE8 */
     --accent100: 74 44 122;        /* #4A2C7A — bg soft pra pílulas */
     --accent-soft: 40 25 65;       /* #281941 — bg de linha destacada */
   }
@@ -64,7 +64,7 @@
   }
 
   ::selection {
-    background: rgba(139, 63, 232, 0.35);
+    background: rgba(109, 31, 196, 0.35);
   }
 }
 
