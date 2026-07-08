@@ -7,6 +7,7 @@ import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
 import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import ClassSheet from './Diet/ClassSheet.jsx'
+import SubstitutePopover from './Diet/SubstitutePopover.jsx'
 import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
 import useCountUp from '../lib/useCountUp.js'
 import { initialDietState } from './Diet/dietMock.js'
@@ -35,6 +36,31 @@ function dietReducer(state, action) {
         ...state,
         water: { ...state.water, doses: Math.min(state.water.totalDoses, state.water.doses + 1) },
       }
+    case 'SUBSTITUTE_ITEM': {
+      const { classId, itemId, replacement } = action
+      return {
+        ...state,
+        classes: state.classes.map((c) =>
+          c.id !== classId
+            ? c
+            : {
+                ...c,
+                items: c.items.map((i) =>
+                  i.id !== itemId
+                    ? i
+                    : {
+                        ...i,
+                        name: replacement.name,
+                        imageUrl: replacement.imageUrl,
+                        portion: replacement.portion,
+                        kcal: replacement.kcal,
+                        protein: replacement.protein,
+                      }
+                ),
+              }
+        ),
+      }
+    }
     default:
       return state
   }
@@ -77,7 +103,20 @@ export default function Diet() {
   const handleOpenClass = (id) => setOpenClassId(id)
   const handleCloseSheet = () => setOpenClassId(null)
   const handleToggleItem = (classId, itemId) => dispatch({ type: 'TOGGLE_ITEM', classId, itemId })
-  const handleSubstitute = (classId, itemId) => console.log('substitute', classId, itemId)
+  const [substituteTarget, setSubstituteTarget] = useState(null) // { classId, itemId }
+
+  const substituteItem = substituteTarget
+    ? state.classes.find((c) => c.id === substituteTarget.classId)
+        ?.items.find((i) => i.id === substituteTarget.itemId) || null
+    : null
+
+  const handleSubstitute = (classId, itemId) => setSubstituteTarget({ classId, itemId })
+  const handlePickAlternative = (replacement) => {
+    if (!substituteTarget) return
+    dispatch({ type: 'SUBSTITUTE_ITEM', ...substituteTarget, replacement })
+    setSubstituteTarget(null)
+  }
+  const handleCloseSubstitute = () => setSubstituteTarget(null)
 
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
@@ -137,6 +176,12 @@ export default function Diet() {
           onClose={handleCloseSheet}
           onToggleItem={handleToggleItem}
           onSubstitute={handleSubstitute}
+        />
+        <SubstitutePopover
+          item={substituteItem}
+          isOpen={substituteTarget !== null}
+          onClose={handleCloseSubstitute}
+          onPick={handlePickAlternative}
         />
       </div>
     </div>
