@@ -1,106 +1,83 @@
-import { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useMemo, useReducer } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
-import CheckState from '../components/ui/CheckState.jsx'
-import WaterCard, { TOTAL_DOSES, DOSE_ML, TOTAL_ML } from './Diet/WaterCard.jsx'
+import WaterCard, { DOSE_ML, TOTAL_DOSES, TOTAL_ML } from './Diet/WaterCard.jsx'
+import useCountUp from '../lib/useCountUp.js'
+import { initialDietState } from './Diet/dietMock.js'
 
-const KCAL_TARGET = 2400
+function dietReducer(state, action) {
+  switch (action.type) {
+    case 'TOGGLE_ITEM': {
+      const { classId, itemId } = action
+      return {
+        ...state,
+        classes: state.classes.map((c) =>
+          c.id !== classId
+            ? c
+            : {
+                ...c,
+                items: c.items.map((i) =>
+                  i.id !== itemId ? i : { ...i, checked: !i.checked }
+                ),
+              }
+        ),
+      }
+    }
+    case 'REGISTER_WATER':
+      return {
+        ...state,
+        water: { ...state.water, doses: Math.min(state.water.totalDoses, state.water.doses + 1) },
+      }
+    default:
+      return state
+  }
+}
 
-const MACRO_TARGETS = { protein: 150, carbs: 300, fat: 80 }
-
-const INITIAL_MEALS = [
-  { id: 1, slot: 'Café da manhã', name: 'Ovos + aveia',              kcal: 420, protein: 22, thumb: '/images/photo-1.jpg', done: true,  doneAt: 1 },
-  { id: 2, slot: 'Almoço',        name: 'Frango + arroz integral',   kcal: 620, protein: 45, thumb: '/images/photo-2.jpg', done: true,  doneAt: 2 },
-  { id: 3, slot: 'Lanche',        name: 'Iogurte + castanhas',       kcal: 380, protein: 20, thumb: '/images/photo-3.jpg', done: true,  doneAt: 3 },
-  { id: 4, slot: 'Jantar',        name: 'Sardinha + batata doce',    kcal: 420, protein: 35, thumb: '/images/photo-4.jpg', done: false, doneAt: null },
-]
-
-function Meal({ meal, onToggle, isLast }) {
-  const { done } = meal
-  return (
-    <motion.button
-      layout
-      transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-      onClick={() => onToggle(meal.id)}
-      aria-pressed={done}
-      aria-label={done ? `Desmarcar ${meal.name}` : `Marcar ${meal.name} como consumido`}
-      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
-        isLast ? '' : 'border-b border-track'
-      }`}
-    >
-      <img
-        src={meal.thumb}
-        alt=""
-        className={`h-12 w-12 shrink-0 rounded-[14px] object-cover transition-opacity ${
-          done ? 'opacity-60' : ''
-        }`}
-      />
-      <div className="min-w-0 flex-1">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-muted">
-          {meal.slot}
-        </div>
-        <div
-          className={`text-[14px] font-semibold transition-colors ${
-            done
-              ? 'text-muted line-through decoration-line decoration-[1.5px]'
-              : 'text-ink'
-          }`}
-        >
-          {meal.name}
-        </div>
-        <div className="text-[12px] text-muted">
-          {meal.kcal} kcal · {meal.protein}g proteína
-        </div>
-      </div>
-      <span className="shrink-0 transition-transform active:scale-90">
-        <CheckState state={done ? 'done' : 'pending'} size={22} />
-      </span>
-    </motion.button>
+function aggregateConsumed(classes) {
+  return classes.reduce(
+    (acc, c) => {
+      c.items.forEach((i) => {
+        if (i.checked) {
+          acc.kcal += i.kcal
+          acc.protein += i.protein
+        }
+      })
+      return acc
+    },
+    { kcal: 0, protein: 0 }
   )
 }
 
 export default function Diet() {
-  const [meals, setMeals] = useState(INITIAL_MEALS)
-  const [waterDoses, setWaterDoses] = useState(2)
-  const waterMl = waterDoses * DOSE_ML
+  const navigate = useNavigate()
+  const [state, dispatch] = useReducer(dietReducer, initialDietState)
 
-  const registerWater = () =>
-    setWaterDoses((v) => Math.min(TOTAL_DOSES, v + 1))
+  const consumed = useMemo(() => aggregateConsumed(state.classes), [state.classes])
+  const waterMl = state.water.doses * DOSE_ML
 
-  const sorted = useMemo(() => {
-    return [...meals].sort((a, b) => {
-      if (a.done !== b.done) return a.done ? 1 : -1
-      if (a.done) return (a.doneAt || 0) - (b.doneAt || 0)
-      return a.id - b.id
-    })
-  }, [meals])
+  // Macros derivados: proteína real dos itens + carbs/fat proporcionais ao kcal
+  const macros = useMemo(() => ({
+    protein: consumed.protein,
+    carbs: Math.round((consumed.kcal * 0.4) / 4),
+    fat: Math.round((consumed.kcal * 0.25) / 9),
+  }), [consumed])
 
-  const consumed = meals
-    .filter((m) => m.done)
-    .reduce(
-      (acc, m) => ({
-        kcal: acc.kcal + m.kcal,
-        protein: acc.protein + Math.round(m.protein),
-        carbs: acc.carbs + Math.round((m.kcal * 0.4) / 4),
-        fat: acc.fat + Math.round((m.kcal * 0.25) / 9),
-      }),
-      { kcal: 0, protein: 0, carbs: 0, fat: 0 }
-    )
+  const pct = state.daySummary.kcal.goal > 0
+    ? (consumed.kcal / state.daySummary.kcal.goal) * 100
+    : 0
 
-  const pct = KCAL_TARGET > 0 ? (consumed.kcal / KCAL_TARGET) * 100 : 0
+  const animatedKcal = useCountUp(consumed.kcal)
+  const animatedPct = useCountUp(Math.round(pct))
+  const animatedProtein = useCountUp(macros.protein)
+  const animatedCarbs = useCountUp(macros.carbs)
+  const animatedFat = useCountUp(macros.fat)
+  const animatedWater = useCountUp(waterMl)
 
-  const toggle = (id) =>
-    setMeals((prev) =>
-      prev.map((m) =>
-        m.id === id
-          ? { ...m, done: !m.done, doneAt: !m.done ? Date.now() : null }
-          : m
-      )
-    )
+  const registerWater = () => dispatch({ type: 'REGISTER_WATER' })
 
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
@@ -108,76 +85,50 @@ export default function Diet() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Dieta</h1>
-          <img
-            src="/images/avatar.jpg"
-            alt="Lucas Silva"
-            className="h-[42px] w-[42px] shrink-0 rounded-full object-cover"
-          />
+          <button
+            onClick={() => navigate('/perfil')}
+            aria-label="Abrir perfil"
+            className="shrink-0 rounded-full transition active:scale-95"
+          >
+            <img
+              src="/images/avatar.jpg"
+              alt="Lucas Silva"
+              className="h-[42px] w-[42px] rounded-full object-cover"
+            />
+          </button>
         </div>
 
-        {/* Card macros */}
+        {/* Card resumo do dia */}
         <Card className="p-[18px]">
           <div className="flex items-start justify-between gap-4">
             <div>
               <SectionLabel>Consumido hoje</SectionLabel>
-              <div className="mt-1.5">
-                <BigNumber value={consumed.kcal.toLocaleString('pt-BR')} unit="kcal" size={32} />
+              <div className="mt-1.5 tabular-nums">
+                <BigNumber value={animatedKcal.toLocaleString('pt-BR')} unit="kcal" size={32} />
               </div>
               <div className="mt-1 text-[12px] text-muted">
-                meta {KCAL_TARGET.toLocaleString('pt-BR')} kcal
+                meta {state.daySummary.kcal.goal.toLocaleString('pt-BR')} kcal
               </div>
             </div>
-            <Ring pct={pct}>
-              <span className="text-[15px] font-extrabold text-ink">
-                {Math.round(pct)}%
+            <Ring pct={animatedPct}>
+              <span className="text-[15px] font-extrabold text-ink tabular-nums">
+                {animatedPct}%
               </span>
             </Ring>
           </div>
 
           <div className="mt-4 flex flex-col gap-2.5">
-            <MacroBar
-              label="Proteína"
-              current={consumed.protein}
-              goal={MACRO_TARGETS.protein}
-              color="ink"
-            />
-            <MacroBar
-              label="Carboidratos"
-              current={consumed.carbs}
-              goal={MACRO_TARGETS.carbs}
-              color="accent"
-            />
-            <MacroBar
-              label="Gorduras"
-              current={consumed.fat}
-              goal={MACRO_TARGETS.fat}
-              color="blue"
-            />
-            <MacroBar
-              label="Líquido"
-              current={waterMl}
-              goal={TOTAL_ML}
-              unit="ml"
-              color="blue"
-            />
+            <MacroBar label="Proteína"     current={macros.protein} displayCurrent={animatedProtein} goal={state.daySummary.macros.protein.goal} color="ink" />
+            <MacroBar label="Carboidratos" current={macros.carbs}   displayCurrent={animatedCarbs}   goal={state.daySummary.macros.carbs.goal}   color="accent" />
+            <MacroBar label="Gorduras"     current={macros.fat}     displayCurrent={animatedFat}     goal={state.daySummary.macros.fat.goal}     color="blue" />
+            <MacroBar label="Líquido"      current={waterMl}        displayCurrent={animatedWater}   goal={TOTAL_ML}                             color="blue" unit="ml" />
           </div>
         </Card>
 
-        {/* Card água (interativo — press-and-hold no copo) */}
-        <WaterCard filled={waterDoses} onRegister={registerWater} />
+        {/* [ClassBadgeRow virá na Task 4] */}
 
-        {/* Card refeições */}
-        <Card className="overflow-hidden">
-          {sorted.map((m, i) => (
-            <Meal
-              key={m.id}
-              meal={m}
-              onToggle={toggle}
-              isLast={i === sorted.length - 1}
-            />
-          ))}
-        </Card>
-
+        {/* Water card */}
+        <WaterCard filled={state.water.doses} onRegister={registerWater} />
       </div>
     </div>
   )
