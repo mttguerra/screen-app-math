@@ -8,6 +8,7 @@ import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
 import MacroBar from '../components/ui/MacroBar.jsx'
 import CheckState from '../components/ui/CheckState.jsx'
+import WaterCard from './Diet/WaterCard.jsx'
 
 const KCAL_TARGET = 2400
 
@@ -109,6 +110,9 @@ export default function Diet() {
           </IconButton>
         </div>
 
+        {/* Card água (interativo, no topo) */}
+        <WaterCard />
+
         {/* Card macros */}
         <Card className="p-[18px]">
           <div className="flex items-start justify-between gap-4">
@@ -162,19 +166,6 @@ export default function Diet() {
           ))}
         </Card>
 
-        {/* Card água */}
-        <Card className="p-[18px]">
-          <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-[#DBEAFE]">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
-            </div>
-            <div className="flex-1">
-              <div className="text-[14px] font-semibold text-ink">Água</div>
-              <div className="text-[12px] text-muted">1,8 de 3,0 litros</div>
-            </div>
-            <div className="text-[14px] font-bold text-ink">60%</div>
-          </div>
-        </Card>
       </div>
     </div>
   )
