@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { animate, motion, useMotionValue } from 'framer-motion'
+import { motion, useMotionValue } from 'framer-motion'
 import { Play, Check, Clock, Lock } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
@@ -50,19 +50,10 @@ function DayStrip() {
     const unsubscribe = x.on('change', (latest) => {
       const idx = Math.round(-latest / STEP)
       const clamped = Math.max(0, Math.min(days.length - 1, idx))
-      setSelected(clamped)
+      setSelected((prev) => (prev === clamped ? prev : clamped))
     })
     return unsubscribe
   }, [x])
-
-  const goToDay = (i) => {
-    animate(x, -i * STEP, {
-      type: 'spring',
-      stiffness: 340,
-      damping: 32,
-      mass: 0.9,
-    })
-  }
 
   return (
     <div className="-mx-[18px] overflow-hidden">
@@ -84,16 +75,15 @@ function DayStrip() {
           const isToday = today
           const isSelected = selected === i
           return (
-            <button
+            <div
               key={`${dow}-${dnum}`}
-              onClick={() => goToDay(i)}
-              className={`flex w-[46px] flex-shrink-0 flex-col items-center gap-[6px] rounded-[18px] py-3 transition-all duration-200 ${
+              className={`pointer-events-none flex w-[46px] shrink-0 flex-col items-center gap-[6px] rounded-[18px] py-3 transition-colors duration-200 ${
                 isToday
                   ? 'bg-accent'
                   : isSelected
                     ? 'bg-ink'
                     : 'bg-surface border border-line'
-              } ${isSelected ? 'scale-[1.12]' : ''}`}
+              }`}
             >
               <span
                 className={`text-[10.5px] font-semibold uppercase tracking-wide ${
@@ -113,7 +103,7 @@ function DayStrip() {
               >
                 {dnum}
               </span>
-            </button>
+            </div>
           )
         })}
       </motion.div>
