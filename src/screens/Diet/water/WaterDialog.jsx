@@ -69,7 +69,7 @@ export default function WaterDialog({ isOpen, onClose, onAdd }) {
             </div>
 
             <div className="mt-6 flex items-end justify-center">
-              <WaterGlassButton ml={500} onComplete={handleComplete} />
+              <WaterGlassButton onComplete={handleComplete} />
             </div>
 
             <p className="mx-auto mt-6 max-w-[220px] text-center text-[11px] leading-relaxed text-muted">
