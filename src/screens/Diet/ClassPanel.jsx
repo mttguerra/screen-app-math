@@ -1,28 +1,34 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import Card from '../../components/ui/Card.jsx'
 import FoodRow from './FoodRow.jsx'
 import useCountUp from '../../lib/useCountUp.js'
 
 /**
  * Painel inline da classe selecionada:
- * card com métricas (calorias e proteína lado a lado) + lista de alimentos.
+ * card com métricas + lista de alimentos.
+ * Anima ida/vinda entre pílulas via slide horizontal direcional.
  */
-export default function ClassPanel({ klass, consumed, onToggleItem, onSubstitute }) {
-  const kcal = consumed?.kcal ?? 0
-  const protein = consumed?.protein ?? 0
-  const kcalGoal = klass?.goal.kcal ?? 1
-  const proteinGoal = klass?.goal.protein ?? 1
-  const kcalPct = Math.min(100, (kcal / kcalGoal) * 100)
-  const proteinPct = Math.min(100, (protein / proteinGoal) * 100)
 
-  const aKcal = useCountUp(kcal)
-  const aProtein = useCountUp(protein)
+const panelVariants = {
+  enter: (direction) => ({ x: direction > 0 ? 40 : -40, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (direction) => ({ x: direction > 0 ? -40 : 40, opacity: 0 }),
+}
 
-  if (!klass) return null
+const panelTransition = {
+  x: { type: 'tween', ease: [0.32, 0.72, 0, 1], duration: 0.28 },
+  opacity: { duration: 0.18 },
+}
+
+function PanelContent({ klass, consumed, onToggleItem, onSubstitute }) {
+  const kcalPct = Math.min(100, (consumed.kcal / klass.goal.kcal) * 100)
+  const proteinPct = Math.min(100, (consumed.protein / klass.goal.protein) * 100)
+  const aKcal = useCountUp(consumed.kcal)
+  const aProtein = useCountUp(consumed.protein)
 
   return (
     <div className="flex flex-col gap-3">
       <Card className="p-[18px]">
-        {/* Header do card: nome + streak */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
@@ -39,7 +45,6 @@ export default function ClassPanel({ klass, consumed, onToggleItem, onSubstitute
           )}
         </div>
 
-        {/* Duas colunas de métricas: Calorias | Proteína */}
         <div className="mt-4 flex items-stretch divide-x divide-track">
           <div className="flex-1 pr-4">
             <div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
@@ -82,18 +87,44 @@ export default function ClassPanel({ klass, consumed, onToggleItem, onSubstitute
         </div>
       </Card>
 
-      {/* Lista de alimentos */}
       <Card className="overflow-hidden">
         {klass.items.map((item, i) => (
           <FoodRow
             key={item.id}
             item={item}
-            onToggle={(id) => onToggleItem(klass.id, id)}
-            onSubstitute={(id) => onSubstitute(klass.id, id)}
+            onToggle={onToggleItem}
+            onSubstitute={onSubstitute}
             isLast={i === klass.items.length - 1}
           />
         ))}
       </Card>
+    </div>
+  )
+}
+
+export default function ClassPanel({ klass, consumed, direction, onToggleItem, onSubstitute }) {
+  return (
+    <div className="relative overflow-x-hidden">
+      <AnimatePresence mode="wait" custom={direction} initial={false}>
+        {klass && (
+          <motion.div
+            key={klass.id}
+            custom={direction}
+            variants={panelVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={panelTransition}
+          >
+            <PanelContent
+              klass={klass}
+              consumed={consumed}
+              onToggleItem={(id) => onToggleItem(klass.id, id)}
+              onSubstitute={(id) => onSubstitute(klass.id, id)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

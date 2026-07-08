@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useState } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
@@ -147,6 +147,18 @@ export default function Diet() {
     return sumConsumed(selectedClass.items)
   }, [selectedClass])
 
+  // Direção do slide entre pílulas (compara índice na row).
+  const prevClassIdRef = useRef(selectedClassId)
+  const direction = (() => {
+    const prev = prevClassIdRef.current
+    if (prev === selectedClassId) return 1
+    const idx = (id) => state.classes.findIndex((c) => c.id === id)
+    return idx(selectedClassId) > idx(prev) ? 1 : -1
+  })()
+  useEffect(() => {
+    prevClassIdRef.current = selectedClassId
+  }, [selectedClassId])
+
   // Se a classe selecionada deixou de estar 'open' (cumprida ou perdida), pula pra próxima aberta.
   useEffect(() => {
     if (!selectedClass || selectedClass.state === 'open') return
@@ -246,6 +258,7 @@ export default function Diet() {
         <ClassPanel
           klass={selectedClass}
           consumed={selectedConsumed}
+          direction={direction}
           onToggleItem={handleToggleItem}
           onSubstitute={handleSubstitute}
         />
