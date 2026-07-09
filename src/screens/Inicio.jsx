@@ -26,7 +26,7 @@ const dailyStats = {
 }
 
 const workoutToday = {
-  photoUrl: '/images/workout-legs.jpg',
+  photoUrl: '/images/exercises/perna.webp',
   exercises: 8,
   title: 'Treino de Costas',
   stats: [

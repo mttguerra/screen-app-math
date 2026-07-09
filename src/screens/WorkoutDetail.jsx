@@ -13,20 +13,20 @@ const EXERCISES_BY_SLUG = {
       { name: 'Supino reto',       reps: 10, weight: 62.5, sets: 4, photo: '/images/photo-1.jpg' },
       { name: 'Supino inclinado',  reps: 12, weight: 55,   sets: 4, photo: '/images/photo-2.jpg' },
       { name: 'Crucifixo',         reps: 15, weight: 18,   sets: 3, photo: '/images/photo-3.jpg' },
-      { name: 'Tríceps corda',     reps: 15, weight: 25,   sets: 4, photo: '/images/photo-4.jpg' },
+      { name: 'Tríceps corda',     reps: 15, weight: 25,   sets: 4, photo: '/images/exercises/triceps.webp' },
     ],
   },
   costas: {
     title: 'Treino B · Costas & Bíceps',
     exercises: [
-      { name: 'Barra fixa',        reps: 8,  weight: 0,    sets: 4, photo: '/images/workout-legs.jpg' },
+      { name: 'Barra fixa',        reps: 8,  weight: 0,    sets: 4, photo: '/images/exercises/perna.webp' },
       { name: 'Remada curvada',    reps: 10, weight: 60,   sets: 4, photo: '/images/photo-2.jpg' },
     ],
   },
   pernas: {
     title: 'Treino C · Pernas & Glúteo',
     exercises: [
-      { name: 'Agachamento livre', reps: 8,  weight: 100,  sets: 4, photo: '/images/workout-legs.jpg' },
+      { name: 'Agachamento livre', reps: 8,  weight: 100,  sets: 4, photo: '/images/exercises/perna.webp' },
       { name: 'Leg press',         reps: 10, weight: 180,  sets: 4, photo: '/images/photo-3.jpg' },
     ],
   },

@@ -157,7 +157,7 @@ function FeaturedWorkout() {
     <div className="flex flex-col gap-3.5">
       <div className="flex items-center gap-3.5">
         <img
-          src="/images/workout-legs.jpg"
+          src="/images/exercises/perna.webp"
           alt="Treino de pernas"
           className="h-24 w-24 flex-shrink-0 rounded-[20px] object-cover"
         />
@@ -298,7 +298,7 @@ export default function Home() {
                 <MiniWorkout
                   title="Abdômen definido"
                   subtitle="8 min · Intermediário"
-                  image="/images/workout-abs.jpg"
+                  image="/images/exercises/abdomen.webp"
                   locked
                 />
               </TimelineItem>
@@ -306,7 +306,7 @@ export default function Home() {
                 <MiniWorkout
                   title="Alongamento"
                   subtitle="5 min · Relaxante"
-                  image="/images/workout-stretch.jpg"
+                  image="/images/exercises/alongamento.webp"
                   locked
                 />
               </TimelineItem>
