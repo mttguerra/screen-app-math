@@ -4,7 +4,7 @@ import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 import BigNumber from '../components/ui/BigNumber.jsx'
 import Ring from '../components/ui/Ring.jsx'
-import MacroBar from '../components/ui/MacroBar.jsx'
+import CircularProgress from '../components/ui/CircularProgress.jsx'
 import ClassBadgeRow from './Diet/ClassBadgeRow.jsx'
 import ClassPanel from './Diet/ClassPanel.jsx'
 import SubstitutePopover from './Diet/SubstitutePopover.jsx'
@@ -114,6 +114,32 @@ function dietReducer(state, action) {
 const firstOpenClassId = (classes) =>
   classes.find((c) => c.state === 'open')?.id || null
 
+const MACRO_COLORS = {
+  protein: '#F43F5E', // coral
+  carbs:   '#F59E0B', // âmbar
+  fat:     '#10B981', // esmeralda
+}
+
+function MacroTile({ label, current, displayCurrent, goal, unit = 'g', color = 'accent' }) {
+  const pct = goal > 0 ? Math.min(100, (current / goal) * 100) : 0
+  const shown = displayCurrent ?? current
+  return (
+    <div className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-canvas p-2">
+      <CircularProgress size={48} stroke={4} percent={pct} active color={MACRO_COLORS[color]}>
+        <span className="text-[11px] font-extrabold leading-none text-ink tabular-nums">
+          {shown.toLocaleString('pt-BR')}
+        </span>
+      </CircularProgress>
+      <div className="text-center leading-tight">
+        <div className="text-[10.5px] font-semibold text-ink">{label}</div>
+        <div className="text-[9.5px] text-muted tabular-nums">
+          / {goal.toLocaleString('pt-BR')} {unit}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Diet() {
   const navigate = useNavigate()
   const [state, dispatch] = useReducer(dietReducer, { ...initialDietState, pendingCompletion: null })
@@ -136,7 +162,6 @@ export default function Diet() {
   const animatedProtein = useCountUp(macros.protein)
   const animatedCarbs = useCountUp(macros.carbs)
   const animatedFat = useCountUp(macros.fat)
-  const animatedWater = useCountUp(waterMl)
 
   const handleAddWater = (ml) => dispatch({ type: 'ADD_WATER', ml })
 
@@ -236,11 +261,10 @@ export default function Diet() {
             </Ring>
           </div>
 
-          <div className="mt-4 flex flex-col gap-2.5">
-            <MacroBar label="Proteína"     current={macros.protein} displayCurrent={animatedProtein} goal={state.daySummary.macros.protein.goal} color="ink" />
-            <MacroBar label="Carboidratos" current={macros.carbs}   displayCurrent={animatedCarbs}   goal={state.daySummary.macros.carbs.goal}   color="accent" />
-            <MacroBar label="Gorduras"     current={macros.fat}     displayCurrent={animatedFat}     goal={state.daySummary.macros.fat.goal}     color="blue" />
-            <MacroBar label="Líquido"      current={waterMl}        displayCurrent={animatedWater}   goal={state.water.goalMl}                   color="blue" unit="ml" />
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <MacroTile label="Proteína"     current={macros.protein} displayCurrent={animatedProtein} goal={state.daySummary.macros.protein.goal} color="protein" />
+            <MacroTile label="Carboidratos" current={macros.carbs}   displayCurrent={animatedCarbs}   goal={state.daySummary.macros.carbs.goal}   color="carbs" />
+            <MacroTile label="Gorduras"     current={macros.fat}     displayCurrent={animatedFat}     goal={state.daySummary.macros.fat.goal}     color="fat" />
           </div>
         </Card>
 
