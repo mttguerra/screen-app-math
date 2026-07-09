@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { Flame } from 'lucide-react'
 import Card from '../../components/ui/Card.jsx'
 import FoodRow from './FoodRow.jsx'
 import useCountUp from '../../lib/useCountUp.js'
@@ -39,8 +40,11 @@ function PanelContent({ klass, consumed, onToggleItem, onSubstitute }) {
             </h2>
           </div>
           {klass.streak > 0 && (
-            <span className="flex items-center gap-1 rounded-full bg-accent100 px-2.5 py-1 text-[11px] font-bold text-accent">
-              🔥 {klass.streak}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-accent100 py-[3px] pl-[3px] pr-2.5 text-[11px] font-semibold text-accent">
+              <span className="grid h-[18px] w-[18px] place-items-center rounded-full bg-accent/15">
+                <Flame size={10} strokeWidth={2.5} fill="currentColor" />
+              </span>
+              <span className="font-extrabold tabular-nums">{klass.streak}</span>
             </span>
           )}
         </div>

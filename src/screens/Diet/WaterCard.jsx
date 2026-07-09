@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Droplet, Plus } from 'lucide-react'
 import Card from '../../components/ui/Card.jsx'
 import WaterJar from './water/WaterJar.jsx'
 import WaterDialog from './water/WaterDialog.jsx'
@@ -33,8 +33,14 @@ export default function WaterCard({ ml, goalMl, streak, onAdd }) {
             </div>
 
             {streak > 0 && (
-              <div className="mt-3 inline-flex items-center gap-1 self-start rounded-full bg-[#DBEAFE] px-2.5 py-1 text-[11px] font-bold text-[#185FA5]">
-                💧 {streak} dias batendo {(goalMl / 1000).toLocaleString('pt-BR')}L
+              <div className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full bg-[#DBEAFE] py-[3px] pl-[3px] pr-2.5 text-[11px] font-semibold text-[#185FA5]">
+                <span className="grid h-[18px] w-[18px] place-items-center rounded-full bg-[#185FA5]/15">
+                  <Droplet size={10} strokeWidth={2.5} fill="currentColor" />
+                </span>
+                <span className="tabular-nums">
+                  <span className="font-extrabold">{streak}</span> dias batendo{' '}
+                  {(goalMl / 1000).toLocaleString('pt-BR')}L
+                </span>
               </div>
             )}
 
