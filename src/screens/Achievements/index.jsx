@@ -1,7 +1,7 @@
 // src/screens/Achievements/index.jsx
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft } from 'lucide-react'
-import { MISSIONS, PILLARS, missionsByPillar } from '../../lib/missions.js'
+import { PILLARS, missionsByPillar } from '../../lib/missions.js'
 import { lucasMissionsMock } from '../../lib/missionsMock.js'
 import MissionBlock from './MissionBlock.jsx'
 
