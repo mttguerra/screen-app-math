@@ -270,11 +270,17 @@ export default function Home() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-extrabold tracking-[-0.4px] text-ink">Treinos</h1>
-          <img
-            src="/images/avatar.jpg"
-            alt="Lucas Silva"
-            className="h-[42px] w-[42px] shrink-0 rounded-full object-cover"
-          />
+          <button
+            onClick={() => navigate('/perfil')}
+            aria-label="Abrir perfil"
+            className="shrink-0 rounded-full transition active:scale-95"
+          >
+            <img
+              src="/images/avatar.jpg"
+              alt="Lucas Silva"
+              className="h-[42px] w-[42px] rounded-full object-cover"
+            />
+          </button>
         </div>
 
         {/* Tira de dias */}

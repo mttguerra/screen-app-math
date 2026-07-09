@@ -1,3 +1,4 @@
+import { Moon, Sun } from 'lucide-react'
 import Card from '../../components/ui/Card.jsx'
 
 const STATS = [
@@ -6,9 +7,23 @@ const STATS = [
   { value: '82,4', label: 'Kg' },
 ]
 
-export default function ProfileIdentityCard() {
+export default function ProfileIdentityCard({ theme, onToggleTheme }) {
   return (
-    <Card className="px-4 py-[22px]">
+    <Card className="relative px-4 py-[22px]">
+      {onToggleTheme && (
+        <button
+          onClick={onToggleTheme}
+          aria-label={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+          className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink transition duration-100 active:scale-[0.95] active:opacity-85"
+        >
+          {theme === 'dark' ? (
+            <Sun size={16} strokeWidth={1.8} />
+          ) : (
+            <Moon size={16} strokeWidth={1.8} />
+          )}
+        </button>
+      )}
+
       <div className="flex flex-col items-center">
         <img
           src="/images/avatar.jpg"

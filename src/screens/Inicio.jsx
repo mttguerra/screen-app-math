@@ -41,13 +41,20 @@ const weekValues = [0.55, 0.72, 0.4, 0.85, 0.0, 0.5, 0.68]
 const weekIdxToday = 6
 
 function Header() {
+  const navigate = useNavigate()
   return (
     <div className="flex items-center gap-3">
-      <img
-        src="/images/avatar.jpg"
-        alt="Lucas Silva"
-        className="h-11 w-11 shrink-0 rounded-full object-cover"
-      />
+      <button
+        onClick={() => navigate('/perfil')}
+        aria-label="Abrir perfil"
+        className="shrink-0 rounded-full transition active:scale-95"
+      >
+        <img
+          src="/images/avatar.jpg"
+          alt="Lucas Silva"
+          className="h-11 w-11 rounded-full object-cover"
+        />
+      </button>
       <div className="min-w-0 flex-1">
         <div className="text-[13px] text-muted">Bom dia,</div>
         <div className="text-[16px] font-bold text-ink">Lucas Silva</div>

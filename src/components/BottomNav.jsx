@@ -12,7 +12,7 @@ const items = [
 export default function BottomNav() {
   return (
     <nav
-      className="absolute inset-x-0 bottom-0 z-40 border-t border-line bg-surface pt-2 pb-6"
+      className="absolute inset-x-0 bottom-0 z-40 border-t border-line bg-surface pt-2 pb-3"
       aria-label="Navegação inferior"
     >
       <ul className="grid grid-cols-5">
@@ -42,9 +42,6 @@ export default function BottomNav() {
           </li>
         ))}
       </ul>
-
-      {/* iOS home indicator */}
-      <div className="mx-auto mt-2 h-[5px] w-[120px] rounded-[3px] bg-ink" />
     </nav>
   )
 }

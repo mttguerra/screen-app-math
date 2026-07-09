@@ -11,8 +11,9 @@
  */
 const numberFmt = (n) => n.toLocaleString('pt-BR')
 
-export default function MacroBar({ label, current, goal, unit = 'g', color = 'ink' }) {
+export default function MacroBar({ label, current, displayCurrent, goal, unit = 'g', color = 'ink' }) {
   const pct = goal > 0 ? Math.min(100, (current / goal) * 100) : 0
+  const shown = displayCurrent ?? current
   const fill = {
     ink: 'bg-ink',
     accent: 'bg-accent',
@@ -23,8 +24,8 @@ export default function MacroBar({ label, current, goal, unit = 'g', color = 'in
     <div>
       <div className="flex items-center justify-between text-[12px]">
         <span className="font-semibold text-ink">{label}</span>
-        <span className="text-muted">
-          {numberFmt(current)} / {numberFmt(goal)} {unit}
+        <span className="text-muted tabular-nums">
+          {numberFmt(shown)} / {numberFmt(goal)} {unit}
         </span>
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-[3px] bg-track">
