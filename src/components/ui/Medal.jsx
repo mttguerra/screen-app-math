@@ -30,15 +30,23 @@ const PILLAR_TINTS = {
  * Locked: monochrome cinza, 60% opacidade.
  */
 export default function Medal({ tier = 'none', iconName, pillar = 'treino', size = 88 }) {
-  if (tier === 'bronze') {
+  const MEDAL_TIERS = ['none', 'bronze', 'prata', 'ouro', 'diamante']
+  if (MEDAL_TIERS.includes(tier)) {
+    const file = tier === 'none' ? 'locked' : tier
     return (
       <img
-        src="/images/medals/bronze.webp"
+        src={`/images/medals/${file}.webp`}
         alt=""
         width={size}
         height={size}
         aria-hidden="true"
-        style={{ display: 'block', width: size, height: size, objectFit: 'contain' }}
+        style={{
+          display: 'block',
+          width: size,
+          height: size,
+          objectFit: 'contain',
+          opacity: tier === 'none' ? 0.55 : 1,
+        }}
       />
     )
   }
