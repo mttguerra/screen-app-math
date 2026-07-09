@@ -28,12 +28,18 @@ export default function MissionBlock({ mission, currentValue }) {
   const isMax = !next
 
   return (
-    <Card className="flex aspect-square flex-col items-center justify-between p-4">
+    <Card className="flex flex-col items-center gap-3 p-4">
       <Medal tier={tier} iconName={mission.icon} pillar={mission.pillar} size={72} />
 
       <div className="min-h-[36px] text-center text-[13px] font-semibold leading-tight text-ink">
         {mission.title}
       </div>
+
+      {mission.description && (
+        <div className="min-h-[30px] text-center text-[11px] leading-snug text-muted">
+          {mission.description}
+        </div>
+      )}
 
       <div className="w-full">
         {isLocked && (

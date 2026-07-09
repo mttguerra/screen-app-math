@@ -6,20 +6,20 @@
  */
 export const lucasMissionsMock = {
   // Treino
-  'workout-streak':   { currentValue: 10,    unlockedAt: '2026-07-01' },
-  'total-workouts':   { currentValue: 86,    unlockedAt: '2026-06-20' },
-  'volume-lifted':    { currentValue: 45000, unlockedAt: '2026-06-15' },
-  'series-completed': { currentValue: 1200,  unlockedAt: '2026-07-03' },
+  'workout-streak':   { currentValue: 105,    unlockedAt: '2026-07-01' }, // diamante
+  'total-workouts':   { currentValue: 520,    unlockedAt: '2026-06-20' }, // diamante
+  'volume-lifted':    { currentValue: 120000, unlockedAt: '2026-06-15' }, // ouro
+  'series-completed': { currentValue: 2100,   unlockedAt: '2026-07-03' }, // prata
   // Dieta
-  'water-streak':     { currentValue: 12,    unlockedAt: '2026-07-05' },
-  'protein-streak':   { currentValue: 25,    unlockedAt: '2026-06-28' },
-  'complete-menu':    { currentValue: 3,     unlockedAt: null            },
-  'kcal-streak':      { currentValue: 32,    unlockedAt: '2026-07-04' },
+  'water-streak':     { currentValue: 14,     unlockedAt: '2026-07-05' }, // bronze
+  'protein-streak':   { currentValue: 45,     unlockedAt: '2026-06-28' }, // prata
+  'complete-menu':    { currentValue: 3,      unlockedAt: null            }, // locked
+  'kcal-streak':      { currentValue: 100,    unlockedAt: '2026-07-04' }, // ouro
   // Corpo
-  'weight-goal':      { currentValue: 55,    unlockedAt: '2026-06-30' },
-  'weight-logs':      { currentValue: 45,    unlockedAt: '2026-06-25' },
+  'weight-goal':      { currentValue: 32,     unlockedAt: '2026-06-30' }, // bronze
+  'weight-logs':      { currentValue: 130,    unlockedAt: '2026-06-25' }, // ouro
   // Comunidade
-  'likes-received':   { currentValue: 640,   unlockedAt: '2026-07-06' },
-  'comments-made':    { currentValue: 180,   unlockedAt: '2026-06-22' },
-  'posts-published':  { currentValue: 8,     unlockedAt: '2026-06-18' },
+  'likes-received':   { currentValue: 12000,  unlockedAt: '2026-07-06' }, // diamante
+  'comments-made':    { currentValue: 380,    unlockedAt: '2026-06-22' }, // prata
+  'posts-published':  { currentValue: 12,     unlockedAt: '2026-06-18' }, // bronze
 }

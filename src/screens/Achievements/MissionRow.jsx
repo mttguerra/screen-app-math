@@ -74,12 +74,12 @@ export default function MissionRow() {
               type="button"
               onClick={goToAll}
               className="flex snap-start shrink-0 flex-col items-center gap-1.5 transition active:scale-95"
-              style={{ width: 76 }}
+              style={{ width: 112 }}
               aria-label={`${mission.title} — ${tier}`}
             >
               <Medal tier={tier} iconName={mission.icon} pillar={mission.pillar} size={64} />
-              <span className="w-full truncate text-center text-[12px] font-semibold text-ink">
-                {mission.shortTitle}
+              <span className="w-full text-center text-[11px] font-medium leading-snug text-ink">
+                {mission.description}
               </span>
             </button>
           ))}
