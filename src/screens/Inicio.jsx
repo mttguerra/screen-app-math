@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { Bell, Dumbbell, Droplet, UtensilsCrossed, MessageCircle, Heart } from 'lucide-react'
+import { Bell, Dumbbell, Droplet, UtensilsCrossed, MessageCircle, Heart, Check } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import IconButton from '../components/ui/IconButton.jsx'
-import HeroWorkoutCard from '../components/ui/HeroWorkoutCard.jsx'
 import WeekBars from '../components/ui/WeekBars.jsx'
-import CheckState from '../components/ui/CheckState.jsx'
+import CircularProgress from '../components/ui/CircularProgress.jsx'
 
 const missions = [
   { key: 'workout',  Icon: Dumbbell,        label: 'Treino de Costas',    meta: '8 exercícios',      pts: 100, done: true },
@@ -23,18 +22,6 @@ const dailyStats = {
   kcal: 437,
   weight: { value: '82,4', unit: 'kg', delta: '−3,2 kg' },
   streak: { value: '12', unit: 'dias' },
-}
-
-const workoutToday = {
-  photoUrl: '/images/exercises/perna.webp',
-  exercises: 8,
-  title: 'Treino de Costas',
-  stats: [
-    { value: '52min',   label: 'Tempo' },
-    { value: '418kcal', label: 'Calorias' },
-    { value: '4×10',    label: 'Séries' },
-  ],
-  route: '/treino/pernas',
 }
 
 const weekValues = [0.55, 0.72, 0.4, 0.85, 0.0, 0.5, 0.68]
@@ -66,89 +53,69 @@ function Header() {
   )
 }
 
-function MissionRow({ mission, first }) {
-  const { Icon, label, meta, pts, done, progress } = mission
+const DONE_COLOR = '#10B981'
+
+function MissionTile({ mission }) {
+  const { Icon, label, pts, done, progress } = mission
+  const percent = done ? 100 : (progress ?? 0)
+  const DisplayIcon = done ? Check : Icon
   return (
-    <div
-      className={`flex items-center gap-3 px-4 py-3 ${
-        first ? '' : 'border-t border-track'
-      }`}
-    >
+    <div className="flex flex-col items-center gap-1 rounded-xl border border-line bg-transparent p-2">
+      <CircularProgress
+        size={44}
+        stroke={3.5}
+        percent={percent}
+        active={done || typeof progress === 'number'}
+        color={done ? DONE_COLOR : 'rgb(var(--accent))'}
+      >
+        <div
+          className={`grid h-[30px] w-[30px] place-items-center rounded-full ${
+            done ? 'bg-[#10B981] text-white' : 'bg-track text-muted3'
+          }`}
+        >
+          <DisplayIcon size={done ? 16 : 14} strokeWidth={done ? 2.5 : 1.8} />
+        </div>
+      </CircularProgress>
       <div
-        className={`grid h-10 w-10 shrink-0 place-items-center rounded-[12px] ${
-          done ? 'bg-accent100 text-accent' : 'bg-track text-muted3'
+        className={`mt-[2px] line-clamp-1 w-full text-center text-[10.5px] font-semibold leading-tight ${
+          done ? 'text-[#10B981]' : 'text-ink'
         }`}
       >
-        <Icon size={18} strokeWidth={1.8} />
+        {label}
       </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className={`truncate text-[14px] font-semibold ${done ? 'text-muted' : 'text-ink'}`}>
-            {label}
-          </span>
-        </div>
-        <div className="text-[12px] text-muted">{meta}</div>
-        {typeof progress === 'number' && !done && (
-          <div className="mt-1.5 h-1 overflow-hidden rounded-[3px] bg-track">
-            <div
-              className="h-full rounded-[3px] bg-accent transition-[width] duration-[400ms] ease-out"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        )}
-      </div>
-      <div className="flex shrink-0 items-center gap-2">
-        {done ? (
-          <CheckState state="done" size={20} />
-        ) : (
-          <span className="rounded-full bg-accent100 px-2 py-0.5 text-[11px] font-bold text-accent">
-            +{pts}
-          </span>
-        )}
-      </div>
+      <span className={`text-[9.5px] font-bold ${done ? 'text-[#10B981]' : 'text-accent'}`}>
+        +{pts}
+      </span>
     </div>
   )
 }
 
 function MissionsCard() {
   return (
-    <Card className="overflow-hidden">
-      {/* Header */}
-      <div className="px-[18px] pt-[18px]">
-        <div className="flex items-baseline justify-between">
-          <div>
-            <div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
-              Missões de hoje
-            </div>
-            <div className="mt-1.5 flex items-baseline gap-2">
-              <span className="text-[32px] font-extrabold leading-none tracking-[-1px] text-ink">
-                {earnedPts}
-              </span>
-              <span className="text-[13px] font-semibold text-muted">
-                / {totalPts} pts
-              </span>
-            </div>
+    <Card className="p-[16px]">
+      <div className="flex items-baseline justify-between">
+        <div>
+          <div className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
+            Missões de hoje
           </div>
-          <div className="text-right">
-            <div className="text-[15px] font-bold text-ink">
-              {doneCount}<span className="text-muted">/{missions.length}</span>
-            </div>
-            <div className="text-[11px] text-muted">completas</div>
+          <div className="mt-1.5 flex items-baseline gap-2">
+            <span className="text-[26px] font-extrabold leading-none tracking-[-0.5px] text-ink">
+              {earnedPts}
+            </span>
+            <span className="text-[12px] font-semibold text-muted">/ {totalPts} pts</span>
           </div>
         </div>
-
-        <div className="mt-3 h-1.5 overflow-hidden rounded-[3px] bg-track">
-          <div
-            className="h-full rounded-[3px] bg-accent transition-[width] duration-[500ms] ease-out"
-            style={{ width: `${pctPts}%` }}
-          />
+        <div className="text-right">
+          <div className="text-[14px] font-bold text-ink">
+            {doneCount}<span className="text-muted">/{missions.length}</span>
+          </div>
+          <div className="text-[11px] text-muted">completas</div>
         </div>
       </div>
 
-      {/* Missões */}
-      <div className="mt-2">
-        {missions.map((m, i) => (
-          <MissionRow key={m.key} mission={m} first={i === 0} />
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {missions.map((m) => (
+          <MissionTile key={m.key} mission={m} />
         ))}
       </div>
     </Card>
@@ -205,21 +172,21 @@ function WeekCard() {
   )
 }
 
-export default function Inicio() {
-  const navigate = useNavigate()
+function BannerSlot() {
+  return (
+    <div className="relative aspect-[5/2] w-full overflow-hidden rounded-[24px] bg-accent">
+      {/* imagem do banner vai aqui */}
+      {/* <img src="..." alt="" className="h-full w-full object-cover" /> */}
+    </div>
+  )
+}
 
+export default function Inicio() {
   return (
     <div className="no-scrollbar h-full overflow-y-auto pt-[68px] pb-[110px]">
       <div className="flex flex-col gap-3.5 px-[18px]">
         <Header />
-        <HeroWorkoutCard
-          photoUrl={workoutToday.photoUrl}
-          exercises={workoutToday.exercises}
-          title={workoutToday.title}
-          stats={workoutToday.stats}
-          onStart={() => navigate(workoutToday.route)}
-          onDetails={() => navigate(workoutToday.route)}
-        />
+        <BannerSlot />
         <MissionsCard />
         <DailyStatsCard />
         <WeekCard />
