@@ -7,29 +7,29 @@ import { MISSIONS } from '../../lib/missions.js'
 import { tierFor } from '../../lib/missionState.js'
 import { lucasMissionsMock } from '../../lib/missionsMock.js'
 
-const TIER_ORDER = { diamante: 4, ouro: 3, prata: 2, bronze: 1, none: 0 }
+const TIER_DISPLAY_ORDER = ['diamante', 'ouro', 'prata', 'bronze']
 
 /**
  * Row horizontal de conquistas no Perfil.
- * Mostra até 8 medalhas ordenadas por tier desc + unlockedAt desc.
+ * Mostra uma medalha por tier (diamante, ouro, prata, bronze) — pegando a
+ * conquista mais recente de cada nível — como demo dos 4 níveis possíveis.
  * Toque em qualquer medalha ou no header navega pra /perfil/conquistas.
  */
 export default function MissionRow() {
   const navigate = useNavigate()
 
-  // Junta catálogo + mock, filtra ganhas, ordena
-  const earned = MISSIONS
-    .map((m) => {
-      const state = lucasMissionsMock[m.id] || { currentValue: 0, unlockedAt: null }
-      return { mission: m, ...state, tier: tierFor(m, state.currentValue) }
-    })
-    .filter((e) => e.tier !== 'none')
-    .sort((a, b) => {
-      const t = TIER_ORDER[b.tier] - TIER_ORDER[a.tier]
-      if (t !== 0) return t
-      return (b.unlockedAt || '').localeCompare(a.unlockedAt || '')
-    })
-    .slice(0, 8)
+  // Pega a conquista mais recente de cada tier
+  const byTier = new Map()
+  for (const m of MISSIONS) {
+    const state = lucasMissionsMock[m.id] || { currentValue: 0, unlockedAt: null }
+    const tier = tierFor(m, state.currentValue)
+    if (tier === 'none') continue
+    const prev = byTier.get(tier)
+    if (!prev || (state.unlockedAt || '') > (prev.unlockedAt || '')) {
+      byTier.set(tier, { mission: m, ...state, tier })
+    }
+  }
+  const earned = TIER_DISPLAY_ORDER.map((t) => byTier.get(t)).filter(Boolean)
 
   const goToAll = () => navigate('/perfil/conquistas')
 
