@@ -30,6 +30,19 @@ const PILLAR_TINTS = {
  * Locked: monochrome cinza, 60% opacidade.
  */
 export default function Medal({ tier = 'none', iconName, pillar = 'treino', size = 88 }) {
+  if (tier === 'bronze') {
+    return (
+      <img
+        src="/images/medals/bronze.webp"
+        alt=""
+        width={size}
+        height={size}
+        aria-hidden="true"
+        style={{ display: 'block', width: size, height: size, objectFit: 'contain' }}
+      />
+    )
+  }
+
   const Icon = ICONS[iconName] || Trophy
   const isLocked = tier === 'none'
   const t = TIER_COLORS[tier] || TIER_COLORS.bronze
