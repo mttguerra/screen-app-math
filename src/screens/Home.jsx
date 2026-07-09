@@ -62,11 +62,11 @@ function DayStrip() {
         dragConstraints={{ left: MIN_X, right: MAX_X }}
         dragElastic={0.1}
         dragTransition={{
-          power: 0.42,
-          timeConstant: 340,
+          power: 0.25,
+          timeConstant: 220,
           modifyTarget: snapAndClamp,
-          bounceStiffness: 300,
-          bounceDamping: 28,
+          bounceStiffness: 380,
+          bounceDamping: 32,
         }}
         style={{ x, paddingLeft: SIDE_PAD, paddingRight: SIDE_PAD }}
         className="flex cursor-grab select-none gap-[7px] pb-1 pt-1 active:cursor-grabbing"
