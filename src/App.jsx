@@ -8,6 +8,7 @@ import Community from './screens/Community.jsx'
 import Diet from './screens/Diet.jsx'
 import Profile from './screens/Profile/index.jsx'
 import Achievements from './screens/Achievements/index.jsx'
+import IconsGallery from './screens/IconsGallery.jsx'
 import WorkoutDetail from './screens/WorkoutDetail.jsx'
 import { slideVariants, slideTransition } from './lib/transitions.js'
 
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="/dieta" element={<Diet />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/perfil/conquistas" element={<Achievements />} />
+            <Route path="/perfil/icones" element={<IconsGallery />} />
             <Route path="/treino/:slug" element={<WorkoutDetail />} />
           </Routes>
         </motion.div>

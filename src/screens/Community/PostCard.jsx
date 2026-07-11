@@ -1,43 +1,65 @@
 import { useState } from 'react'
-import { Heart, MessageCircle, MoreHorizontal, Crown, Medal } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Heart, MessageCircle, MoreHorizontal, Crown, Medal } from '../../lib/icons.js'
 
 function formatCount(n) {
   if (n >= 1000) return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1).replace('.', ',') + 'k'
   return n.toString()
 }
 
+// Ouro / Prata / Bronze — gradientes metálicos com highlight interno + drop shadow tonal
+const TIER_META = {
+  1: {
+    Icon: Crown,
+    bg:     'bg-gradient-to-br from-[#FFEAA0] via-[#F2B927] to-[#A66E00]',
+    shadow: 'shadow-[0_2px_6px_-1px_rgba(166,110,0,0.55),inset_0_1px_0_rgba(255,255,255,0.55)]',
+  },
+  2: {
+    Icon: Medal,
+    bg:     'bg-gradient-to-br from-[#F1F3F6] via-[#BAC0C9] to-[#7A8189]',
+    shadow: 'shadow-[0_2px_6px_-1px_rgba(122,129,137,0.55),inset_0_1px_0_rgba(255,255,255,0.55)]',
+  },
+  3: {
+    Icon: Medal,
+    bg:     'bg-gradient-to-br from-[#F4BC8B] via-[#C57E44] to-[#6E3E1E]',
+    shadow: 'shadow-[0_2px_6px_-1px_rgba(110,62,30,0.55),inset_0_1px_0_rgba(255,255,255,0.50)]',
+  },
+}
+
 function RankBadge({ rank }) {
-  // Top 1/2/3 — badges pontuais com ícone
-  if (rank === 1) {
+  // Top 1/2/3 — gradiente metálico com shimmer + entrada spring
+  const meta = TIER_META[rank]
+  if (meta) {
+    const { Icon, bg, shadow } = meta
     return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
-        <Crown size={10} strokeWidth={0} fill="currentColor" />
-        1
-      </span>
-    )
-  }
-  if (rank === 2) {
-    return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-ink px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
-        <Medal size={10} strokeWidth={0} fill="currentColor" />
-        2
-      </span>
-    )
-  }
-  if (rank === 3) {
-    return (
-      <span className="inline-flex items-center gap-0.5 rounded-full bg-muted3 px-1.5 py-0.5 text-[10px] font-bold leading-none text-surface">
-        <Medal size={10} strokeWidth={0} fill="currentColor" />
-        3
-      </span>
+      <motion.span
+        initial={{ scale: 0, rotate: -12 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', stiffness: 340, damping: 14 }}
+        className={
+          'relative inline-flex items-center gap-0.5 overflow-hidden rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none text-white ' +
+          bg + ' ' + shadow
+        }
+      >
+        {/* Shimmer sweep contínuo */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/55 to-transparent bg-[length:200%_100%] animate-shimmer"
+        />
+        <span className="relative z-10 inline-flex items-center gap-0.5">
+          <Icon size={11} strokeWidth={2.2} />
+          {rank}
+        </span>
+      </motion.span>
     )
   }
 
-  // Faixa (top 10, 20, ..., 200)
+  // Faixa Top 10/20/... com borda accent + ponto marcador
   if (rank > 200) return null
   const tier = Math.min(200, Math.ceil(rank / 10) * 10)
   return (
-    <span className="inline-flex items-center rounded-full bg-accentSoft px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] leading-none text-accent">
+    <span className="inline-flex items-center gap-1 rounded-full border border-accent/25 bg-accentSoft px-2 py-[3px] text-[9.5px] font-bold uppercase tracking-[0.08em] leading-none text-accent">
+      <span className="h-1 w-1 rounded-full bg-accent" />
       Top {tier}
     </span>
   )

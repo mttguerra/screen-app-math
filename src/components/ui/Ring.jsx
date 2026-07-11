@@ -5,7 +5,7 @@
  *   pct       — 0–100
  *   size?     — px (default 68)
  *   thickness?— px do trilho (default 7)
- *   color?    — cor do arco (default #F97316 laranja)
+ *   color?    — cor do arco (default accent roxo)
  *   trackColor? — cor do trilho (default #EEEFF1)
  *   children  — conteúdo central (ex.: "77%"). Se ausente, mostra pct%.
  */
@@ -13,7 +13,7 @@ export default function Ring({
   pct,
   size = 68,
   thickness = 7,
-  color = '#F97316',
+  color = 'rgb(var(--accent))',
   trackColor = '#EEEFF1',
   children,
 }) {

@@ -1,6 +1,6 @@
 // src/screens/Achievements/MissionRow.jsx
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight } from '../../lib/icons.js'
 import Card from '../../components/ui/Card.jsx'
 import Medal from '../../components/ui/Medal.jsx'
 import { MISSIONS } from '../../lib/missions.js'

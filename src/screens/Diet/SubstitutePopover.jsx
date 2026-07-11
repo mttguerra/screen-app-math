@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
+import { X } from '../../lib/icons.js'
 
 export default function SubstitutePopover({ item, isOpen, onClose, onPick }) {
   return (

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Flame } from 'lucide-react'
+import { Flame } from '../../lib/icons.js'
 import Card from '../../components/ui/Card.jsx'
 import FoodRow from './FoodRow.jsx'
 import useCountUp from '../../lib/useCountUp.js'
@@ -40,10 +40,8 @@ function PanelContent({ klass, consumed, onToggleItem, onSubstitute }) {
             </h2>
           </div>
           {klass.streak > 0 && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-accent100 py-[3px] pl-[3px] pr-2.5 text-[11px] font-semibold text-accent">
-              <span className="grid h-[18px] w-[18px] place-items-center rounded-full bg-accent/15">
-                <Flame size={10} strokeWidth={2.5} fill="currentColor" />
-              </span>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-accent">
+              <Flame size={14} strokeWidth={2.5} fill="currentColor" />
               <span className="font-extrabold tabular-nums">{klass.streak}</span>
             </span>
           )}
@@ -92,15 +90,23 @@ function PanelContent({ klass, consumed, onToggleItem, onSubstitute }) {
       </Card>
 
       <Card className="overflow-hidden">
-        {klass.items.map((item, i) => (
-          <FoodRow
-            key={item.id}
-            item={item}
-            onToggle={onToggleItem}
-            onSubstitute={onSubstitute}
-            isLast={i === klass.items.length - 1}
-          />
-        ))}
+        <div className="divide-y divide-track">
+          {[...klass.items]
+            .sort((a, b) => (a.checked ? 1 : 0) - (b.checked ? 1 : 0))
+            .map((item) => (
+              <motion.div
+                key={item.id}
+                layout
+                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <FoodRow
+                  item={item}
+                  onToggle={onToggleItem}
+                  onSubstitute={onSubstitute}
+                />
+              </motion.div>
+            ))}
+        </div>
       </Card>
     </div>
   )

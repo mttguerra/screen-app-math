@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight } from '../../lib/icons.js'
 
 /**
  * Linha de lista reutilizável (fichas, refeições, populares).

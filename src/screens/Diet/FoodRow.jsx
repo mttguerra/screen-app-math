@@ -1,14 +1,12 @@
-import { RefreshCcw } from 'lucide-react'
+import { RefreshCcw } from '../../lib/icons.js'
 import CheckState from '../../components/ui/CheckState.jsx'
 
-export default function FoodRow({ item, onToggle, onSubstitute, isLast }) {
+export default function FoodRow({ item, onToggle, onSubstitute }) {
   const { name, imageUrl, portion, kcal, protein, checked, alternatives } = item
   const hasAlternatives = alternatives && alternatives.length > 0
 
   return (
-    <div
-      className={`flex items-center gap-3 px-4 py-3 ${isLast ? '' : 'border-b border-track'}`}
-    >
+    <div className="flex items-center gap-3 bg-surface px-4 py-3">
       <img
         src={imageUrl}
         alt=""

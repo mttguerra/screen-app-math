@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useMotionValue } from 'framer-motion'
-import { Play, Check, Clock, Lock } from 'lucide-react'
+import { Play, Check, Clock, Lock, Dumbbell, ListChecks } from '../lib/icons.js'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 
@@ -233,9 +233,9 @@ function MiniWorkout({ title, subtitle, image, locked = false, onClick }) {
 /* ─── Resumo da semana ────────────────────────────────────── */
 
 const weekStats = [
-  { tileBg: 'bg-accent100', dotBg: 'bg-accent',    value: '5',      label: 'treinos' },
-  { tileBg: 'bg-ink',       dotBg: 'bg-surface',   value: '240',    label: 'séries' },
-  { tileBg: 'bg-[#DBEAFE]', dotBg: 'bg-[#2563EB]', value: '4h 20m', label: 'tempo' },
+  { Icon: Dumbbell,   value: '5',      label: 'treinos' },
+  { Icon: ListChecks, value: '240',    label: 'séries' },
+  { Icon: Clock,      value: '4h 20m', label: 'tempo' },
 ]
 
 function WeekSummary() {
@@ -249,8 +249,8 @@ function WeekSummary() {
       <div className="mt-4 flex items-stretch divide-x divide-track">
         {weekStats.map((s) => (
           <div key={s.label} className="flex flex-1 flex-col items-center gap-1 px-2">
-            <div className={`grid h-10 w-10 place-items-center rounded-[14px] ${s.tileBg}`}>
-              <span className={`h-2.5 w-2.5 rounded-full ${s.dotBg}`} />
+            <div className="grid h-10 w-10 place-items-center text-accent">
+              <s.Icon size={22} />
             </div>
             <div className="mt-1 text-[16px] font-extrabold text-ink">{s.value}</div>
             <div className="text-[11px] text-muted">{s.label}</div>

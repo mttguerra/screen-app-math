@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Bell, Dumbbell, Droplet, UtensilsCrossed, MessageCircle, Heart, Check } from 'lucide-react'
+import { Bell, Dumbbell, Droplet, UtensilsCrossed, MessageCircle, Heart, Check, Flame, Weight, Trophy } from '../lib/icons.js'
 import Card from '../components/ui/Card.jsx'
 import IconButton from '../components/ui/IconButton.jsx'
 import WeekBars from '../components/ui/WeekBars.jsx'
@@ -69,11 +69,11 @@ function MissionTile({ mission }) {
         color={done ? DONE_COLOR : 'rgb(var(--accent))'}
       >
         <div
-          className={`grid h-[30px] w-[30px] place-items-center rounded-full ${
-            done ? 'bg-[#10B981] text-white' : 'bg-track text-muted3'
+          className={`grid h-[30px] w-[30px] place-items-center ${
+            done ? 'text-[#10B981]' : 'text-accent'
           }`}
         >
-          <DisplayIcon size={done ? 16 : 14} strokeWidth={done ? 2.5 : 1.8} />
+          <DisplayIcon size={done ? 18 : 18} strokeWidth={done ? 2.5 : 2} />
         </div>
       </CircularProgress>
       <div
@@ -127,16 +127,16 @@ function DailyStatsCard() {
     <Card className="p-[18px]">
       <div className="flex items-stretch divide-x divide-track">
         <div className="flex flex-1 flex-col items-center gap-1 px-2">
-          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-accent100">
-            <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+          <div className="grid h-10 w-10 place-items-center text-accent">
+            <Flame size={22} />
           </div>
           <div className="mt-1 text-[16px] font-extrabold text-ink">{dailyStats.kcal}</div>
           <div className="text-[11px] text-muted">kcal hoje</div>
         </div>
 
         <div className="flex flex-1 flex-col items-center gap-1 px-2">
-          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-ink">
-            <span className="h-2.5 w-2.5 rounded-full bg-surface" />
+          <div className="grid h-10 w-10 place-items-center text-accent">
+            <Weight size={22} />
           </div>
           <div className="mt-1 text-[16px] font-extrabold text-ink">
             {dailyStats.weight.value}
@@ -146,8 +146,8 @@ function DailyStatsCard() {
         </div>
 
         <div className="flex flex-1 flex-col items-center gap-1 px-2">
-          <div className="grid h-10 w-10 place-items-center rounded-[14px] bg-[#DBEAFE]">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
+          <div className="grid h-10 w-10 place-items-center text-accent">
+            <Trophy size={22} />
           </div>
           <div className="mt-1 text-[16px] font-extrabold text-ink">
             {dailyStats.streak.value}

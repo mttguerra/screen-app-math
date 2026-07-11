@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check } from 'lucide-react'
+import { Check, Flame } from '../../lib/icons.js'
 import SlideToConfirm from '../../components/ui/SlideToConfirm.jsx'
 
 const AUTO_CLOSE_MS = 2000
@@ -59,26 +59,59 @@ export default function CompletionOverlay({ klass, consumed, isOpen, onCancel, o
             transition={{ type: 'spring', stiffness: 260, damping: 24 }}
             style={{ maxWidth: 420, marginLeft: 'auto', marginRight: 'auto' }}
           >
-            <div className="flex flex-col items-center gap-3 text-center">
+            <div className="flex flex-col items-center text-center">
+              {/* Check com pulse */}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: [0, 1.15, 1] }}
                 transition={{ duration: 0.6, times: [0, 0.6, 1], ease: 'easeOut' }}
-                className="grid h-[88px] w-[88px] place-items-center rounded-full bg-accent100 text-accent"
+                className="grid h-24 w-24 place-items-center rounded-full bg-accent100 text-accent"
               >
-                <Check size={40} strokeWidth={3} />
+                <Check size={44} strokeWidth={3} />
               </motion.div>
-              <h3 className="text-[20px] font-extrabold tracking-[-0.3px] text-ink">
-                {klass.name} completo!
-              </h3>
-              <div className="text-[13px] text-muted tabular-nums">
-                {consumed.kcal} kcal · {consumed.protein}g proteína
+
+              {/* Título */}
+              <div className="mt-5 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted">
+                Refeição concluída
               </div>
-              {klass.streak > 0 && (
-                <div className="text-[13px] font-bold text-accent tabular-nums">
-                  +1 no streak 🔥 {klass.streak + 1}
+              <h3 className="mt-1 text-[22px] font-extrabold tracking-[-0.4px] text-ink">
+                {klass.name}
+              </h3>
+
+              {/* Stats numéricos */}
+              <div className="mt-5 flex items-stretch gap-5">
+                <div className="flex flex-col items-center">
+                  <span className="text-[18px] font-extrabold leading-none text-ink tabular-nums">
+                    {consumed.kcal}
+                  </span>
+                  <span className="mt-1 text-[10.5px] font-medium uppercase tracking-[0.06em] text-muted">
+                    kcal
+                  </span>
                 </div>
-              )}
+                <div className="w-px bg-track" />
+                <div className="flex flex-col items-center">
+                  <span className="text-[18px] font-extrabold leading-none text-ink tabular-nums">
+                    {consumed.protein}g
+                  </span>
+                  <span className="mt-1 text-[10.5px] font-medium uppercase tracking-[0.06em] text-muted">
+                    proteína
+                  </span>
+                </div>
+                {klass.streak > 0 && (
+                  <>
+                    <div className="w-px bg-track" />
+                    <div className="flex flex-col items-center">
+                      <span className="inline-flex items-center gap-1 text-[18px] font-extrabold leading-none text-accent tabular-nums">
+                        <Flame size={15} strokeWidth={2.5} fill="currentColor" />
+                        {klass.streak + 1}
+                      </span>
+                      <span className="mt-1 text-[10.5px] font-medium uppercase tracking-[0.06em] text-muted">
+                        streak
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             <div className="mt-6">

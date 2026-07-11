@@ -1,4 +1,4 @@
-import { Circle } from 'lucide-react'
+import { Circle } from '../../lib/icons.js'
 
 /**
  * Estado de conclusão — done (círculo laranja com check), current (anel laranja),

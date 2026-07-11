@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Dumbbell, Users, UtensilsCrossed, User } from 'lucide-react'
+import { Home, Dumbbell, Users, UtensilsCrossed, User } from '../lib/icons.js'
 
 const items = [
   { to: '/inicio', label: 'Início', Icon: Home },
@@ -12,7 +12,7 @@ const items = [
 export default function BottomNav() {
   return (
     <nav
-      className="absolute inset-x-0 bottom-0 z-40 border-t border-line bg-surface pt-2 pb-3"
+      className="absolute inset-x-0 bottom-0 z-40 rounded-t-[22px] border-t border-line bg-surface pt-2 pb-3 shadow-[0_-4px_16px_-6px_rgba(0,0,0,0.08)]"
       aria-label="Navegação inferior"
     >
       <ul className="grid grid-cols-5">

@@ -124,7 +124,7 @@ function MacroTile({ label, current, displayCurrent, goal, unit = 'g', color = '
   const pct = goal > 0 ? Math.min(100, (current / goal) * 100) : 0
   const shown = displayCurrent ?? current
   return (
-    <div className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-canvas p-2">
+    <div className="flex flex-col items-center justify-center gap-1.5 p-2">
       <CircularProgress size={48} stroke={4} percent={pct} active color={MACRO_COLORS[color]}>
         <span className="text-[11px] font-extrabold leading-none text-ink tabular-nums">
           {shown.toLocaleString('pt-BR')}

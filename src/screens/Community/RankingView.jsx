@@ -1,4 +1,5 @@
-import { Crown, ArrowUp, ArrowDown } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Crown, Medal, ArrowUp, ArrowDown } from '../../lib/icons.js'
 import Card from '../../components/ui/Card.jsx'
 import { users, formatKg } from './rankingMock.js'
 
@@ -6,12 +7,35 @@ const podium = users.slice(0, 3)
 const rest = users.slice(3)
 const me = users.find((u) => u.me)
 
-const PODIUM_HEIGHT = { 1: 68, 2: 48, 3: 34 }
-const PODIUM_STYLE = {
-  1: 'bg-accent text-white',
-  2: 'bg-ink text-surface',
-  3: 'bg-muted3 text-surface',
+const PODIUM_HEIGHT = { 1: 76, 2: 54, 3: 38 }
+
+// Mesma escala metálica dos badges do feed (ouro/prata/bronze).
+const TIER_META = {
+  1: {
+    Icon: Crown,
+    bg:     'bg-gradient-to-br from-[#FFEAA0] via-[#F2B927] to-[#A66E00]',
+    ring:   'ring-[#F2B927]',
+    dotColor: '#F2B927',
+    shadow: 'shadow-[0_4px_10px_-2px_rgba(166,110,0,0.45),inset_0_1px_0_rgba(255,255,255,0.55)]',
+  },
+  2: {
+    Icon: Medal,
+    bg:     'bg-gradient-to-br from-[#F1F3F6] via-[#BAC0C9] to-[#7A8189]',
+    ring:   'ring-[#BAC0C9]',
+    dotColor: '#BAC0C9',
+    shadow: 'shadow-[0_4px_10px_-2px_rgba(122,129,137,0.45),inset_0_1px_0_rgba(255,255,255,0.5)]',
+  },
+  3: {
+    Icon: Medal,
+    bg:     'bg-gradient-to-br from-[#F4BC8B] via-[#C57E44] to-[#6E3E1E]',
+    ring:   'ring-[#C57E44]',
+    dotColor: '#C57E44',
+    shadow: 'shadow-[0_4px_10px_-2px_rgba(110,62,30,0.45),inset_0_1px_0_rgba(255,255,255,0.5)]',
+  },
 }
+
+// Ordem visual clássica de pódio: 2º | 1º | 3º
+const PODIUM_ORDER = [2, 1, 3]
 
 function Banner() {
   return (
@@ -46,39 +70,75 @@ function Motivation() {
 }
 
 function Podium() {
+  const podiumByPos = Object.fromEntries(podium.map((p) => [p.pos, p]))
+
   return (
     <div className="flex items-end justify-center gap-3">
-      {podium.map((p) => (
-        <div key={p.pos} className="flex flex-1 flex-col items-center">
-          <div className="relative">
-            {p.pos === 1 && (
-              <Crown
-                size={16}
-                strokeWidth={2}
-                className="absolute -top-4 left-1/2 -translate-x-1/2 text-accent"
-                fill="currentColor"
-              />
-            )}
-            <img
-              src={p.avatar}
-              alt={p.name}
-              className={`shrink-0 rounded-full object-cover ${
-                p.pos === 1 ? 'h-14 w-14 ring-2 ring-accent' : 'h-11 w-11 ring-1 ring-line'
-              }`}
-            />
-          </div>
-          <div className="mt-1.5 truncate text-center text-[12px] font-semibold text-ink">
-            {p.name.split(' ')[0]}
-          </div>
-          <div className="text-[10px] text-muted">{formatKg(p.kg)} kg</div>
-          <div
-            className={`mt-2 flex w-full items-start justify-center rounded-t-[10px] pt-1 text-[16px] font-extrabold ${PODIUM_STYLE[p.pos]}`}
-            style={{ height: PODIUM_HEIGHT[p.pos] }}
+      {PODIUM_ORDER.map((pos, i) => {
+        const p = podiumByPos[pos]
+        if (!p) return null
+        const meta = TIER_META[pos]
+        const { Icon, bg, ring, shadow } = meta
+        const isFirst = pos === 1
+
+        return (
+          <motion.div
+            key={pos}
+            initial={{ y: 16, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.05 + i * 0.08, type: 'spring', stiffness: 260, damping: 22 }}
+            className="flex flex-1 flex-col items-center"
           >
-            {p.pos}
-          </div>
-        </div>
-      ))}
+            {/* Crown flutuando só no 1º */}
+            {isFirst && (
+              <motion.div
+                initial={{ scale: 0, y: 8, rotate: -12 }}
+                animate={{ scale: 1, y: 0, rotate: 0 }}
+                transition={{ delay: 0.42, type: 'spring', stiffness: 340, damping: 14 }}
+                className="mb-1"
+              >
+                <Crown size={18} strokeWidth={2} fill="currentColor" style={{ color: meta.dotColor }} />
+              </motion.div>
+            )}
+
+            {/* Avatar com ring do tier + badge no canto */}
+            <div className="relative">
+              <img
+                src={p.avatar}
+                alt={p.name}
+                className={`shrink-0 rounded-full object-cover ring-2 ${ring} ${isFirst ? 'h-14 w-14' : 'h-11 w-11'}`}
+              />
+              <div className={`absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center overflow-hidden rounded-full text-white ${bg} ${shadow}`}>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/55 to-transparent bg-[length:200%_100%] animate-shimmer"
+                />
+                <Icon size={9} strokeWidth={2.4} className="relative z-10" />
+              </div>
+            </div>
+
+            <div className="mt-2 truncate text-center text-[12px] font-semibold text-ink">
+              {p.name.split(' ')[0]}
+            </div>
+            <div className="text-[10px] text-muted tabular-nums">{formatKg(p.kg)} kg</div>
+
+            {/* Degrau com gradiente + shimmer + entrada scaleY */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ delay: 0.15 + i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+              style={{ height: PODIUM_HEIGHT[pos], transformOrigin: 'bottom' }}
+              className={`relative mt-2 flex w-full items-start justify-center overflow-hidden rounded-t-[10px] pt-1.5 text-[16px] font-extrabold text-white ${bg} ${shadow}`}
+            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/45 to-transparent bg-[length:200%_100%] animate-shimmer"
+              />
+              <span className="relative z-10">{pos}</span>
+            </motion.div>
+          </motion.div>
+        )
+      })}
     </div>
   )
 }

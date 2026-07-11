@@ -2,7 +2,7 @@
 import {
   Flame, Dumbbell, Weight, ListChecks, Droplet, Beef, Utensils,
   Target, Trophy, LineChart, Heart, MessageCircle, Send,
-} from 'lucide-react'
+} from '../../lib/icons.js'
 
 const ICONS = {
   Flame, Dumbbell, Weight, ListChecks, Droplet, Beef, Utensils,

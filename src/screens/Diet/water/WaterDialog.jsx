@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X } from 'lucide-react'
+import { X } from '../../../lib/icons.js'
 import WaterGlassButton from './WaterGlassButton.jsx'
 
 export default function WaterDialog({ isOpen, onClose, onAdd }) {
@@ -69,7 +69,7 @@ export default function WaterDialog({ isOpen, onClose, onAdd }) {
             </div>
 
             <div className="mt-6 flex items-end justify-center">
-              <WaterGlassButton onComplete={handleComplete} />
+              <WaterGlassButton onComplete={handleComplete} onAnimationDone={onClose} />
             </div>
 
             <p className="mx-auto mt-6 max-w-[220px] text-center text-[11px] leading-relaxed text-muted">

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { ArrowRight, Loader2 } from 'lucide-react'
+import { ArrowRight, Loader2 } from '../../lib/icons.js'
 
 const HANDLE_SIZE = 52
 const CONTAINER_HEIGHT = 60

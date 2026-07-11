@@ -1,4 +1,4 @@
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from '../../lib/icons.js'
 import Card from '../../components/ui/Card.jsx'
 
 const STATS = [

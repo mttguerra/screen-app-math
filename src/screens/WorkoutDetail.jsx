@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, MoreHorizontal, Pause, Play } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MoreHorizontal, Pause, Play } from '../lib/icons.js'
 import IconButton from '../components/ui/IconButton.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
