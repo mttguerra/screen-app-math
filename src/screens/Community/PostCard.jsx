@@ -7,21 +7,25 @@ function formatCount(n) {
   return n.toString()
 }
 
-// Ouro / Prata / Bronze — gradientes metálicos com highlight interno + drop shadow tonal
+// Ouro / Prata / Bronze — gradientes metálicos com highlight interno + drop shadow tonal.
+// Texto em tom escuro do próprio metal pra garantir contraste em light e dark mode.
 const TIER_META = {
   1: {
     Icon: Crown,
     bg:     'bg-gradient-to-br from-[#FFEAA0] via-[#F2B927] to-[#A66E00]',
+    text:   'text-[#3E2600]',
     shadow: 'shadow-[0_2px_6px_-1px_rgba(166,110,0,0.55),inset_0_1px_0_rgba(255,255,255,0.55)]',
   },
   2: {
     Icon: Medal,
     bg:     'bg-gradient-to-br from-[#F1F3F6] via-[#BAC0C9] to-[#7A8189]',
+    text:   'text-[#232B33]',
     shadow: 'shadow-[0_2px_6px_-1px_rgba(122,129,137,0.55),inset_0_1px_0_rgba(255,255,255,0.55)]',
   },
   3: {
     Icon: Medal,
     bg:     'bg-gradient-to-br from-[#F4BC8B] via-[#C57E44] to-[#6E3E1E]',
+    text:   'text-[#2B1408]',
     shadow: 'shadow-[0_2px_6px_-1px_rgba(110,62,30,0.55),inset_0_1px_0_rgba(255,255,255,0.50)]',
   },
 }
@@ -30,15 +34,15 @@ function RankBadge({ rank }) {
   // Top 1/2/3 — gradiente metálico com shimmer + entrada spring
   const meta = TIER_META[rank]
   if (meta) {
-    const { Icon, bg, shadow } = meta
+    const { Icon, bg, text, shadow } = meta
     return (
       <motion.span
         initial={{ scale: 0, rotate: -12 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: 'spring', stiffness: 340, damping: 14 }}
         className={
-          'relative inline-flex items-center gap-0.5 overflow-hidden rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none text-white ' +
-          bg + ' ' + shadow
+          'relative inline-flex items-center gap-0.5 overflow-hidden rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ' +
+          text + ' ' + bg + ' ' + shadow
         }
       >
         {/* Shimmer sweep contínuo */}

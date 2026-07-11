@@ -14,6 +14,7 @@ const TIER_META = {
   1: {
     Icon: Crown,
     bg:     'bg-gradient-to-br from-[#FFEAA0] via-[#F2B927] to-[#A66E00]',
+    text:   'text-[#3E2600]',
     ring:   'ring-[#F2B927]',
     dotColor: '#F2B927',
     shadow: 'shadow-[0_4px_10px_-2px_rgba(166,110,0,0.45),inset_0_1px_0_rgba(255,255,255,0.55)]',
@@ -21,6 +22,7 @@ const TIER_META = {
   2: {
     Icon: Medal,
     bg:     'bg-gradient-to-br from-[#F1F3F6] via-[#BAC0C9] to-[#7A8189]',
+    text:   'text-[#232B33]',
     ring:   'ring-[#BAC0C9]',
     dotColor: '#BAC0C9',
     shadow: 'shadow-[0_4px_10px_-2px_rgba(122,129,137,0.45),inset_0_1px_0_rgba(255,255,255,0.5)]',
@@ -28,6 +30,7 @@ const TIER_META = {
   3: {
     Icon: Medal,
     bg:     'bg-gradient-to-br from-[#F4BC8B] via-[#C57E44] to-[#6E3E1E]',
+    text:   'text-[#2B1408]',
     ring:   'ring-[#C57E44]',
     dotColor: '#C57E44',
     shadow: 'shadow-[0_4px_10px_-2px_rgba(110,62,30,0.45),inset_0_1px_0_rgba(255,255,255,0.5)]',
@@ -78,7 +81,7 @@ function Podium() {
         const p = podiumByPos[pos]
         if (!p) return null
         const meta = TIER_META[pos]
-        const { Icon, bg, ring, shadow } = meta
+        const { Icon, bg, text, ring, shadow } = meta
         const isFirst = pos === 1
 
         return (
@@ -108,7 +111,7 @@ function Podium() {
                 alt={p.name}
                 className={`shrink-0 rounded-full object-cover ring-2 ${ring} ${isFirst ? 'h-14 w-14' : 'h-11 w-11'}`}
               />
-              <div className={`absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center overflow-hidden rounded-full text-white ${bg} ${shadow}`}>
+              <div className={`absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center overflow-hidden rounded-full ${text} ${bg} ${shadow}`}>
                 <span
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/55 to-transparent bg-[length:200%_100%] animate-shimmer"
@@ -128,7 +131,7 @@ function Podium() {
               animate={{ scaleY: 1 }}
               transition={{ delay: 0.15 + i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
               style={{ height: PODIUM_HEIGHT[pos], transformOrigin: 'bottom' }}
-              className={`relative mt-2 flex w-full items-start justify-center overflow-hidden rounded-t-[10px] pt-1.5 text-[16px] font-extrabold text-white ${bg} ${shadow}`}
+              className={`relative mt-2 flex w-full items-start justify-center overflow-hidden rounded-t-[10px] pt-1.5 text-[16px] font-extrabold ${text} ${bg} ${shadow}`}
             >
               <span
                 aria-hidden="true"
