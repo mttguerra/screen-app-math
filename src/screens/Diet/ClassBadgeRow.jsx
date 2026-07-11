@@ -3,7 +3,7 @@ import ClassBadge from './ClassBadge.jsx'
 export default function ClassBadgeRow({ classes, selectedClassId, onSelectClass, prefixSlot }) {
   return (
     <div className="-mx-[18px]">
-      <div className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto px-[18px] pt-2 pb-4">
+      <div className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pl-[18px] pt-2 pb-4">
         {prefixSlot && <div className="snap-start">{prefixSlot}</div>}
         {classes.map((klass) => (
           <div key={klass.id} className="snap-start">
@@ -14,6 +14,8 @@ export default function ClassBadgeRow({ classes, selectedClassId, onSelectClass,
             />
           </div>
         ))}
+        {/* Spacer final — padding-right não é respeitado durante scroll em alguns browsers */}
+        <div aria-hidden="true" className="shrink-0 w-[18px]" />
       </div>
     </div>
   )
